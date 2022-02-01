@@ -21,3 +21,7 @@ class Boolean(CromeType):
     @property
     def mutex_group(self) -> str:
         return self._mutex_group
+
+    @property
+    def adjacency_set(self) -> set[str]:
+        return self._adjacency

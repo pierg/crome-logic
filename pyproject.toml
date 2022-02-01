@@ -41,6 +41,7 @@ yapf = "^0.32.0"
 oitnb = "^0.2.2"
 flake8-quotes = "^3.3.1"
 bandit = "^1.7.2"
+aenum = "^3.1.8"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.931"

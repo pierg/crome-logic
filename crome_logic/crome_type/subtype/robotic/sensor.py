@@ -1,6 +1,6 @@
 from crome_logic.crome_type.crome_type import CromeType
-from crome_logic.crome_type.subtypes.base.boolean import Boolean
-from crome_logic.crome_type.subtypes.base.bounded_integer import BoundedInteger
+from crome_logic.crome_type.subtype.base.boolean import Boolean
+from crome_logic.crome_type.subtype.base.bounded_integer import BoundedInteger
 
 
 class IntegerSensor(BoundedInteger):

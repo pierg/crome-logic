@@ -16,6 +16,8 @@ class CromeType(ABC):
         ACTION = auto()
         ACTIVE = auto()
         CONTEXT = auto()
+        SENSOR_LOCATION = auto()
+        SENSOR_ACTION = auto()
 
     def __init__(self, name: str, kind: CromeType.Kind):
         self._name: str = name

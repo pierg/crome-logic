@@ -1,4 +1,12 @@
 [[package]]
+name = "aenum"
+version = "3.1.8"
+description = "Advanced Enumerations (compatible with Python's stdlib Enum), NamedTuples, and NamedConstants"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "alabaster"
 version = "0.7.12"
 description = "A configurable sidebar-enabled Sphinx theme"
@@ -1383,9 +1391,14 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "166a7bf4a82af1eadc682de0dbde703294885af903781844427db2f7bf33aeea"
+content-hash = "33e9d217ea2044bc463a790af2331f6c4f3414f13c6eb2c6d598a2342ad95cdd"
 
 [metadata.files]
+aenum = [
+    {file = "aenum-3.1.8-py2-none-any.whl", hash = "sha256:07ea89f43d78b3d5997b32b8d5b0ec3e5be17b3e05b7bac0154b8c484a4aeff5"},
+    {file = "aenum-3.1.8-py3-none-any.whl", hash = "sha256:859fe994719e6b5e39f15f73acd84e08b4e57dc642373b177a5fa6646798706a"},
+    {file = "aenum-3.1.8.tar.gz", hash = "sha256:8dbe15f446eb8264b788dfeca163fb0a043d408d212152397dc11377b851e4ae"},
+]
 alabaster = [
     {file = "alabaster-0.7.12-py2.py3-none-any.whl", hash = "sha256:446438bdcca0e05bd45ea2de1668c1d9b032e1a9154c2c259092d77031ddd359"},
     {file = "alabaster-0.7.12.tar.gz", hash = "sha256:a661d72d58e6ea8a57f7a86e37d86716863ee5e92788398526d58b26a4e4dc02"},
