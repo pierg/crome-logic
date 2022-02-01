@@ -29,15 +29,6 @@ class CromeType(ABC):
 
     def __eq__(self, other):
         if self.name == other.name and type(self).__name__ == type(other).__name__:
-            from crome_logic.crome_type.subtypes.base.bounded_integer import (
-                BoundedInteger,
-            )
-
-            if isinstance(self, BoundedInteger):
-                if (self.min == other.min) and (self.max == other.max):
-                    return True
-                else:
-                    return False
             return True
         return False
 
@@ -55,9 +46,9 @@ class CromeType(ABC):
     @property
     def controllable(self) -> bool:
         if (
-            self.kind == CromeType.Kind.SENSOR
-            or self.kind == CromeType.Kind.CONTEXT
-            or self.kind == CromeType.Kind.ACTIVE
+            self._kind == CromeType.Kind.SENSOR
+            or self._kind == CromeType.Kind.CONTEXT
+            or self._kind == CromeType.Kind.ACTIVE
         ):
             return False
         return True

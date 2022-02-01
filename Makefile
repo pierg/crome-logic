@@ -11,9 +11,9 @@ lint:
 	poetry run autopep8 --in-place -r crome_logic tests/**/*.py
 	poetry run docformatter --in-place -r crome_logic tests/**/*.py
 	poetry run yapf -ir .
-	poetry run mypy crome_logic tests/**/*.py
-	poetry run bandit -r crome_logic
-	poetry run flake8 .
+# 	poetry run mypy crome_logic tests/**/*.py
+# 	poetry run bandit -r crome_logic
+	poetry run flake8 crome_logic
 
 .PHONY: unit
 unit:

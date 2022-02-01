@@ -5,14 +5,20 @@ from crome_logic.crome_type.crome_type import CromeType
 
 class BoundedInteger(CromeType):
     def __init__(self, name: str, kind: CromeType.Kind, min_value: int, max_value: int):
-        self.__min = min_value
-        self.__max = max_value
+        self._min = min_value
+        self._max = max_value
         super().__init__(name, kind)
 
     @property
     def min(self) -> int:
-        return self.__min
+        return self._min
 
     @property
     def max(self) -> int:
-        return self.__max
+        return self._max
+
+    def __eq__(self, other):
+        if self.name == other.name and type(self).__name__ == type(other).__name__:
+            if self.min == other.min and self.max == other.max:
+                return True
+        return False
