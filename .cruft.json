@@ -1,0 +1,17 @@
+{
+  "template": "https://github.com/wemake-services/wemake-python-package.git",
+  "commit": "044a407ad9bad5159ea68442d0442f79ab7d2f7f",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "project_name": "crome-logic",
+      "organization": "piergiuseppe",
+      "project_description": "LTL and Boolean formulas manipulation",
+      "license": "MIT",
+      "_extensions": ["jinja2_git.GitExtension"],
+      "_copy_without_render": [".venv", "docs/_build"],
+      "_template": "https://github.com/wemake-services/wemake-python-package.git"
+    }
+  },
+  "directory": null
+}
