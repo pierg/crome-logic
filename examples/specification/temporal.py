@@ -12,8 +12,8 @@ def spot_example():
 
 def example_1():
     phi = "! z & G(a & b | G(k & l)) & F(c | !d) & (X(e & f) | !X(g | h)) & (l U p)"
-    sformula = LTL(phi)
-    print(sformula.tree(LTL.TreeType.LTL))
+    LTL(phi)
+    # print(sformula.tree(LTL.TreeType.LTL))
     # print(sformula.tree(LTL.TreeType.BOOLEAN))
     # print(sformula.represent(LTL.Output.SUMMARY))
 

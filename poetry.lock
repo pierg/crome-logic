@@ -892,6 +892,14 @@ snowballstemmer = "*"
 toml = ["toml"]
 
 [[package]]
+name = "pyeda"
+version = "0.28.0"
+description = "Python Electronic Design Automation"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "pyflakes"
 version = "2.4.0"
 description = "passive checker of Python programs"
@@ -1410,7 +1418,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "f5088a7c81f385964d6aa87445f3a2ccad1cb75a43b737e03137bb7b02257dab"
+content-hash = "bf35e9bafbe9f395b9fb78e3b9aed9b599d60b789e153c5337578d8efd788dd7"
 
 [metadata.files]
 aenum = [
@@ -1866,6 +1874,10 @@ pycodestyle = [
 pydocstyle = [
     {file = "pydocstyle-6.1.1-py3-none-any.whl", hash = "sha256:6987826d6775056839940041beef5c08cc7e3d71d63149b48e36727f70144dc4"},
     {file = "pydocstyle-6.1.1.tar.gz", hash = "sha256:1d41b7c459ba0ee6c345f2eb9ae827cab14a7533a88c5c6f7e94923f72df92dc"},
+]
+pyeda = [
+    {file = "pyeda-0.28.0.tar.gz", hash = "sha256:07185f458d5d0b2ba5058da8b95dad6ab7684ceaf41237a25bcd3f005490f59d"},
+    {file = "pyeda-0.28.0.zip", hash = "sha256:e34c7a6332d24914d1be524b3d9fe97feb165dbfe63473b3a112c1aeda2c002e"},
 ]
 pyflakes = [
     {file = "pyflakes-2.4.0-py2.py3-none-any.whl", hash = "sha256:3bb3a3f256f4b7968c9c788781e4ff07dce46bdf12339dcda61053375426ee2e"},
