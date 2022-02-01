@@ -16,9 +16,6 @@ def gen_ltl_tree(spot_f, tree: Tree | None = None, parent=None) -> Tree:
 
     if spot_f.size() > 0:
         for subformula in spot_f:
-            gen_ltl_tree(
-                spot_f=subformula, tree=tree, parent=node.identifier
-            )
+            gen_ltl_tree(spot_f=subformula, tree=tree, parent=node.identifier)
 
     return tree
-

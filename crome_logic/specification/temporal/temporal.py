@@ -4,14 +4,13 @@ import hashlib
 from copy import deepcopy
 from enum import Enum, auto
 
-from treelib import Tree
-
 import spot
+from treelib import Tree
 
 from crome_logic.crome_type.subtype.base.boolean import Boolean
 from crome_logic.specification.boolean.boolean import Bool
 from crome_logic.specification.specification import Specification
-from crome_logic.specification.temporal.tools import transform_spot_tree, extract_ap
+from crome_logic.specification.temporal.tools import extract_ap, transform_spot_tree
 from crome_logic.specification.temporal.trees import gen_ltl_tree
 from crome_logic.typeset.typeset import Typeset
 

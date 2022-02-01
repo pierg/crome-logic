@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from copy import deepcopy
 from enum import Enum, auto
-from typing import List
 
 import pygraphviz as pgv
 
@@ -84,7 +83,7 @@ class Bool:
         return self.__expression.satisfy_all()
 
     @property
-    def dnf(self) -> List[set[str]]:
+    def dnf(self) -> list[set[str]]:
 
         dnf_list = []
         dnf = expr(self.__expression.to_dnf())
@@ -107,7 +106,7 @@ class Bool:
         return dnf_list
 
     @property
-    def cnf(self) -> List[set[str]]:
+    def cnf(self) -> list[set[str]]:
 
         cnf_list = []
         cnf = expr(self.__expression.to_cnf())

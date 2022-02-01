@@ -1,4 +1,5 @@
 from typing import Set
+
 import spot
 
 
