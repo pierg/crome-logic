@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from crome_logic.crome_types import CTypes
+from crome_logic.crome_type.crome_type import CromeType
 
 
-class BoundedInteger(CTypes):
-    def __init__(self, name: str, kind: CTypes.Kind, min_value: int, max_value: int):
+class BoundedInteger(CromeType):
+    def __init__(self, name: str, kind: CromeType.Kind, min_value: int, max_value: int):
         self.__min = min_value
         self.__max = max_value
         super().__init__(name, kind)

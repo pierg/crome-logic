@@ -5,7 +5,7 @@ lint:
 	poetry run doc8 -q docs
 	poetry run black crome_logic tests/**/*.py
 	poetry run pyupgrade
-	poetry run pycln crome_logic tests/**/*.py
+	poetry run pycln crome_logic tests/**/*.py --all
 	poetry run autoflake .
 	poetry run isort .
 	poetry run autopep8 --in-place -r crome_logic tests/**/*.py

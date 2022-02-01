@@ -4,30 +4,35 @@ from abc import ABC
 from enum import Enum, auto
 
 
-class CTypes(ABC):
+class CromeType(ABC):
     """Base class fo the types of CROME."""
 
     class Kind(Enum):
         """Kinds of CTypes."""
 
+        UNKNOWN = auto()
         SENSOR = auto()
         LOCATION = auto()
         ACTION = auto()
         ACTIVE = auto()
         CONTEXT = auto()
 
-    def __init__(self, name: str, kind: CTypes.Kind):
+    def __init__(self, name: str, kind: CromeType.Kind):
         self._name: str = name
-        self._kind: CTypes.Kind = kind
+        self._kind: CromeType.Kind = kind
 
     def __str__(self):
         return self._name
 
-    def __le__(self, other: CTypes):
+    def __le__(self, other: CromeType):
         return isinstance(self, type(other))
 
     def __eq__(self, other):
         if self.name == other.name and type(self).__name__ == type(other).__name__:
+            from crome_logic.crome_type.subtypes.base.bounded_integer import (
+                BoundedInteger,
+            )
+
             if isinstance(self, BoundedInteger):
                 if (self.min == other.min) and (self.max == other.max):
                     return True
@@ -44,40 +49,15 @@ class CTypes(ABC):
         return self._name
 
     @property
-    def kind(self) -> CTypes.Kind:
+    def kind(self) -> CromeType.Kind:
         return self._kind
 
     @property
     def controllable(self) -> bool:
         if (
-            self.kind == CTypes.Kind.SENSOR
-            or self.kind == CTypes.Kind.CONTEXT
-            or self.kind == CTypes.Kind.ACTIVE
+            self.kind == CromeType.Kind.SENSOR
+            or self.kind == CromeType.Kind.CONTEXT
+            or self.kind == CromeType.Kind.ACTIVE
         ):
             return False
         return True
-
-
-class Boolean(CTypes):
-    def __init__(self, name: str, kind: CTypes.Kind):
-        super().__init__(name, kind)
-        self._mutex_group: str = ""
-
-    @property
-    def mutex_group(self) -> str:
-        return self._mutex_group
-
-
-class BoundedInteger(CTypes):
-    def __init__(self, name: str, kind: CTypes.Kind, min_value: int, max_value: int):
-        self._min = min_value
-        self._max = max_value
-        super().__init__(name, kind)
-
-    @property
-    def min(self) -> int:
-        return self._min
-
-    @property
-    def max(self) -> int:
-        return self._max
