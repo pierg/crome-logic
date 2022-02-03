@@ -3,17 +3,17 @@ from __future__ import annotations
 from copy import copy, deepcopy
 from itertools import combinations
 
-from crome_logic.crome_type.crome_type import CromeType
+from crome_logic.crome_type.crome_type import AnyCromeType, CromeType
 from crome_logic.crome_type.subtype.base.boolean import Boolean
 
 
-class Typeset(dict[str, CromeType]):
+class Typeset(dict[str, AnyCromeType]):
     """set of identifier -> CromeType."""
 
-    def __init__(self, types: set[CromeType] | None = None):
+    def __init__(self, types: set[AnyCromeType] | None = None):
         """Indicates the supertypes relationships for each crometypes in the
         typeset."""
-        self._super_types: dict[CromeType, set[CromeType]] = {}
+        self._super_types: dict[AnyCromeType, set[AnyCromeType]] = {}
         """Indicates the mutex relationships for the crometypes in the typeset"""
         self._mutex_types: set[frozenset[Boolean]] = set()
         """Indicates the adjacency relationships for the crometypes in the typeset"""
@@ -49,7 +49,7 @@ class Typeset(dict[str, CromeType]):
             ret += "\n"
         return ret[:-1]
 
-    def __add__(self, element: Typeset | CromeType) -> Typeset:
+    def __add__(self, element: Typeset | AnyCromeType) -> Typeset:
         """Returns self + element.
         WARNING: violates Liskov Substitution Principle"""
         if isinstance(element, CromeType):
@@ -59,22 +59,22 @@ class Typeset(dict[str, CromeType]):
         new_dict.__iadd__(element)
         return new_dict
 
-    def __sub__(self, element: Typeset | CromeType) -> Typeset:
+    def __sub__(self, element: Typeset | AnyCromeType) -> Typeset:
         """Returns self - element"""
         if isinstance(element, CromeType):
             element = Typeset({element})
         """Shallow copy"""
         new_dict = copy(self)
-        for key in element.keys():
+        for key in element.keys():  # type: ignore
             if key in new_dict:
                 del new_dict[key]
         return new_dict
 
-    def __iadd__(self, element: Typeset | CromeType):
+    def __iadd__(self, element: Typeset | AnyCromeType):
         """Updates self with self += element."""
         if isinstance(element, CromeType):
             element = Typeset({element})
-        for key, value in element.items():
+        for key, value in element.items():  # type: ignore
             if key in self:
                 if type(value).__name__ != type(self[key]).__name__:
                     print(
@@ -93,7 +93,7 @@ class Typeset(dict[str, CromeType]):
     def size(self) -> int:
         return len(list(self.keys()))
 
-    def _add_elements(self, types: set[CromeType]):
+    def _add_elements(self, types: set[AnyCromeType]):
         if types is not None:
             for elem in types:
                 super().__setitem__(elem.name, elem)
@@ -155,7 +155,7 @@ class Typeset(dict[str, CromeType]):
                                 self._adjacent_types[variable].add(variable_candidate)
 
     @property
-    def super_types(self) -> dict[CromeType, set[CromeType]]:
+    def super_types(self) -> dict[AnyCromeType, set[AnyCromeType]]:
         return self._super_types
 
     @property

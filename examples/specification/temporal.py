@@ -1,6 +1,6 @@
 import spot
 
-from crome_logic.specification.temporal.temporal import LTL
+from crome_logic.specification.temporal.__init__ import LTL
 
 
 def spot_example():
@@ -43,24 +43,6 @@ def example_boolean_ops():
     print(f2.represent())
 
 
-def inconsistencies():
-    # f1 = LTL("G(a)")
-    # f2 = LTL("!G(a)")
-    # phi_2 = "(! z & G(a & b | G(k & l)) & F(c | !d) & (X(e & f) | !X(g | h)) & (l U p)) & z"
-    # phi_2_ltl = LTL(phi_2)
-    try:
-        # phi = LTL("a & !a")
-        # phi = LTL("a | !a")
-        phi = LTL(
-            "(! z & G(a & b | G(k & l)) & F(c | !d) & (X(e & f) | !X(g | h)) & (l U p))"
-        )
-        print(phi.tree(LTL.TreeType.LTL))
-        print(phi.tree(LTL.TreeType.BOOLEAN))
-        print(phi.represent(LTL.Output.SUMMARY))
-    except SpecNotSATException as e:
-        print(f"{e.formula.original_formula} is not satisfiable")
-
-
 def release():
     f = LTL("G(!l2 | X(!l2 U l1))")
     f_not = ~f
@@ -81,15 +63,16 @@ def bug():
     f2 = LTL(f2)
     print(f2)
 
-    g = f1 | ~f2
-    print(g)
-
-    f3 = ~f2
-    print(f3)
-
-    f4 = f1 | f3
-    print(f4)
+    # g = f1 | ~f2
+    # print(g)
+    #
+    # f3 = ~f2
+    # print(f3)
+    #
+    # f4 = f1 | f3
+    # print(f4)
 
 
 if __name__ == "__main__":
-    example_1()
+    # example_1()
+    pass

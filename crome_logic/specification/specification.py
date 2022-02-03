@@ -50,12 +50,10 @@ class Specification(ABC):
     def typeset(self) -> Typeset:
         return self._typeset
 
-    @property
     @abstractmethod
     def cnf(self) -> list[set[Specification]]:
         pass
 
-    @property
     @abstractmethod
     def dnf(self) -> list[set[Specification]]:
         pass
