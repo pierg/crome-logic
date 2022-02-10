@@ -1,6 +1,7 @@
 import hashlib
 from typing import Any
 
+import spot
 from treelib import Tree
 
 from crome_logic.specification.string_logic import general_logic
@@ -26,7 +27,11 @@ def gen_ltl_tree(spot_f, tree: Tree | None = None, parent=None) -> Tree:
     return tree
 
 
-def gen_atoms_tree(spot_f, tree: Tree | None = None, parent=None) -> Tree:
+def gen_atoms_tree(
+    spot_f: spot.formula | str, tree: Tree | None = None, parent=None
+) -> Tree:
+    if isinstance(spot_f, str):
+        spot_f = spot.formula(spot_f)
     if tree is None:
         tree = Tree()
 
@@ -73,12 +78,6 @@ def boolean_tree_to_formula(boolean_tree) -> str:
 
 
 def unwrap_tree(tree: dict[str, Any]) -> str:
-    for k, v in tree.items():
-        print(type(k), type(v))
-        for k2, v2 in v.items():
-            print(f"\t{type(k2)}, {type(v2)}")
-            for e in v2:
-                print(f"\t\t{type(e)}")
     children = list(tree.values())[0]["children"]
     parent_op = list(tree.keys())[0]
     arguments = []

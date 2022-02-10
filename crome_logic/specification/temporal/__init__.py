@@ -3,10 +3,11 @@ from __future__ import annotations
 from enum import Enum, auto
 
 import spot
+from treelib import Tree
 
 from crome_logic.crome_type.subtype.base.boolean import Boolean
-from crome_logic.specification.boolean.__init__ import Bool
-from crome_logic.specification.specification import Specification
+from crome_logic.specification import Specification
+from crome_logic.specification.boolean import Bool
 from crome_logic.specification.temporal.tools import extract_ap, transform_spot_tree
 from crome_logic.specification.temporal.trees import (
     boolean_tree_to_formula,
@@ -53,19 +54,17 @@ class LTL(Specification):
             )
             self._typeset = Typeset(set_of_types)
 
-        self._ltl_tree = gen_ltl_tree(spot_f=self._ltl_formula)
+        self._tree: Tree = gen_ltl_tree(spot_f=self._ltl_formula)
 
     def _init__atoms_formula(self, boolean_formula: Bool | None) -> None:
         """Building the ATOMS formula and tree."""
         if boolean_formula is None:
-            self._boolean_tree = gen_atoms_tree(spot_f=self._ltl_formula)
-            self._boolean_formula = Bool(boolean_tree_to_formula(self._boolean_tree))
+            atom_tree = gen_atoms_tree(spot_f=self._ltl_formula)
+            self._boolean_formula = Bool(
+                boolean_tree_to_formula(atom_tree), tree=atom_tree
+            )
         else:
-            """Create a 'boolean' spot formula."""
             self._boolean_formula = boolean_formula
-            """Trick to generate atoms tree"""
-            bool_spot = spot.formula(boolean_formula.to_spot())
-            self._boolean_tree = gen_atoms_tree(spot_f=bool_spot)
 
     def cnf(self) -> list[set[LTL]]:  # type: ignore
         pass
@@ -77,6 +76,14 @@ class LTL(Specification):
         self, output_type: Specification.OutputStr = Specification.OutputStr.DEFAULT
     ) -> str:
         pass
+
+    @property
+    def tree(self) -> Tree:
+        return self._tree
+
+    @property
+    def boolean(self) -> Bool:
+        return self._boolean_formula
 
     def __and__(self: Specification, other: Specification) -> LTL:
         """self & other Returns a new LTL with the conjunction with
