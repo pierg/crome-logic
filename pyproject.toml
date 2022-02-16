@@ -48,7 +48,6 @@ docker = "^5.0.3"
 mypy = "^0.931"
 
 [tool.poetry.dev-dependencies]
-mypy = "^0.931"
 
 wemake-python-styleguide = "^0.16"
 flake8-pytest-style = "^1.6"

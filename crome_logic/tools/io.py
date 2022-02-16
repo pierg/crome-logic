@@ -1,3 +1,4 @@
+# type: ignore
 import os
 from pathlib import Path
 
@@ -31,9 +32,9 @@ def save_to_file(
     if not os.path.exists(file_folder):
         os.makedirs(file_folder)
 
-    file_path = Path(f"{file_folder}/{file_name}")
+    file_path: Path = Path(f"{file_folder}/{file_name}")
 
-    with open(file_path, "w") as f:
+    with open(file_path, "w") as f:  # mypy crashes on this line, i don't know why
         f.write(file_content)
 
     f.close()
