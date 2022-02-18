@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from aenum import Enum, auto, skip
 from treelib import Tree
 
-from crome_logic.typeset.__init__ import Typeset
+from crome_logic.typeset import Typeset
 
 
 class Specification(ABC):
@@ -29,12 +29,9 @@ class Specification(ABC):
 
     class OutputStr(Enum):
         DEFAULT = auto()
-        ORIGINAL = auto()
-        SIMPLIFIED = auto()
         CNF = auto()
         DNF = auto()
         SUMMARY = auto()
-        LATEX = auto()
 
     def __init__(self, formula: str, typeset: Typeset):
 

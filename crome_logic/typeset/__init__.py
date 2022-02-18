@@ -3,8 +3,8 @@ from __future__ import annotations
 from copy import copy, deepcopy
 from itertools import combinations
 
-from crome_logic.tools.expression import extract_ap
-from crome_logic.typesimple.__init__ import AnyCromeType, CromeType
+from crome_logic.tools.ap import extract_ap
+from crome_logic.typesimple import AnyCromeType, CromeType
 from crome_logic.typesimple.subtype.base.boolean import Boolean
 
 
@@ -66,7 +66,7 @@ class Typeset(dict[str, AnyCromeType]):
             element = Typeset({element})
         """Shallow copy"""
         new_dict = copy(self)
-        for key in element.keys():
+        for key in element.keys():  # type: ignore
             if key in new_dict:
                 del new_dict[key]
         return new_dict
@@ -75,7 +75,7 @@ class Typeset(dict[str, AnyCromeType]):
         """Updates self with self += element."""
         if isinstance(element, CromeType):
             element = Typeset({element})
-        for key, value in element.items():
+        for key, value in element.items():  # type: ignore
             if key in self:
                 if type(value).__name__ != type(self[key]).__name__:
                     print(

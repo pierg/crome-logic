@@ -69,6 +69,14 @@ def gen_atoms_tree(
     return tree
 
 
+def extract_atoms_dictionary(tree: Tree) -> dict[str, str]:
+    hash_ltl: dict[str, str] = {}
+    for node in tree.leaves():
+        hash_ltl[node.tag] = node.data["generator"]
+
+    return hash_ltl
+
+
 def boolean_tree_to_formula(boolean_tree) -> str:
     tree_dictionary = boolean_tree.to_dict()
     if isinstance(tree_dictionary, dict):

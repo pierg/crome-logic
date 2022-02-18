@@ -7,10 +7,11 @@ from pyeda.boolalg.minimization import espresso_exprs
 from treelib import Tree
 
 from crome_logic.specification import Specification
-from crome_logic.specification.boolean.conversions import dot_to_spot_string
-from crome_logic.tools.expression import extract_ap
-from crome_logic.tools.trees import gen_atoms_tree
-from crome_logic.typeset.__init__ import Typeset
+from crome_logic.specification.boolean.tools import dot_to_spot_string
+from crome_logic.specification.string_logic import and_, or_
+from crome_logic.specification.trees import gen_atoms_tree
+from crome_logic.tools.ap import extract_ap
+from crome_logic.typeset import Typeset
 from crome_logic.typesimple.subtype.base.boolean import Boolean
 
 
@@ -64,6 +65,11 @@ class Bool(Specification):
             print(k)
         return result
 
+    def __str__(self):
+        formula = str(self._expression)
+        formula = formula.replace("~", "!")
+        return formula
+
     @property
     def expression(self):
         return self._expression
@@ -88,6 +94,12 @@ class Bool(Specification):
     ) -> str:
         if output_type == Specification.OutputStr.DEFAULT:
             return dot_to_spot_string(self._expression.to_dot())
+        elif output_type == Specification.OutputStr.CNF:
+            return " & ".join([or_([str(e) for e in elem]) for elem in self.cnf()])
+        elif output_type == Specification.OutputStr.DNF:
+            return " | ".join(
+                [and_([str(e) for e in elem], brackets=True) for elem in self.dnf()]
+            )
         else:
             raise NotImplementedError
 
