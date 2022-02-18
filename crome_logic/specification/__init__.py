@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from aenum import Enum, auto, skip
 from treelib import Tree
 
-from crome_logic.typeset.typeset import Typeset
+from crome_logic.typeset.__init__ import Typeset
 
 
 class Specification(ABC):

@@ -5,16 +5,16 @@ from enum import Enum, auto
 import spot
 from treelib import Tree
 
-from crome_logic.crome_type.subtype.base.boolean import Boolean
 from crome_logic.specification import Specification
 from crome_logic.specification.boolean import Bool
-from crome_logic.specification.temporal.tools import extract_ap, transform_spot_tree
-from crome_logic.specification.temporal.trees import (
+from crome_logic.tools.expression import extract_ap, transform_spot_tree
+from crome_logic.tools.trees import (
     boolean_tree_to_formula,
     gen_atoms_tree,
     gen_ltl_tree,
 )
-from crome_logic.typeset.typeset import Typeset
+from crome_logic.typeset.__init__ import Typeset
+from crome_logic.typesimple.subtype.base.boolean import Boolean
 
 
 class LTL(Specification):
@@ -48,11 +48,7 @@ class LTL(Specification):
             set_ap = set(map(lambda x: Boolean(x), set_ap_str))
             self._typeset = Typeset(set_ap)
         else:
-            set_ap_str = extract_ap(self._ltl_formula)
-            set_of_types = set(
-                filter((lambda x: x.name in set_ap_str), typeset.values())
-            )
-            self._typeset = Typeset(set_of_types)
+            self._typeset = typeset.get_sub_typeset(str(self._ltl_formula))
 
         self._tree: Tree = gen_ltl_tree(spot_f=self._ltl_formula)
 

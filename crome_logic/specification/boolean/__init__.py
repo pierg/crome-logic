@@ -2,16 +2,16 @@ from __future__ import annotations
 
 from copy import deepcopy
 
-from pyeda.boolalg.expr import Expression, expr
+from pyeda.boolalg.expr import AndOp, Expression, OrOp, expr
 from pyeda.boolalg.minimization import espresso_exprs
 from treelib import Tree
 
-from crome_logic.crome_type.subtype.base.boolean import Boolean
 from crome_logic.specification import Specification
 from crome_logic.specification.boolean.conversions import dot_to_spot_string
-from crome_logic.specification.temporal.tools import extract_ap
-from crome_logic.specification.temporal.trees import gen_atoms_tree
-from crome_logic.typeset.typeset import Typeset
+from crome_logic.tools.expression import extract_ap
+from crome_logic.tools.trees import gen_atoms_tree
+from crome_logic.typeset.__init__ import Typeset
+from crome_logic.typesimple.subtype.base.boolean import Boolean
 
 
 class Bool(Specification):
@@ -23,7 +23,7 @@ class Bool(Specification):
     ):
 
         if isinstance(formula, str):
-            self._init__boolean_formula(formula, typeset)
+            self._init__boolean_formula(formula, typeset, tree)
         elif isinstance(formula, Expression):
             self._expression = formula
             if typeset is None:
@@ -92,10 +92,54 @@ class Bool(Specification):
             raise NotImplementedError
 
     def cnf(self) -> list[set[Bool]]:  # type: ignore
-        pass
+        cnf_list = []
+        cnf = expr(self._expression.to_cnf())
+        if isinstance(cnf, AndOp):
+            for clause in cnf.xs:
+                atoms = set()
+                if isinstance(clause, OrOp):
+                    for atom in clause.xs:
+                        atoms.add(
+                            Bool(atom, typeset=self.typeset.get_sub_typeset(str(atom)))
+                        )
+                else:
+                    atoms.add(
+                        Bool(clause, typeset=self.typeset.get_sub_typeset(str(clause)))
+                    )
+                cnf_list.append(atoms)
+        elif isinstance(cnf, OrOp):
+            atoms = set()
+            for atom in cnf.xs:
+                atoms.add(Bool(atom, typeset=self.typeset.get_sub_typeset(str(atom))))
+            cnf_list.append(atoms)
+        else:
+            cnf_list.append({Bool(cnf, typeset=self.typeset.get_sub_typeset(str(cnf)))})
+        return cnf_list
 
     def dnf(self) -> list[set[Bool]]:  # type: ignore
-        pass
+        dnf_list = []
+        dnf = expr(self._expression.to_dnf())
+        if isinstance(dnf, OrOp):
+            for clause in dnf.xs:
+                atoms = set()
+                if isinstance(clause, AndOp):
+                    for atom in clause.xs:
+                        atoms.add(
+                            Bool(atom, typeset=self.typeset.get_sub_typeset(str(atom)))
+                        )
+                else:
+                    atoms.add(
+                        Bool(clause, typeset=self.typeset.get_sub_typeset(str(clause)))
+                    )
+                dnf_list.append(atoms)
+        elif isinstance(dnf, AndOp):
+            atoms = set()
+            for atom in dnf.xs:
+                atoms.add(Bool(atom, typeset=self.typeset.get_sub_typeset(str(atom))))
+            dnf_list.append(atoms)
+        else:
+            dnf_list.append({Bool(dnf, typeset=self.typeset.get_sub_typeset(str(dnf)))})
+        return dnf_list
 
     def __and__(self: Specification, other: Specification) -> Bool:
         """self & other Returns a new Bool with the conjunction with

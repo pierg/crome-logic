@@ -16,8 +16,7 @@ def example_1() -> None:
     file_path = save_to_file(controller1, "controller_1")
 
     automaton = spot.automaton(file_path)
-
-    dotfile = automaton.to_str(format="lbtt")
+    dotfile = automaton.to_str(format="dot")
 
     print(dotfile)
 
