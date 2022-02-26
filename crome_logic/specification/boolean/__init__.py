@@ -10,7 +10,7 @@ from crome_logic.specification import Specification
 from crome_logic.specification.boolean.tools import dot_to_spot_string
 from crome_logic.specification.string_logic import and_, or_
 from crome_logic.specification.trees import gen_atoms_tree
-from crome_logic.tools.ap import extract_ap
+from crome_logic.tools.atomic_propositions import extract_ap
 from crome_logic.typeset import Typeset
 from crome_logic.typesimple.subtype.base.boolean import Boolean
 
@@ -26,14 +26,19 @@ class Bool(Specification):
         if isinstance(formula, str):
             self._init__boolean_formula(formula, typeset, tree)
         elif isinstance(formula, Expression):
-            self._expression = formula
+            self._pyeda_expression = formula
             if typeset is None:
                 raise AttributeError
             self._typeset = typeset
         else:
             raise AttributeError
 
-        super().__init__(dot_to_spot_string(self._expression.to_dot()), self._typeset)
+        super().__init__(
+            dot_to_spot_string(self._pyeda_expression.to_dot()), self._typeset
+        )
+
+    def __hash__(self: Bool):
+        return hash(str(self))
 
     def _init__boolean_formula(
         self, formula: str, typeset: Typeset | None, tree: None | Tree = None
@@ -49,7 +54,7 @@ class Bool(Specification):
         else:
             self._tree = tree
         formula = formula.replace("!", "~")
-        self._expression = expr(formula)
+        self._pyeda_expression = expr(formula)
 
     def __deepcopy__(self: Bool, memo):
         cls = self.__class__
@@ -57,7 +62,7 @@ class Bool(Specification):
         memo[id(self)] = result
         try:
             for k, v in self.__dict__.items():
-                if "_Bool__expression" in k:
+                if "_Bool_expression" in k:
                     setattr(result, k, expr(self.expression))
                 else:
                     setattr(result, k, deepcopy(v, memo))
@@ -66,13 +71,13 @@ class Bool(Specification):
         return result
 
     def __str__(self):
-        formula = str(self._expression)
+        formula = str(self._pyeda_expression)
         formula = formula.replace("~", "!")
         return formula
 
     @property
-    def expression(self):
-        return self._expression
+    def expression(self) -> Expression:
+        return self._pyeda_expression
 
     @property
     def tree(self) -> Tree:
@@ -80,20 +85,24 @@ class Bool(Specification):
 
     def minimize(self):
         """Espresso minimization works only for DNF forms and it's slow."""
-        if not (str(self._expression) == "1" or str(self._expression) == "0"):
+        if not (
+            str(self._pyeda_expression) == "1" or str(self._pyeda_expression) == "0"
+        ):
             print("start dnf")
-            self._expression = self._expression.to_dnf()
+            self._pyeda_expression = self._pyeda_expression.to_dnf()
             print("end dnf")
-            if not (str(self._expression) == "1" or str(self._expression) == "0"):
+            if not (
+                str(self._pyeda_expression) == "1" or str(self._pyeda_expression) == "0"
+            ):
                 print("start espresso")
-                self._expression = espresso_exprs(self._expression)[0]
+                self._pyeda_expression = espresso_exprs(self._pyeda_expression)[0]
                 print("end espresso")
 
     def represent(
-        self, output_type: Specification.OutputStr = Specification.OutputStr.DEFAULT
+        self, output_type: Bool.OutputStr = Specification.OutputStr.DEFAULT
     ) -> str:
         if output_type == Specification.OutputStr.DEFAULT:
-            return dot_to_spot_string(self._expression.to_dot())
+            return dot_to_spot_string(self._pyeda_expression.to_dot())
         elif output_type == Specification.OutputStr.CNF:
             return " & ".join([or_([str(e) for e in elem]) for elem in self.cnf()])
         elif output_type == Specification.OutputStr.DNF:
@@ -105,7 +114,7 @@ class Bool(Specification):
 
     def cnf(self) -> list[set[Bool]]:  # type: ignore
         cnf_list = []
-        cnf = expr(self._expression.to_cnf())
+        cnf = expr(self._pyeda_expression.to_cnf())
         if isinstance(cnf, AndOp):
             for clause in cnf.xs:
                 atoms = set()
@@ -130,7 +139,7 @@ class Bool(Specification):
 
     def dnf(self) -> list[set[Bool]]:  # type: ignore
         dnf_list = []
-        dnf = expr(self._expression.to_dnf())
+        dnf = expr(self._pyeda_expression.to_dnf())
         if isinstance(dnf, OrOp):
             for clause in dnf.xs:
                 atoms = set()
@@ -153,31 +162,43 @@ class Bool(Specification):
             dnf_list.append({Bool(dnf, typeset=self.typeset.get_sub_typeset(str(dnf)))})
         return dnf_list
 
-    def __and__(self: Specification, other: Specification) -> Bool:
-        """self & other Returns a new Bool with the conjunction with
-        other."""
+    def __and__(self: Bool, other: Bool) -> Bool:
+        """self & other Returns a new Pyeda with the conjunction with other."""
+        return Bool(self.expression & other.expression)
 
-    def __or__(self: Specification, other: Specification) -> Bool:
-        """self | other Returns a new Bool with the disjunction with
-        other."""
+    def __or__(self: Bool, other: Bool) -> Bool:
+        """self | other Returns a new Pyeda with the disjunction with other."""
+        return Bool(self.expression | other.expression)
 
-    def __invert__(self: Specification) -> Bool:
-        """Returns a new Bool with the negation of self."""
+    def __invert__(self: Bool) -> Bool:
+        """Returns a new Pyeda with the negation of self."""
+        inverted_expr = ~self._pyeda_expression
+        return Bool(inverted_expr)
 
-    def __rshift__(self: Specification, other: Specification) -> Bool:
-        """>> Returns a new Bool that is the result of self -> other
+    def __rshift__(self: Bool, other: Bool) -> Bool:
+        """>> Returns a new Pyeda that is the result of self -> other
         (implies)"""
+        return Bool(self.expression >> other.expression)
 
-    def __iand__(self: Specification, other: Specification) -> Bool:
+    def __lshift__(self: Bool, other: Bool) -> Bool:
+        """<< Returns a new Pyeda that is the result of other -> self
+        (implies)"""
+        return Bool(other.expression >> self.expression)
+
+    def __iand__(self: Bool, other: Bool) -> Bool:
         """self &= other Modifies self with the conjunction with other."""
+        self._pyeda_expression = self._pyeda_expression & other.expression
+        return self
 
-    def __ior__(self: Specification, other: Specification) -> Bool:
+    def __ior__(self: Bool, other: Bool) -> Bool:
         """self |= other Modifies self with the disjunction with other."""
+        self._pyeda_expression = expr(self._pyeda_expression | other.expression)
+        return self
 
     @property
-    def is_satisfiable(self: Specification) -> bool:
+    def is_satisfiable(self: Bool) -> bool:
         pass
 
     @property
-    def is_valid(self: Specification) -> bool:
+    def is_valid(self: Bool) -> bool:
         pass

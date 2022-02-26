@@ -3,9 +3,10 @@ from __future__ import annotations
 from copy import copy, deepcopy
 from itertools import combinations
 
-from crome_logic.tools.ap import extract_ap
+from crome_logic.tools.atomic_propositions import extract_ap
 from crome_logic.typesimple import AnyCromeType, CromeType
 from crome_logic.typesimple.subtype.base.boolean import Boolean
+from crome_logic.typesimple.subtype.base.bounded_integer import BoundedInteger
 
 
 class Typeset(dict[str, AnyCromeType]):
@@ -94,6 +95,15 @@ class Typeset(dict[str, AnyCromeType]):
     def size(self) -> int:
         return len(list(self.keys()))
 
+    def to_str_nuxmv(self) -> list[str]:
+        tuple_vars = []
+        for k, v in self.items():
+            if isinstance(v, Boolean):
+                tuple_vars.append(f"{k}: boolean")
+            elif isinstance(v, BoundedInteger):
+                tuple_vars.append(f"{k}: {v.min}..{v.max}")
+        return tuple_vars
+
     def get_sub_typeset(self, formula: str):
         set_ap_str = extract_ap(formula)
         set_of_types = set(filter((lambda x: x.name in set_ap_str), self.values()))
@@ -171,3 +181,16 @@ class Typeset(dict[str, AnyCromeType]):
     @property
     def adjacent_types(self) -> dict[Boolean, set[Boolean]]:
         return self._adjacent_types
+
+    def extract_inputs_outputs(self) -> tuple[set[AnyCromeType], set[AnyCromeType]]:
+        """Returns a set of variables in the typeset that are not controllable
+        and controllable."""
+        i = set()
+        o = set()
+        if len(self.values()) > 0:
+            for t in self.values():
+                if not t.controllable:
+                    i.add(t)
+                else:
+                    o.add(t)
+        return i, o
