@@ -17,7 +17,7 @@ from crome_logic.specification.trees import (
     gen_ltl_tree,
 )
 from crome_logic.tools.atomic_propositions import extract_ap
-from crome_logic.tools.nuxmv import check_satisfiability
+from crome_logic.tools.nuxmv import check_satisfiability, check_validity
 from crome_logic.typeset import Typeset
 from crome_logic.typesimple.subtype.base.boolean import Boolean
 
@@ -148,15 +148,36 @@ class LTL(Specification):
     def expression(self) -> spot.formula:
         return self._ltl_formula
 
+    def __iand__(self: LTL, other: LTL) -> LTL:
+        """self &= other Modifies self with the conjunction with other."""
+        self._init_ltl_formula(
+            formula=f"({str(self)}) & ({str(other)})",
+            typeset=self.typeset + other.typeset,
+        )
+        self._init_atoms_formula(
+            boolean_formula=self.boolean & other.boolean,
+        )
+        return self
+
+    def __ior__(self: LTL, other: LTL) -> LTL:
+        """self |= other Modifies self with the disjunction with other."""
+        self._init_ltl_formula(
+            formula=f"({str(self)}) | ({str(other)})",
+            typeset=self.typeset + other.typeset,
+        )
+        self._init_atoms_formula(
+            boolean_formula=self.boolean | other.boolean,
+        )
+        return self
+
     def __and__(self: LTL, other: LTL) -> LTL:
         """self & other Returns a new LTL with the conjunction with
         other."""
-        """compose the boolean first"""
 
         boolean_formula = self.boolean & other.boolean
 
         return LTL(
-            formula=f"({self.expression}) & ({other.expression})",
+            formula=f"({str(self)}) & ({str(other)})",
             boolean_formula=boolean_formula,
             typeset=self.typeset + other.typeset,
         )
@@ -164,11 +185,10 @@ class LTL(Specification):
     def __or__(self: LTL, other: LTL) -> LTL:
         """self | other Returns a new LTL with the disjunction with
         other."""
-
         boolean_formula = self.boolean | other.boolean
 
         return LTL(
-            formula=f"({self.expression}) | ({other.expression})",
+            formula=f"({str(self)}) | ({str(other)})",
             boolean_formula=boolean_formula,
             typeset=self.typeset + other.typeset,
         )
@@ -192,16 +212,12 @@ class LTL(Specification):
             typeset=self.typeset + other.typeset,
         )
 
-    def __iand__(self: LTL, other: LTL) -> LTL:
-        """self &= other Modifies self with the conjunction with other."""
-
-    def __ior__(self: LTL, other: LTL) -> LTL:
-        """self |= other Modifies self with the disjunction with other."""
-
     @property
     def is_satisfiable(self: LTL) -> bool:
         from crome_logic.specification.temporal.rules_extractors import (
+            extract_adjacency_rules,
             extract_mutex_rules,
+            extract_refinement_rules,
         )
 
         mtx_rules = extract_mutex_rules(self.typeset)
@@ -210,24 +226,30 @@ class LTL(Specification):
         if isinstance(mtx_rules, LTL):
             new_f = self & mtx_rules
 
-        # adj_rules = LTL.extract_adjacency_rules(self.typeset)
-        #
-        # if adj_rules is not None:
-        #     new_f = self & mtx_rules & adj_rules
-        #     print(self.string)
-        #     print(mtx_rules.string)
-        #     print(adj_rules.string)
+        adj_rules = extract_adjacency_rules(self.typeset)
+        if isinstance(adj_rules, LTL):
+            new_f = new_f & adj_rules
 
-        # ref_rules = LTL.extract_refinement_rules(self.typeset)
-        #
-        # if ref_rules is not None:
-        #     print(ref_rules.string)
-        #     new_f = ref_rules >> new_f
-
-        if is_true_string(str(new_f)):
-            return True
+        ref_rules = extract_refinement_rules(self.typeset)
+        if isinstance(ref_rules, LTL):
+            new_f = ref_rules >> new_f
 
         return check_satisfiability(str(new_f), new_f.typeset.to_str_nuxmv())
+
+    @property
+    def is_valid(self: LTL) -> bool:
+        from crome_logic.specification.temporal.rules_extractors import (
+            extract_refinement_rules,
+        )
+
+        ref_rules = extract_refinement_rules(self.typeset)
+
+        if isinstance(ref_rules, LTL):
+            new_f = ref_rules >> self
+        else:
+            new_f = self
+
+        return check_validity(str(new_f), new_f.typeset.to_str_nuxmv())
 
     def __lt__(self, other: LTL):
         """self < other.
@@ -260,23 +282,8 @@ class LTL(Specification):
         """Check if (other -> self) is valid"""
         return (other >> self).is_valid
 
-        #
-        # """Check if other -> self is valid, considering the refinement rules r"""
-        # """((r & s1) -> s2) === r -> (s1 -> s2)"""
-        # from core.specification.__legacy.atom import Atom
-        #
-        # rules = Atom.extract_refinement_rules(self.typeset | other.typeset)
-        # if rules is not None:
-        #     formula = LogicTuple.implies_(
-        #         other.formula(),
-        #         LogicTuple.and_([self.formula(), rules.formula()]),
-        #     )
-        # else:
-        #     formula = LogicTuple.implies_(other.formula(), self.formula())
-        # return Nuxmv.check_validity(formula)
-
     def __eq__(self, other: object):
-        """Check if self -> other and other -> self."""
+        """Check if self == other"""
         if not isinstance(other, LTL):
             return NotImplemented
         if str(self) == str(other):
@@ -288,11 +295,7 @@ class LTL(Specification):
             return self.__le__(other) and self.__ge__(other)
 
     def __ne__(self, other: object):
-        """Check if self -> other and other -> self."""
+        """Check if self != other"""
         if not isinstance(other, LTL):
             return NotImplemented
         return not self.__eq__(other)
-
-    @property
-    def is_valid(self: LTL) -> bool:
-        pass
