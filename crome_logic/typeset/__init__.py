@@ -8,6 +8,20 @@ from crome_logic.typesimple import AnyCromeType, CromeType
 from crome_logic.typesimple.subtype.base.boolean import Boolean
 from crome_logic.typesimple.subtype.base.bounded_integer import BoundedInteger
 
+BASE_CLASS_TYPES = [
+    "Boolean",
+    "BoundedInteger",
+    "BooleanAction",
+    "IntegerAction",
+    "Active",
+    "ContextTime",
+    "ContextBooleanTime",
+    "ContextLocation",
+    "ContextIdentity",
+    "ReachLocation",
+    "IntegerSensor",
+    "BooleanSensor",
+]
 
 class Typeset(dict[str, AnyCromeType]):
     """set of identifier -> CromeType."""
@@ -123,6 +137,11 @@ class Typeset(dict[str, AnyCromeType]):
         if len(self.values()) > 1:
             for (a, b) in combinations(self.values(), 2):
                 """If they are not base variables"""
+                if (
+                    a.__class__.__name__ in BASE_CLASS_TYPES
+                    or b.__class__.__name__ in BASE_CLASS_TYPES
+                ):
+                    continue
                 if isinstance(a, type(b)):
                     if a in self._super_types:
                         self._super_types[a].add(b)

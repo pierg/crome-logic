@@ -164,26 +164,26 @@ class Bool(Specification):
 
     def __and__(self: Bool, other: Bool) -> Bool:
         """self & other Returns a new Pyeda with the conjunction with other."""
-        return Bool(self.expression & other.expression)
+        return Bool(self.expression & other.expression, typeset=self.typeset + other.typeset)
 
     def __or__(self: Bool, other: Bool) -> Bool:
         """self | other Returns a new Pyeda with the disjunction with other."""
-        return Bool(self.expression | other.expression)
+        return Bool(self.expression | other.expression, typeset=self.typeset + other.typeset)
 
     def __invert__(self: Bool) -> Bool:
         """Returns a new Pyeda with the negation of self."""
         inverted_expr = ~self._pyeda_expression
-        return Bool(inverted_expr)
+        return Bool(inverted_expr, typeset=self.typeset)
 
     def __rshift__(self: Bool, other: Bool) -> Bool:
         """>> Returns a new Pyeda that is the result of self -> other
         (implies)"""
-        return Bool(self.expression >> other.expression)
+        return Bool(self.expression >> other.expression, typeset=self.typeset + other.typeset)
 
     def __lshift__(self: Bool, other: Bool) -> Bool:
         """<< Returns a new Pyeda that is the result of other -> self
         (implies)"""
-        return Bool(other.expression >> self.expression)
+        return Bool(other.expression >> self.expression, typeset=self.typeset + other.typeset)
 
     def __iand__(self: Bool, other: Bool) -> Bool:
         """self &= other Modifies self with the conjunction with other."""
