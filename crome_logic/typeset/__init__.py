@@ -23,6 +23,7 @@ BASE_CLASS_TYPES = [
     "BooleanSensor",
 ]
 
+
 class Typeset(dict[str, AnyCromeType]):
     """set of identifier -> CromeType."""
 
