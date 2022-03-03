@@ -9,7 +9,6 @@ from crome_logic.specification import Specification
 from crome_logic.specification.boolean import Bool
 from crome_logic.specification.string_logic import and_, or_
 from crome_logic.specification.temporal.tools import transform_spot_tree
-from crome_logic.specification.tools import is_true_string
 from crome_logic.specification.trees import (
     boolean_tree_to_formula,
     extract_atoms_dictionary,
