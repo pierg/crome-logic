@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from abc import ABC
 from enum import Enum, auto
+from typing import TypeVar
 
 
 class CromeType(ABC):
@@ -54,3 +55,6 @@ class CromeType(ABC):
         ):
             return False
         return True
+
+
+AnyCromeType = TypeVar("AnyCromeType", bound=CromeType)

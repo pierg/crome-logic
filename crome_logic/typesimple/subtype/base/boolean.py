@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from crome_logic.crome_type.crome_type import CromeType
+from crome_logic.typesimple import CromeType
 
 
 class Boolean(CromeType):

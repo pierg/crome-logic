@@ -7,5 +7,5 @@ channels:
 dependencies:
   - python=3.10
   - pygraphviz
-  - spot
+#  - spot
   - pre-commit

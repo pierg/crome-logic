@@ -1,5 +1,5 @@
-from crome_logic.crome_type.crome_type import CromeType
-from crome_logic.crome_type.subtype.base.boolean import Boolean
+from crome_logic.typesimple import CromeType
+from crome_logic.typesimple.subtype.base.boolean import Boolean
 
 
 class Context(Boolean):
