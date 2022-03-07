@@ -35,14 +35,7 @@ poetry install
 
 ## Example
 
-Showcase how your project can be used:
-
-```python
-from crome_logic.example import some_function
-
-print(some_function(3, 4))
-# => 7
-```
+TODO..
 
 ## One magic command
 
@@ -50,21 +43,16 @@ Run `make lint` to run all the typing, linting and formatting tools
 
 Run `make test` to run everything we have!
 
-### Before submitting
-
-Before submitting your code please do the following steps:
-
-1. Run `make lint`
-2. Commit, this should trigger the pre-commit scripts. Some files might be changed
-   automatically.
-3. Commit again
-4. Push
+run `run-pre-commit.sh` to run all the pre-commit scripts
 
 ## License
 
-[MIT](https://github.com/piergiuseppe/crome-logic/blob/master/LICENSE)
+[MIT](https://github.com/piergiuseppe/crome-synthesis/blob/master/LICENSE)
 
-## Credits
+## Features and Credits
+
+- Fully typed with annotations and checked with mypy,
+  [PEP561 compatible](https://www.python.org/dev/peps/pep-0o561/)
 
 This project was generated with
 [`wemake-python-package`](https://github.com/wemake-services/wemake-python-package).
