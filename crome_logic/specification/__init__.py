@@ -61,34 +61,6 @@ class Specification(ABC):
     def tree(self) -> Tree:
         pass
 
-    #
-    # @abstractmethod
-    # def __and__(self: Specification, other: Specification) -> Specification:
-    #     """self & other Returns a new Specification with the conjunction with
-    #     other."""
-    #
-    # @abstractmethod
-    # def __or__(self: Specification, other: Specification) -> Specification:
-    #     """self | other Returns a new Specification with the disjunction with
-    #     other."""
-    #
-    # @abstractmethod
-    # def __invert__(self: Specification) -> Specification:
-    #     """Returns a new Specification with the negation of self."""
-    #
-    # @abstractmethod
-    # def __rshift__(self: Specification, other: Specification) -> Specification:
-    #     """>> Returns a new Specification that is the result of self -> other
-    #     (implies)"""
-    #
-    # @abstractmethod
-    # def __iand__(self: Specification, other: Specification) -> Specification:
-    #     """self &= other Modifies self with the conjunction with other."""
-    #
-    # @abstractmethod
-    # def __ior__(self: Specification, other: Specification) -> Specification:
-    #     """self |= other Modifies self with the disjunction with other."""
-
     @property
     @abstractmethod
     def is_satisfiable(self: Specification) -> bool:

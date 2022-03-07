@@ -202,15 +202,27 @@ class Typeset(dict[str, AnyCromeType]):
     def adjacent_types(self) -> dict[Boolean, set[Boolean]]:
         return self._adjacent_types
 
-    def extract_inputs_outputs(self) -> tuple[set[AnyCromeType], set[AnyCromeType]]:
+    def extract_inputs_outputs(
+        self, string: bool = False
+    ) -> tuple[set[AnyCromeType], set[AnyCromeType]] | tuple[set[str], set[str]]:
         """Returns a set of variables in the typeset that are not controllable
         and controllable."""
         i = set()
+        i_str: set[str] = set()
         o = set()
+        o_str: set[str] = set()
         if len(self.values()) > 0:
             for t in self.values():
                 if not t.controllable:
-                    i.add(t)
+                    if string:
+                        i_str.add(t.name)
+                    else:
+                        i.add(t)
                 else:
-                    o.add(t)
+                    if string:
+                        o_str.add(t.name)
+                    else:
+                        o.add(t)
+        if string:
+            return i_str, o_str
         return i, o

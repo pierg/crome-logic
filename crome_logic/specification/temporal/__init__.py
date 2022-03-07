@@ -45,7 +45,7 @@ class LTL(Specification):
     def __hash__(self: LTL):
         return hash(str(self))
 
-    def _init_ltl_formula(self, formula: str, typeset: Typeset | None):
+    def _init_ltl_formula(self, formula: str, typeset: Typeset | None = None):
         """Building the LTL formula and tree."""
 
         self._ltl_formula = transform_spot_tree(spot.formula(formula))
@@ -59,7 +59,7 @@ class LTL(Specification):
 
         self._tree: Tree = gen_ltl_tree(spot_f=self.expression)
 
-    def _init_atoms_formula(self, boolean_formula: Bool | None) -> None:
+    def _init_atoms_formula(self, boolean_formula: Bool | None = None) -> None:
         """Building the ATOMS formula and tree."""
         if boolean_formula is None:
             atom_tree = gen_atoms_tree(spot_f=self.expression)
@@ -149,6 +149,26 @@ class LTL(Specification):
 
     def __iand__(self: LTL, other: LTL) -> LTL:
         """self &= other Modifies self with the conjunction with other."""
+        if self.is_valid:
+            self._init_ltl_formula(
+                formula=str(other),
+                typeset=other.typeset,
+            )
+            self._init_atoms_formula(
+                boolean_formula=other.boolean,
+            )
+            return self
+
+        if other.is_valid:
+            self._init_ltl_formula(
+                formula=str(self),
+                typeset=self.typeset,
+            )
+            self._init_atoms_formula(
+                boolean_formula=self.boolean,
+            )
+            return self
+
         self._init_ltl_formula(
             formula=f"({str(self)}) & ({str(other)})",
             typeset=self.typeset + other.typeset,
@@ -160,6 +180,11 @@ class LTL(Specification):
 
     def __ior__(self: LTL, other: LTL) -> LTL:
         """self |= other Modifies self with the disjunction with other."""
+        if self.is_valid or other.is_valid:
+            self._init_ltl_formula(formula=f"TRUE")
+            self._init_atoms_formula()
+            return self
+
         self._init_ltl_formula(
             formula=f"({str(self)}) | ({str(other)})",
             typeset=self.typeset + other.typeset,
@@ -173,6 +198,20 @@ class LTL(Specification):
         """self & other Returns a new LTL with the conjunction with
         other."""
 
+        if self.is_valid:
+            return LTL(
+                formula=str(other),
+                boolean_formula=other.boolean,
+                typeset=other.typeset,
+            )
+
+        if other.is_valid:
+            return LTL(
+                formula=str(self),
+                boolean_formula=self.boolean,
+                typeset=self.typeset,
+            )
+
         boolean_formula = self.boolean & other.boolean
 
         return LTL(
@@ -184,6 +223,10 @@ class LTL(Specification):
     def __or__(self: LTL, other: LTL) -> LTL:
         """self | other Returns a new LTL with the disjunction with
         other."""
+
+        if self.is_valid or other.is_valid:
+            return LTL("TRUE")
+
         boolean_formula = self.boolean | other.boolean
 
         return LTL(
@@ -204,6 +247,13 @@ class LTL(Specification):
     def __rshift__(self: LTL, other: LTL) -> LTL:
         """>> Returns a new LTL that is the result of self -> other
         (implies)"""
+
+        if self.is_valid:
+            return LTL(
+                formula=str(other),
+                boolean_formula=other.boolean,
+                typeset=other.typeset,
+            )
 
         return LTL(
             formula=f"({self.expression}) -> ({other.expression})",

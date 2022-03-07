@@ -35,5 +35,16 @@ def val1() -> None:
     print(ltl.is_valid)
 
 
+def simplify() -> None:
+    phi1 = LTL("TRUE")
+    phi2 = LTL("a")
+    print(phi1 & phi2)
+    print(phi1 | phi2)
+    phi2 &= phi1
+    print(phi2)
+    phi2 |= phi1
+    print(phi2)
+
+
 if __name__ == "__main__":
-    val1()
+    simplify()
