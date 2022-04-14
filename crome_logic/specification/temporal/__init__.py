@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from copy import deepcopy
 from enum import Enum, auto
 
 import spot
@@ -44,6 +45,21 @@ class LTL(Specification):
 
     def __hash__(self: LTL):
         return hash(str(self))
+
+    def __deepcopy__(self: LTL, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        try:
+            for k, v in self.__dict__.items():
+                print(k)
+                if "_ltl_formula" == k:
+                    setattr(result, k, spot(str(self._ltl_formula)))
+                else:
+                    setattr(result, k, deepcopy(v, memo))
+        except Exception:
+            print(k)
+        return result
 
     def _init_ltl_formula(self, formula: str, typeset: Typeset | None = None):
         """Building the LTL formula and tree."""

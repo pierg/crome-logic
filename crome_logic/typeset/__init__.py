@@ -36,7 +36,7 @@ class Typeset(dict[str, AnyCromeType]):
         """Indicates the adjacency relationships for the crometypes in the typeset"""
         self._adjacent_types: dict[Boolean, set[Boolean]] = {}
 
-        if types is not None:
+        if types is not None and len(types) > 0:
             self._add_elements(types)
         else:
             super().__init__()

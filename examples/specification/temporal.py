@@ -1,3 +1,5 @@
+from copy import deepcopy
+
 from crome_logic.specification import Specification
 from crome_logic.specification.temporal import LTL
 
@@ -5,6 +7,7 @@ from crome_logic.specification.temporal import LTL
 def example_1() -> None:
     phi = "! z & G(a & b | G(k & l)) & F(c | !d) & (X(e & f) | !X(g | h)) & (l U p)"
     ltl = LTL(phi)
+    deepcopy(ltl)
     print(ltl.tree)
     print(ltl.boolean.tree)
     cnf = ltl.cnf()
@@ -47,4 +50,4 @@ def simplify() -> None:
 
 
 if __name__ == "__main__":
-    simplify()
+    example_1()
