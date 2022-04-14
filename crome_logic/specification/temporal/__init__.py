@@ -51,13 +51,16 @@ class LTL(Specification):
         result = cls.__new__(cls)
         memo[id(self)] = result
         try:
+            result._init_ltl_formula(str(self._ltl_formula), self._typeset)
+            result._init_atoms_formula(self._boolean)
             for k, v in self.__dict__.items():
-                print(k)
-                if "_ltl_formula" == k:
-                    setattr(result, k, spot(str(self._ltl_formula)))
+                if "_ltl_formula" == k or "_tree" == k or "_boolean" == k:
+                    pass
                 else:
                     setattr(result, k, deepcopy(v, memo))
-        except Exception:
+        except Exception as e:
+            print(k)
+            print(e)
             print(k)
         return result
 

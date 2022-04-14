@@ -66,8 +66,9 @@ class Bool(Specification):
                     setattr(result, k, expr(self.expression))
                 else:
                     setattr(result, k, deepcopy(v, memo))
-        except Exception:
-            print(k)
+        except Exception as e:
+            print(f"Cannot deepcopy {k}")
+            raise e
         return result
 
     def __str__(self):
