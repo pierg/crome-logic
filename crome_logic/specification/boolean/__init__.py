@@ -11,8 +11,8 @@ from crome_logic.specification.boolean.tools import dot_to_spot_string
 from crome_logic.specification.string_logic import and_, or_
 from crome_logic.specification.trees import gen_atoms_tree
 from crome_logic.tools.atomic_propositions import extract_ap
+from crome_logic.typeelement.basic import Boolean
 from crome_logic.typeset import Typeset
-from crome_logic.typesimple.subtype.base.boolean import Boolean
 
 
 class Bool(Specification):
@@ -45,7 +45,7 @@ class Bool(Specification):
     ):
         if typeset is None:
             set_ap_str = extract_ap(formula)
-            set_ap = set(map(lambda x: Boolean(x), set_ap_str))
+            set_ap = set(map(lambda x: Boolean(name=x), set_ap_str))
             self._typeset = Typeset(set_ap)
         else:
             self._typeset = typeset

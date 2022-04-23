@@ -18,8 +18,8 @@ from crome_logic.specification.trees import (
 )
 from crome_logic.tools.atomic_propositions import extract_ap
 from crome_logic.tools.nuxmv import check_satisfiability, check_validity
+from crome_logic.typeelement.basic import Boolean
 from crome_logic.typeset import Typeset
-from crome_logic.typesimple.subtype.base.boolean import Boolean
 
 
 class LTL(Specification):
@@ -71,7 +71,7 @@ class LTL(Specification):
 
         if typeset is None:
             set_ap_str = extract_ap(self.expression)
-            set_ap = set(map(lambda x: Boolean(x), set_ap_str))
+            set_ap = set(map(lambda x: Boolean(name=x), set_ap_str))
             self._typeset = Typeset(set_ap)
         else:
             self._typeset = typeset.get_sub_typeset(str(self.expression))

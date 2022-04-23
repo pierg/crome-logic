@@ -4,9 +4,8 @@ from copy import copy, deepcopy
 from itertools import combinations
 
 from crome_logic.tools.atomic_propositions import extract_ap
-from crome_logic.typesimple import AnyCromeType, CromeType
-from crome_logic.typesimple.subtype.base.boolean import Boolean
-from crome_logic.typesimple.subtype.base.bounded_integer import BoundedInteger
+from crome_logic.typeelement import AnyCromeType, CromeType
+from crome_logic.typeelement.basic import Boolean, BoundedInteger
 
 BASE_CLASS_TYPES = [
     "Boolean",
@@ -28,12 +27,12 @@ class Typeset(dict[str, AnyCromeType]):
     """set of identifier -> CromeType."""
 
     def __init__(self, types: set[AnyCromeType] | None = None):
-        """Indicates the supertypes relationships for each crometypes in the
+        """Indicates the supertypes relationships for each typeelement in the
         typeset."""
         self._super_types: dict[AnyCromeType, set[AnyCromeType]] = {}
-        """Indicates the mutex relationships for the crometypes in the typeset"""
+        """Indicates the mutex relationships for the typeelement in the typeset"""
         self._mutex_types: set[frozenset[Boolean]] = set()
-        """Indicates the adjacency relationships for the crometypes in the typeset"""
+        """Indicates the adjacency relationships for the typeelement in the typeset"""
         self._adjacent_types: dict[Boolean, set[Boolean]] = {}
 
         if types is not None and len(types) > 0:
@@ -95,11 +94,11 @@ class Typeset(dict[str, AnyCromeType]):
             if key in self:
                 if type(value).__name__ != type(self[key]).__name__:
                     print(
-                        f"Trying to add an element with key '{key}' and value of crometypes '{type(value).__name__}'"
+                        f"Trying to add an element with key '{key}' and value of typeelement '{type(value).__name__}'"
                     )
                     print(
                         f"ERROR:\n"
-                        f"There is already en element with key '{key}' and value of crometypes '{type(self[key]).__name__}'"
+                        f"There is already en element with key '{key}' and value of typeelement '{type(self[key]).__name__}'"
                     )
                     raise Exception("Type Mismatch")
             if key not in self:
@@ -129,30 +128,20 @@ class Typeset(dict[str, AnyCromeType]):
             for elem in types:
                 super().__setitem__(elem.name, elem)
 
-        self._update_extensions()
+        self._update_refinements()
         self._update_mutex()
         self._update_adjacency()
 
-    def _update_extensions(self) -> None:
-        """Updates the extension relationships in the typeset"""
+    def _update_refinements(self) -> None:
+        """Updates the refinement relationships in the typeset"""
         if len(self.values()) > 1:
-            for (a, b) in combinations(self.values(), 2):
-                """If they are not base variables"""
-                if (
-                    a.__class__.__name__ in BASE_CLASS_TYPES
-                    or b.__class__.__name__ in BASE_CLASS_TYPES
-                ):
-                    continue
-                if isinstance(a, type(b)):
-                    if a in self._super_types:
-                        self._super_types[a].add(b)
-                    else:
-                        self._super_types[a] = {b}
-                if isinstance(b, type(a)):
-                    if b in self._super_types:
-                        self._super_types[b].add(a)
-                    else:
-                        self._super_types[b] = {a}
+            for element in self.values():
+                for super_type in element.refinement_of:
+                    if super_type in self.keys():
+                        if element in self._super_types.keys():
+                            self._super_types[element].add(self[super_type])
+                        else:
+                            self._super_types[element] = {self[super_type]}
 
     def _update_mutex(self) -> None:
         """Updates the mutually exclusion relationships in the typeset"""

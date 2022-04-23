@@ -22,7 +22,7 @@ class CheckType(Enum):
 
 
 output_folder = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "..", "output")
+    os.path.join(os.path.dirname(__file__), "..", "..", "output")
 )
 nusmvfilename = "nusmvfile.smv"
 output_file = f"{output_folder}/{nusmvfilename}"

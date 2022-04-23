@@ -1,9 +1,9 @@
 from crome_logic.specification import Specification
 from crome_logic.specification.string_logic import and_, f_, g_, implies_, not_, or_, x_
 from crome_logic.specification.temporal import LTL
+from crome_logic.typeelement import CromeType
+from crome_logic.typeelement.basic import Boolean
 from crome_logic.typeset import Typeset
-from crome_logic.typesimple import CromeType
-from crome_logic.typesimple.subtype.base.boolean import Boolean
 
 
 def extract_refinement_rules(
