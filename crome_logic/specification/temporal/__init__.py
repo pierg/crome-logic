@@ -173,23 +173,31 @@ class LTL(Specification):
         """self &= other Modifies self with the conjunction with other."""
         if self.is_valid:
             self._init_ltl_formula(
-                formula=str(other), typeset=other.typeset,
+                formula=str(other),
+                typeset=other.typeset,
             )
-            self._init_atoms_formula(boolean_formula=other.boolean,)
+            self._init_atoms_formula(
+                boolean_formula=other.boolean,
+            )
             return self
 
         if other.is_valid:
             self._init_ltl_formula(
-                formula=str(self), typeset=self.typeset,
+                formula=str(self),
+                typeset=self.typeset,
             )
-            self._init_atoms_formula(boolean_formula=self.boolean,)
+            self._init_atoms_formula(
+                boolean_formula=self.boolean,
+            )
             return self
 
         self._init_ltl_formula(
             formula=f"({str(self)}) & ({str(other)})",
             typeset=self.typeset + other.typeset,
         )
-        self._init_atoms_formula(boolean_formula=self.boolean & other.boolean,)
+        self._init_atoms_formula(
+            boolean_formula=self.boolean & other.boolean,
+        )
         return self
 
     def __ior__(self: LTL, other: LTL) -> LTL:
@@ -203,7 +211,9 @@ class LTL(Specification):
             formula=f"({str(self)}) | ({str(other)})",
             typeset=self.typeset + other.typeset,
         )
-        self._init_atoms_formula(boolean_formula=self.boolean | other.boolean,)
+        self._init_atoms_formula(
+            boolean_formula=self.boolean | other.boolean,
+        )
         return self
 
     def __and__(self: LTL, other: LTL) -> LTL:
@@ -219,7 +229,9 @@ class LTL(Specification):
 
         if other.is_valid:
             return LTL(
-                formula=str(self), boolean_formula=self.boolean, typeset=self.typeset,
+                formula=str(self),
+                boolean_formula=self.boolean,
+                typeset=self.typeset,
             )
 
         boolean_formula = self.boolean & other.boolean

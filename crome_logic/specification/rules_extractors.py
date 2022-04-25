@@ -7,7 +7,8 @@ from crome_logic.typeset import Typeset
 
 
 def extract_refinement_rules(
-    typeset: Typeset, output_list: bool = False,
+    typeset: Typeset,
+    output_list: bool = False,
 ) -> LTL | tuple[list[str], Typeset] | None:
     """Extract Refinement rules from the Formula."""
 
@@ -17,7 +18,14 @@ def extract_refinement_rules(
     for key_type, set_super_types in typeset.super_types.items():
         if isinstance(key_type, Boolean):
             for super_type in set_super_types:
-                rules_str.append(g_(implies_(key_type.name, super_type.name,),),)
+                rules_str.append(
+                    g_(
+                        implies_(
+                            key_type.name,
+                            super_type.name,
+                        ),
+                    ),
+                )
                 rules_typeset += Typeset({key_type})
                 rules_typeset += Typeset(set_super_types)
 
@@ -35,7 +43,8 @@ def extract_refinement_rules(
 
 
 def extract_mutex_rules(
-    typeset: Typeset, output_list: bool = False,
+    typeset: Typeset,
+    output_list: bool = False,
 ) -> LTL | tuple[list[str], Typeset] | None:
     """Extract Mutex rules from the Formula."""
 
@@ -51,7 +60,9 @@ def extract_mutex_rules(
                 for elem in neg_group:
                     and_elements.append(not_(elem.name))
                 or_elements.append(and_(and_elements, brackets=True))
-            rules_str.append(g_(or_(or_elements, brackets=False)),)
+            rules_str.append(
+                g_(or_(or_elements, brackets=False)),
+            )
             rules_typeset += Typeset(set(mutex_group))
 
     if len(rules_str) == 0:
@@ -68,7 +79,8 @@ def extract_mutex_rules(
 
 
 def extract_adjacency_rules(
-    typeset: Typeset, output_list: bool = False,
+    typeset: Typeset,
+    output_list: bool = False,
 ) -> LTL | tuple[list[str], Typeset] | None:
     """Extract Adjacency rules from the Formula."""
 
@@ -81,7 +93,12 @@ def extract_adjacency_rules(
             rules_str.append(
                 g_(
                     implies_(
-                        key_type.name, x_(or_([e.name for e in set_adjacent_types],),),
+                        key_type.name,
+                        x_(
+                            or_(
+                                [e.name for e in set_adjacent_types],
+                            ),
+                        ),
                     ),
                 ),
             )
@@ -102,7 +119,8 @@ def extract_adjacency_rules(
 
 
 def extract_liveness_rules(
-    typeset: Typeset, output_list: bool = False,
+    typeset: Typeset,
+    output_list: bool = False,
 ) -> LTL | tuple[list[str], Typeset] | None:
     """Extract Liveness rules from the Formula."""
 
@@ -131,7 +149,8 @@ def extract_liveness_rules(
 
 
 def context_active_rules(
-    typeset: Typeset, output_list: bool = False,
+    typeset: Typeset,
+    output_list: bool = False,
 ) -> LTL | tuple[list[str], Typeset] | None:
     """Extract Liveness rules from the Formula."""
 
