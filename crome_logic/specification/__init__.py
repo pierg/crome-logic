@@ -37,9 +37,6 @@ class Specification(ABC):
         self._formula = formula
         self._typeset = typeset
 
-    def __str__(self: Specification):
-        return self.represent()
-
     @property
     def typeset(self) -> Typeset:
         return self._typeset

@@ -46,6 +46,9 @@ class LTL(Specification):
     def __hash__(self: LTL):
         return hash(str(self))
 
+    def __str__(self):
+        return str(self._ltl_formula)
+
     def __deepcopy__(self: LTL, memo):
         cls = self.__class__
         result = cls.__new__(cls)
@@ -170,31 +173,23 @@ class LTL(Specification):
         """self &= other Modifies self with the conjunction with other."""
         if self.is_valid:
             self._init_ltl_formula(
-                formula=str(other),
-                typeset=other.typeset,
+                formula=str(other), typeset=other.typeset,
             )
-            self._init_atoms_formula(
-                boolean_formula=other.boolean,
-            )
+            self._init_atoms_formula(boolean_formula=other.boolean,)
             return self
 
         if other.is_valid:
             self._init_ltl_formula(
-                formula=str(self),
-                typeset=self.typeset,
+                formula=str(self), typeset=self.typeset,
             )
-            self._init_atoms_formula(
-                boolean_formula=self.boolean,
-            )
+            self._init_atoms_formula(boolean_formula=self.boolean,)
             return self
 
         self._init_ltl_formula(
             formula=f"({str(self)}) & ({str(other)})",
             typeset=self.typeset + other.typeset,
         )
-        self._init_atoms_formula(
-            boolean_formula=self.boolean & other.boolean,
-        )
+        self._init_atoms_formula(boolean_formula=self.boolean & other.boolean,)
         return self
 
     def __ior__(self: LTL, other: LTL) -> LTL:
@@ -208,9 +203,7 @@ class LTL(Specification):
             formula=f"({str(self)}) | ({str(other)})",
             typeset=self.typeset + other.typeset,
         )
-        self._init_atoms_formula(
-            boolean_formula=self.boolean | other.boolean,
-        )
+        self._init_atoms_formula(boolean_formula=self.boolean | other.boolean,)
         return self
 
     def __and__(self: LTL, other: LTL) -> LTL:
@@ -226,9 +219,7 @@ class LTL(Specification):
 
         if other.is_valid:
             return LTL(
-                formula=str(self),
-                boolean_formula=self.boolean,
-                typeset=self.typeset,
+                formula=str(self), boolean_formula=self.boolean, typeset=self.typeset,
             )
 
         boolean_formula = self.boolean & other.boolean
@@ -282,7 +273,7 @@ class LTL(Specification):
 
     @property
     def is_satisfiable(self: LTL) -> bool:
-        from crome_logic.specification.temporal.rules_extractors import (
+        from crome_logic.specification.rules_extractors import (
             extract_adjacency_rules,
             extract_mutex_rules,
             extract_refinement_rules,
@@ -306,9 +297,7 @@ class LTL(Specification):
 
     @property
     def is_valid(self: LTL) -> bool:
-        from crome_logic.specification.temporal.rules_extractors import (
-            extract_refinement_rules,
-        )
+        from crome_logic.specification.rules_extractors import extract_refinement_rules
 
         ref_rules = extract_refinement_rules(self.typeset)
 

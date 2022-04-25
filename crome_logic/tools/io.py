@@ -2,7 +2,9 @@
 import os
 from pathlib import Path
 
-from crome_cgg.shared.paths import output_folder
+output_folder: Path = Path(os.path.dirname(__file__)).parent.parent / "output"
+
+persistence_path: Path = output_folder / "persistence"
 
 
 def save_to_file(
@@ -12,7 +14,7 @@ def save_to_file(
     absolute_folder_path: Path | None = None,
 ) -> Path:
     if Path(file_name).suffix == "":
-        file_name = Path(file_name) / ".txt"
+        file_name = Path(f"{file_name}.txt")
 
     if folder_name is not None and absolute_folder_path is not None:
         raise AttributeError

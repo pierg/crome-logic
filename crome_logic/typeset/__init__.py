@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 from copy import copy, deepcopy
-from itertools import combinations
 
 from crome_logic.tools.atomic_propositions import extract_ap
-from crome_logic.typeelement import AnyCromeType, CromeType
+from crome_logic.typeelement import AnyCromeType, CromeType, TypeKind
 from crome_logic.typeelement.basic import Boolean, BoundedInteger
 
 BASE_CLASS_TYPES = [
@@ -215,3 +214,11 @@ class Typeset(dict[str, AnyCromeType]):
         if string:
             return i_str, o_str
         return i, o
+
+    def extract_viewpoint(self):
+        for v in self.values():
+            if v.kind == TypeKind.LOCATION:
+                return "location"
+            elif v.kind == TypeKind.ACTION:
+                return "action"
+        return "other"

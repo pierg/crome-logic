@@ -2,13 +2,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from crome_logic.typeelement import CromeType
+from crome_logic.typeelement import TypeKind
 from crome_logic.typeelement.basic import Boolean, BoundedInteger
 
 
 @dataclass(kw_only=True)
 class BooleanAction(Boolean):
-    kind: CromeType.Kind = field(init=False, default=CromeType.Kind.ACTION)
+    kind: TypeKind = field(init=False, default=TypeKind.ACTION)
 
     def __hash__(self):
         return hash(self.name + type(self).__name__)
@@ -16,7 +16,7 @@ class BooleanAction(Boolean):
 
 @dataclass(kw_only=True)
 class BooleanLocation(Boolean):
-    kind: CromeType.Kind = field(init=False, default=CromeType.Kind.LOCATION)
+    kind: TypeKind = field(init=False, default=TypeKind.LOCATION)
 
     def __hash__(self):
         return hash(self.name + type(self).__name__)
@@ -24,7 +24,7 @@ class BooleanLocation(Boolean):
 
 @dataclass(kw_only=True)
 class BooleanSensor(Boolean):
-    kind: CromeType.Kind = field(init=False, default=CromeType.Kind.CONTEXT)
+    kind: TypeKind = field(init=False, default=TypeKind.CONTEXT)
 
     def __hash__(self):
         return hash(self.name + type(self).__name__)
@@ -32,7 +32,7 @@ class BooleanSensor(Boolean):
 
 @dataclass(kw_only=True)
 class BooleanContext(Boolean):
-    kind: CromeType.Kind = field(init=False, default=CromeType.Kind.CONTEXT)
+    kind: TypeKind = field(init=False, default=TypeKind.CONTEXT)
 
     def __hash__(self):
         return hash(self.name + type(self).__name__)
@@ -41,7 +41,7 @@ class BooleanContext(Boolean):
 @dataclass(kw_only=True)
 class Active(Boolean):
     name: str = field(init=False, default="active")
-    kind = CromeType.Kind.ACTIVE
+    kind = TypeKind.ACTIVE
 
     def __hash__(self):
         return hash(self.name + type(self).__name__)
@@ -49,7 +49,7 @@ class Active(Boolean):
 
 @dataclass(kw_only=True)
 class IntegerAction(BoundedInteger):
-    kind: CromeType.Kind = field(init=False, default=CromeType.Kind.ACTION)
+    kind: TypeKind = field(init=False, default=TypeKind.ACTION)
 
     def __hash__(self):
         return hash(self.name + type(self).__name__)
@@ -57,7 +57,7 @@ class IntegerAction(BoundedInteger):
 
 @dataclass(kw_only=True)
 class IntegerSensor(BoundedInteger):
-    kind: CromeType.Kind = field(init=False, default=CromeType.Kind.SENSOR)
+    kind: TypeKind = field(init=False, default=TypeKind.SENSOR)
 
     def __hash__(self):
         return hash(self.name + type(self).__name__)

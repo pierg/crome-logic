@@ -22,6 +22,9 @@ class Bool(Specification):
         typeset: Typeset | None = None,
         tree: None | Tree = None,
     ):
+        self._init_formula = formula
+        self._init_typeset = typeset
+        self._init_tree = tree
 
         if isinstance(formula, str):
             self._init__boolean_formula(formula, typeset, tree)
@@ -53,22 +56,15 @@ class Bool(Specification):
             self._tree = gen_atoms_tree(formula)
         else:
             self._tree = tree
+        formula = formula.replace("TRUE", "1")
+        formula = formula.replace("FALSE", "0")
         formula = formula.replace("!", "~")
         self._pyeda_expression = expr(formula)
 
     def __deepcopy__(self: Bool, memo):
         cls = self.__class__
         result = cls.__new__(cls)
-        memo[id(self)] = result
-        try:
-            for k, v in self.__dict__.items():
-                if "_Bool_expression" in k:
-                    setattr(result, k, expr(self.expression))
-                else:
-                    setattr(result, k, deepcopy(v, memo))
-        except Exception as e:
-            print(f"Cannot deepcopy {k}")
-            raise e
+        result.__init__(self._init_formula, self._init_typeset, self._init_tree)
         return result
 
     def __str__(self):
@@ -206,8 +202,24 @@ class Bool(Specification):
 
     @property
     def is_satisfiable(self: Bool) -> bool:
-        pass
+        if str(self.expression) == "1":
+            return True
+        return len(self.expression.satisfy_one()) > 0
 
     @property
     def is_valid(self: Bool) -> bool:
-        pass
+        if str(self.expression) == "1":
+            return True
+        else:
+            return False
+
+
+if __name__ == "__main__":
+    # a = expr("a | ~a")
+    b = Bool("1")
+    print(b)
+    print(b.expression.satisfy_one())
+
+    a = expr("a")
+    print(a)
+    print(a.satisfy_one())

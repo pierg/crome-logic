@@ -5,24 +5,25 @@ from enum import Enum, auto
 from typing import TypeVar
 
 
+class TypeKind(Enum):
+    """Kinds of CromeType."""
+
+    UNKNOWN = auto()
+    SENSOR = auto()
+    LOCATION = auto()
+    ACTION = auto()
+    ACTIVE = auto()
+    CONTEXT = auto()
+    SENSOR_LOCATION = auto()
+    SENSOR_ACTION = auto()
+
+
 @dataclass(kw_only=True)
 class CromeType:
     """Base class fo the types of CROME."""
 
-    class Kind(Enum):
-        """Kinds of CTypes."""
-
-        UNKNOWN = auto()
-        SENSOR = auto()
-        LOCATION = auto()
-        ACTION = auto()
-        ACTIVE = auto()
-        CONTEXT = auto()
-        SENSOR_LOCATION = auto()
-        SENSOR_ACTION = auto()
-
     name: str
-    kind: Kind = Kind.UNKNOWN
+    kind: TypeKind = TypeKind.UNKNOWN
     refinement_of: set[str] = field(init=False, default_factory=set)
 
     def __str__(self):
@@ -45,9 +46,9 @@ class CromeType:
     @property
     def controllable(self) -> bool:
         if (
-            self.kind == CromeType.Kind.SENSOR
-            or self.kind == CromeType.Kind.CONTEXT
-            or self.kind == CromeType.Kind.ACTIVE
+            self.kind == TypeKind.SENSOR
+            or self.kind == TypeKind.CONTEXT
+            or self.kind == TypeKind.ACTIVE
         ):
             return False
         return True
