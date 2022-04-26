@@ -53,6 +53,7 @@ repos:
         name: pyupgrade
         entry: pyupgrade
         language: python
+        exclude: ^docs/
       - id: autoflake
         name: autoflake
         entry: autoflake
