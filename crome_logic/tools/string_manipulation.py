@@ -19,9 +19,8 @@ def add_spaces_spot_ltl(formula: str) -> str:
 
 def get_name_and_id(value: str | None = None) -> tuple[str, str]:
     if value is None:
-        """5 character ID generated from a random string"""
+        """5 character ID generated from a random string."""
         value = "".join(random.choices(string.ascii_uppercase + string.digits, k=10))
-
     """5 character ID generated from the name"""
     id = hashlib.sha1(value.encode("UTF-8")).hexdigest()[:5]
     return value, id

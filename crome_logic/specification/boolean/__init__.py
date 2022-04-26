@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-
 from pyeda.boolalg.expr import AndOp, Expression, OrOp, expr
 from pyeda.boolalg.minimization import espresso_exprs
 from treelib import Tree

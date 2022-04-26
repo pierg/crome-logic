@@ -1,11 +1,10 @@
 MODULE main
 VAR
-	greet: boolean;
-	r1: boolean;
-	register: boolean;
-	r4: boolean;
-	r3: boolean;
 	r2: boolean;
-	person: boolean;
+	sens: boolean;
+	c1: boolean;
+	r1: boolean;
+	a1: boolean;
+	b1: boolean;
 
-LTLSPEC !(G F (r1 & F r2) & (!r2 U r1) & G (r2 -> X (!r2 U r1)) & G (r1 -> X (!r1 U r2)) & G F (r3 & F r4) & (!r4 U r3) & G (r4 -> X (!r4 U r3)) & G (r3 -> X (!r3 U r4)) & G (greet <-> person) & G (person <-> X register) & G ((!r1 & !r2 & r3 & !r4) | (r1 & !r2 & !r3 & !r4) | (!r1 & r2 & !r3 & !r4) | (!r1 & !r2 & !r3 & r4)) & G (r2 -> X r2) & G (r3 -> X r3) & G (r4 -> X r4) & G (r1 -> X r1))
+LTLSPEC !((G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1))))) & (((G F sens -> G F (r1 & r2)) & ((G F sens & (G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1)))) | !((G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1)))))))) | !(G F sens & (G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1))))))) & ((G F sens & (G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1))))) & ((G F sens & (G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1)))) | !((G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1)))))))) | !((G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1))))) & (((G F sens -> G F (r1 & r2)) & ((G F sens & (G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1)))) | !((G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1)))))))) | !(G F sens & (G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1))))))))))

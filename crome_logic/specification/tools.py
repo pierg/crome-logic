@@ -1,4 +1,9 @@
 def is_true_string(expression: str) -> bool:
+    """DOCTEST.
+
+    >>> is_true_string("1")
+    True
+    """
     if expression == "1":
         return True
     if expression == "TRUE":

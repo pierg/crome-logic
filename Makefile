@@ -3,17 +3,26 @@ SHELL:=/usr/bin/env bash
 .PHONY: lint
 lint:
 	poetry run doc8 -q docs
-	poetry run black crome_logic tests/**/*.py
+	poetry run black crome_logic examples
 	poetry run pyupgrade
-	poetry run pycln crome_logic tests/**/*.py --all
+	poetry run pycln crome_logic --all
 	poetry run autoflake .
 	poetry run isort .
-	poetry run autopep8 --in-place -r crome_logic tests/**/*.py
-	poetry run docformatter --in-place -r crome_logic tests/**/*.py
+	poetry run autopep8 --in-place -r crome_logic examples
+	poetry run docformatter --in-place -r crome_logic examples
 	poetry run yapf -ir .
-# 	poetry run mypy crome_logic tests/**/*.py
-# 	poetry run bandit -r crome_logic
+
+.PHONY: pre-commit
+pre-commit:
+	pre-commit run --all-files
+
+.PHONY: flake
+flake:
 	poetry run flake8 crome_logic
+
+.PHONY: mypy
+mypy:
+	poetry run mypy .
 
 .PHONY: unit
 unit:

@@ -66,7 +66,9 @@ class Typeset(dict[str, AnyCromeType]):
 
     def __add__(self, element: Typeset | AnyCromeType) -> Typeset:
         """Returns self + element.
-        WARNING: violates Liskov Substitution Principle"""
+
+        WARNING: violates Liskov Substitution Principle
+        """
         if isinstance(element, CromeType):
             element = Typeset({element})
         """Shallow copy"""
@@ -132,7 +134,7 @@ class Typeset(dict[str, AnyCromeType]):
         self._update_adjacency()
 
     def _update_refinements(self) -> None:
-        """Updates the refinement relationships in the typeset"""
+        """Updates the refinement relationships in the typeset."""
         if len(self.values()) > 1:
             for element in self.values():
                 for super_type in element.refinement_of:
@@ -143,7 +145,7 @@ class Typeset(dict[str, AnyCromeType]):
                             self._super_types[element] = {self[super_type]}
 
     def _update_mutex(self) -> None:
-        """Updates the mutually exclusion relationships in the typeset"""
+        """Updates the mutually exclusion relationships in the typeset."""
         if len(self.values()) > 1:
             self._mutex_types = set()
             mutex_vars_dict: dict[str, set[Boolean]] = {}
@@ -159,7 +161,7 @@ class Typeset(dict[str, AnyCromeType]):
                 self._mutex_types.add(frozenset(vars))
 
     def _update_adjacency(self) -> None:
-        """Updates the adjacency relationships in the typeset"""
+        """Updates the adjacency relationships in the typeset."""
         if len(self.values()) > 1:
             self._adjacent_types = {}
             for variable in self.values():

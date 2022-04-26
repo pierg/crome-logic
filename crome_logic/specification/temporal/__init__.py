@@ -217,8 +217,7 @@ class LTL(Specification):
         return self
 
     def __and__(self: LTL, other: LTL) -> LTL:
-        """self & other Returns a new LTL with the conjunction with
-        other."""
+        """self & other Returns a new LTL with the conjunction with other."""
 
         if self.is_valid:
             return LTL(
@@ -243,8 +242,7 @@ class LTL(Specification):
         )
 
     def __or__(self: LTL, other: LTL) -> LTL:
-        """self | other Returns a new LTL with the disjunction with
-        other."""
+        """self | other Returns a new LTL with the disjunction with other."""
 
         if self.is_valid or other.is_valid:
             return LTL("TRUE")
@@ -347,12 +345,11 @@ class LTL(Specification):
 
         True if self is an abstraction of other
         """
-
         """Check if (other -> self) is valid"""
         return (other >> self).is_valid
 
     def __eq__(self, other: object):
-        """Check if self == other"""
+        """Check if self == other."""
         if not isinstance(other, LTL):
             return NotImplemented
         if str(self) == str(other):
@@ -364,7 +361,7 @@ class LTL(Specification):
             return self.__le__(other) and self.__ge__(other)
 
     def __ne__(self, other: object):
-        """Check if self != other"""
+        """Check if self != other."""
         if not isinstance(other, LTL):
             return NotImplemented
         return not self.__eq__(other)

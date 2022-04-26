@@ -22,7 +22,6 @@ class Visit(CoreMovement):
         """F(l1), F(l2), ...,F(ln)"""
         for l in self.locations:
             f.append(Logic.f_(l))
-
         """F(l1) & F(l2) & ... & F(ln)"""
         new_formula = Logic.and_(f)
         self.formula = new_formula
@@ -40,11 +39,9 @@ class OrderedVisit(CoreMovement):
         n = len(self.locations)
 
         f = []
-
         """F(l1), F(l2), ...,F(ln)"""
         for l in self.locations:
             f.append(Logic.f_(l))
-
         """F(l1) & F(l2) & ... & F(ln)"""
         f1 = Logic.and_(f)
 
@@ -71,11 +68,9 @@ class StrictOrderedVisit(CoreMovement):
         n = len(self.locations)
 
         f = []
-
         """F(l1), F(l2), ...,F(ln)"""
         for l in self.locations:
             f.append(Logic.f_(l))
-
         """F(l1) & F(l2) & ... & F(ln)"""
         f1 = Logic.and_(f)
 
@@ -137,7 +132,6 @@ class OrderedPatrolling(CoreMovement):
         if len(self.locations) == 1:
             self.formula = Logic.g_(f1)
             return
-
         """GF(l1 & F(l2 & ... F(ln))))"""
         for l in lor[1:]:
             f2 = Logic.and_([l, f1])
@@ -194,7 +188,6 @@ class StrictOrderedPatrolling(CoreMovement):
         if len(self.locations) == 1:
             self.formula = Logic.g_(f1)
             return
-
         """GF(l1 & F(l2 & ... F(ln))))"""
         for l in lor[1:]:
             f2 = Logic.and_([l, f1])
