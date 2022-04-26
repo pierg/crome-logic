@@ -62,7 +62,7 @@ class Bool(Specification):
     def __deepcopy__(self: Bool, memo):
         cls = self.__class__
         result = cls.__new__(cls)
-        result.__init__(self._init_formula, self._init_typeset, self._init_tree)
+        result.__init__(self._init_formula, self._init_typeset, self._init_tree)  # type: ignore
         return result
 
     def __str__(self):
