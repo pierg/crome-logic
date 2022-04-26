@@ -11,11 +11,12 @@ dependencies:
   - pre-commit
   - matplotlib
   - poetry
+  - aenum
+  - treelib
+  - docker-py
+  - dill
+  - flask
   - pip
   - pip:
-      - pyeda
-      - aenum
-      - treelib
-      - docker
-      - bloom-filter
-      - dill
+    - pyeda
+    - bloom-filter

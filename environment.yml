@@ -12,11 +12,12 @@ dependencies:
   - matplotlib
   - poetry
   - gcc
+  - aenum
+  - treelib
+  - docker-py
+  - dill
+  - flask
   - pip
   - pip:
-      - pyeda
-      - aenum
-      - treelib
-      - docker
-      - bloom-filter
-      - dill
+    - pyeda
+    - bloom-filter
