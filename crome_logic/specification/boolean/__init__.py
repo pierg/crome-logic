@@ -66,7 +66,7 @@ class Bool(Specification):
         return result
 
     def __str__(self):
-        formula = str(self._pyeda_expression)
+        formula = self.represent()
         formula = formula.replace("~", "!")
         return formula
 
