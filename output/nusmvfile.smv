@@ -1,10 +1,5 @@
 MODULE main
 VAR
-	r2: boolean;
-	sens: boolean;
-	c1: boolean;
 	r1: boolean;
-	a1: boolean;
-	b1: boolean;
 
-LTLSPEC !((G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1))))) & (((G F sens -> G F (r1 & r2)) & ((G F sens & (G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1)))) | !((G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1)))))))) | !(G F sens & (G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1))))))) & ((G F sens & (G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1))))) & ((G F sens & (G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1)))) | !((G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1)))))))) | !((G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1))))) & (((G F sens -> G F (r1 & r2)) & ((G F sens & (G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1)))) | !((G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1)))))))) | !(G F sens & (G F sens -> G F (r1 & r2)) & ((G F sens & G F a1) | !((G F sens -> G F (r1 & r2)) & (G F a1 -> G (a1 <-> (b1 | c1))))))))))
+LTLSPEC G F r1

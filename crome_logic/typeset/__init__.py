@@ -224,3 +224,4 @@ class Typeset(dict[str, AnyCromeType]):
             elif v.kind == TypeKind.ACTION:
                 return "action"
         return "other"
+

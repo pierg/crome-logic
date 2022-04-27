@@ -28,11 +28,11 @@ class LTL(Specification):
         BOOLEAN = auto()
 
     def __init__(
-        self,
-        formula: str,
-        typeset: Typeset | None = None,
-        boolean_formula: Bool | None = None,
-        kind: LTL.Kind = Specification.Kind.UNDEFINED,
+            self,
+            formula: str,
+            typeset: Typeset | None = None,
+            boolean_formula: Bool | None = None,
+            kind: LTL.Kind = Specification.Kind.UNDEFINED,
     ):
         """We can build an LTL from scratch (str) or from an existing Bool."""
 
@@ -128,7 +128,7 @@ class LTL(Specification):
         return dnf_list
 
     def represent(
-        self, output_type: LTL.OutputStr = Specification.OutputStr.DEFAULT
+            self, output_type: LTL.OutputStr = Specification.OutputStr.DEFAULT
     ) -> str:
         if output_type == Specification.OutputStr.DEFAULT:
             return str(self.expression)
@@ -365,3 +365,24 @@ class LTL(Specification):
         if not isinstance(other, LTL):
             return NotImplemented
         return not self.__eq__(other)
+
+    def __getstate__(self):
+        state = self.__dict__.copy()
+        del state['_tree']
+        state['_ltl_formula'] = str(self._ltl_formula)
+        state['_boolean'] = str(self._boolean)
+        state['_boolean_typeset'] = self._boolean.typeset
+
+        return state
+
+    def __setstate__(self, state):
+        _ltl_formula = state["_ltl_formula"]
+        _boolean = state["_boolean"]
+        _boolean_typeset = state["_boolean_typeset"]
+        del state['_ltl_formula']
+        del state['_boolean']
+        del state['_boolean_typeset']
+        self.__dict__.update(state)
+        self._init_ltl_formula(_ltl_formula, state["_typeset"])
+        self._init_atoms_formula(Bool(formula=_boolean, typeset=_boolean_typeset))
+
