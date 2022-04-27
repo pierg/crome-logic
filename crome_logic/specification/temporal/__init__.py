@@ -6,6 +6,7 @@ from enum import Enum, auto
 import spot
 from treelib import Tree
 
+from crome_logic.patterns import Pattern
 from crome_logic.specification import Specification
 from crome_logic.specification.boolean import Bool
 from crome_logic.specification.string_logic import and_, or_
@@ -29,12 +30,15 @@ class LTL(Specification):
 
     def __init__(
             self,
-            formula: str,
+            formula: str | Pattern,
             typeset: Typeset | None = None,
             boolean_formula: Bool | None = None,
             kind: LTL.Kind = Specification.Kind.UNDEFINED,
     ):
         """We can build an LTL from scratch (str) or from an existing Bool."""
+
+        if isinstance(formula, Pattern):
+            formula = str(formula)
 
         self._kind = kind
 
