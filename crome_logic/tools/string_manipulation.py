@@ -34,3 +34,11 @@ def strix_syntax_fix(text: str) -> str:
     except Exception as e:
         raise e
     return res
+
+
+def pyeda_syntax_fix(text: str) -> str:
+    return text.replace("TRUE", "1").replace("FALSE", "0").replace("!", "~")
+
+
+def spot_syntax_fix(text: str) -> str:
+    return text.replace("~", "!")

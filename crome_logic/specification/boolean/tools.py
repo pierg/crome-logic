@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 import pygraphviz as pgv
 
 from crome_logic.specification.string_logic import and_, implies_, not_, or_
+from crome_logic.tools.string_manipulation import spot_syntax_fix
 
 if TYPE_CHECKING:
     from pygraphviz.agraph import Node
@@ -52,7 +53,7 @@ def dot_to_spot_string(dot_format_string: str) -> str:
     # print(operation_graph)
 
     spot_str = convert_dict_to_spot_string(operation_graph)
-    spot_str = spot_str.replace("~", "!")
+    spot_str = spot_syntax_fix(spot_str)
     return spot_str
 
 

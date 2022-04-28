@@ -28,7 +28,7 @@ def gen_ltl_tree(spot_f, tree: Tree | None = None, parent=None) -> Tree:
 
 
 def gen_atoms_tree(
-    spot_f: spot.formula | str, tree: Tree | None = None, parent=None
+    spot_f: spot.formula | str, tree: Tree | None = None, parent=None, atoms_dictionary: dict[str, str] | None = None
 ) -> Tree:
     if isinstance(spot_f, str):
         spot_f = spot.formula(spot_f)
@@ -45,6 +45,9 @@ def gen_atoms_tree(
             hash_ = f"a{hashlib.sha1(ltl_string.encode('utf-8')).hexdigest()}"[0:5]
 
     tag = spot_f.kindstr() if hash_ == "" else hash_
+    if atoms_dictionary is not None:
+        if tag in atoms_dictionary.keys():
+            ltl_string = atoms_dictionary[tag]
     node = tree.create_node(
         tag=tag,
         parent=parent,
@@ -64,7 +67,7 @@ def gen_atoms_tree(
         "ff",
     ]:
         for subformula in spot_f:
-            gen_atoms_tree(spot_f=subformula, tree=tree, parent=node.identifier)
+            gen_atoms_tree(spot_f=subformula, tree=tree, parent=node.identifier, atoms_dictionary=atoms_dictionary)
 
     return tree
 
