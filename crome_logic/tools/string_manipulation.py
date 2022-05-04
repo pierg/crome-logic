@@ -3,6 +3,8 @@ import random
 import re
 import string
 
+from crome_logic.specification.trees import boolean_tree_to_formula, gen_atoms_tree
+
 match_LTL_no_spaces = r"((?<=[G|F|X])(?=[^\s]))|((?<=[U])(?=[a-z]))|(?=[U])+(?<=[a-z])"
 
 
@@ -37,6 +39,9 @@ def strix_syntax_fix(text: str) -> str:
 
 
 def pyeda_syntax_fix(text: str) -> str:
+    if "->" in text:
+        atom_tree = gen_atoms_tree(text)
+        text = boolean_tree_to_formula(atom_tree)
     return text.replace("TRUE", "1").replace("FALSE", "0").replace("!", "~")
 
 

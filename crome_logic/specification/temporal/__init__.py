@@ -169,9 +169,10 @@ class LTL(Specification):
         if other.is_valid:
             return self
 
-        self.input_formula = f"({str(self)}) & ({str(other)})"
+        init_formula = f"({str(self)}) & ({str(other)})"
         typeset = self.typeset + other.typeset
         boolean = self.boolean & other.boolean
+        object.__setattr__(self, "_init_formula", init_formula)
         object.__setattr__(self, "_typeset", typeset)
         object.__setattr__(self, "_boolean", boolean)
 
@@ -184,12 +185,13 @@ class LTL(Specification):
         if not (isinstance(self, LTL) and isinstance(other, LTL)):
             raise AttributeError
         if self.is_valid or other.is_valid:
-            self.input_formula = f"TRUE"
+            init_formula = f"TRUE"
         else:
-            self.input_formula = f"({str(self)}) | ({str(other)})"
+            init_formula = f"({str(self)}) | ({str(other)})"
 
         typeset = self.typeset + other.typeset
         boolean = self.boolean | other.boolean
+        object.__setattr__(self, "_init_formula", init_formula)
         object.__setattr__(self, "_typeset", typeset)
         object.__setattr__(self, "_boolean", boolean)
 
