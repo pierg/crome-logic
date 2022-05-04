@@ -26,6 +26,8 @@ class CromeType:
     kind: TypeKind = TypeKind.UNKNOWN
     refinement_of: set[str] = field(init=False, default_factory=set)
 
+    controllable: bool = field(init=False, default=False)
+
     def __str__(self):
         return self.name
 

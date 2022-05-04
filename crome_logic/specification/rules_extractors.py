@@ -1,8 +1,8 @@
 from crome_logic.specification import Specification
 from crome_logic.specification.string_logic import and_, f_, g_, implies_, not_, or_, x_
 from crome_logic.specification.temporal import LTL
-from crome_logic.typeelement import TypeKind
-from crome_logic.typeelement.basic import Boolean
+from crome_logic.typelement import TypeKind
+from crome_logic.typelement.basic import Boolean
 from crome_logic.typeset import Typeset
 
 
@@ -36,9 +36,9 @@ def extract_refinement_rules(
         return rules_str, rules_typeset
 
     return LTL(
-        formula=and_(rules_str, brackets=True),
-        typeset=rules_typeset,
-        kind=Specification.Kind.Rule.REFINEMENT,
+        _init_formula=and_(rules_str, brackets=True),
+        _typeset=rules_typeset,
+        _kind=Specification.Kind.Rule.REFINEMENT,
     )
 
 
@@ -72,9 +72,9 @@ def extract_mutex_rules(
         return rules_str, rules_typeset
 
     return LTL(
-        formula=and_(rules_str, brackets=True),
-        typeset=rules_typeset,
-        kind=Specification.Kind.Rule.MUTEX,
+        _init_formula=and_(rules_str, brackets=True),
+        _typeset=rules_typeset,
+        _kind=Specification.Kind.Rule.MUTEX,
     )
 
 
@@ -112,9 +112,9 @@ def extract_adjacency_rules(
         return rules_str, rules_typeset
 
     return LTL(
-        formula=and_(rules_str, brackets=True),
-        typeset=rules_typeset,
-        kind=Specification.Kind.Rule.ADJACENCY,
+        _init_formula=and_(rules_str, brackets=True),
+        _typeset=rules_typeset,
+        _kind=Specification.Kind.Rule.ADJACENCY,
     )
 
 
@@ -142,9 +142,9 @@ def extract_liveness_rules(
         return rules_str, rules_typeset
 
     return LTL(
-        formula=and_(rules_str, brackets=True),
-        typeset=rules_typeset,
-        kind=Specification.Kind.Rule.LIVENESS,
+        _init_formula=and_(rules_str, brackets=True),
+        _typeset=rules_typeset,
+        _kind=Specification.Kind.Rule.LIVENESS,
     )
 
 
@@ -176,7 +176,7 @@ def context_active_rules(
         return rules_str, rules_typeset
 
     return LTL(
-        formula=and_(rules_str, brackets=True),
-        typeset=rules_typeset,
-        kind=Specification.Kind.Rule.LIVENESS,
+        _init_formula=and_(rules_str, brackets=True),
+        _typeset=rules_typeset,
+        _kind=Specification.Kind.Rule.LIVENESS,
     )

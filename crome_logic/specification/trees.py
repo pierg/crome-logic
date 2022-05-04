@@ -28,7 +28,10 @@ def gen_ltl_tree(spot_f, tree: Tree | None = None, parent=None) -> Tree:
 
 
 def gen_atoms_tree(
-    spot_f: spot.formula | str, tree: Tree | None = None, parent=None, atoms_dictionary: dict[str, str] | None = None
+    spot_f: spot.formula | str,
+    tree: Tree | None = None,
+    parent=None,
+    atoms_dictionary: dict[str, str] | None = None,
 ) -> Tree:
     if isinstance(spot_f, str):
         spot_f = spot.formula(spot_f)
@@ -67,7 +70,12 @@ def gen_atoms_tree(
         "ff",
     ]:
         for subformula in spot_f:
-            gen_atoms_tree(spot_f=subformula, tree=tree, parent=node.identifier, atoms_dictionary=atoms_dictionary)
+            gen_atoms_tree(
+                spot_f=subformula,
+                tree=tree,
+                parent=node.identifier,
+                atoms_dictionary=atoms_dictionary,
+            )
 
     return tree
 

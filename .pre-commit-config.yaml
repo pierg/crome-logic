@@ -65,6 +65,7 @@ repos:
           - --remove-all-unused-imports
           - --remove-duplicate-keys
           - --remove-unused-variables
+          - --remove-unused-variables
       - id: pycln
         name: pycln
         entry: pycln

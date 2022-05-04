@@ -1,6 +1,16 @@
 MODULE main
 VAR
-	b: boolean;
+	g: boolean;
+	k: boolean;
+	l: boolean;
 	a: boolean;
+	z: boolean;
+	e: boolean;
+	c: boolean;
+	p: boolean;
+	f: boolean;
+	b: boolean;
+	d: boolean;
+	h: boolean;
 
-LTLSPEC G F a & G F b
+LTLSPEC !z & (l U p) & G ((a & b) | (G k & G l)) & (F c | F !d) & ((X e & X f) | !(X g | X h))

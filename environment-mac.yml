@@ -17,6 +17,7 @@ dependencies:
   - dill
   - flask
   - pip
+  - pydantic
   - pip:
       - pyeda
       - bloom-filter

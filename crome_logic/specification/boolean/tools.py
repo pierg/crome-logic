@@ -40,7 +40,7 @@ def dot_to_spot_string(dot_format_string: str) -> str:
                 labels.add(label)
 
     if len(labels) == 1:
-        return list(labels)[0]
+        return spot_syntax_fix(list(labels)[0])
 
     operation_graph: dict[Node, list[Node]] = {}
 
@@ -50,11 +50,9 @@ def dot_to_spot_string(dot_format_string: str) -> str:
         else:
             operation_graph[tgt] = [src]
 
-    # print(operation_graph)
-
     spot_str = convert_dict_to_spot_string(operation_graph)
     spot_str = spot_syntax_fix(spot_str)
-    return spot_str
+    return spot_syntax_fix(spot_str)
 
 
 def convert_dict_to_spot_string(operation_graph: dict) -> str:
