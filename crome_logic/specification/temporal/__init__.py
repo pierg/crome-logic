@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 from copy import deepcopy
-from dataclasses import dataclass, field, fields
-from enum import Enum, auto
+from dataclasses import dataclass, fields
 
 import spot
 from treelib import Tree
@@ -10,7 +9,6 @@ from treelib import Tree
 from crome_logic.patterns import Pattern
 from crome_logic.specification import Cnf, Dnf, Specification
 from crome_logic.specification.boolean import Bool
-from crome_logic.specification.string_logic import and_, or_
 from crome_logic.specification.temporal.tools import transform_spot_tree
 from crome_logic.specification.trees import (
     boolean_tree_to_formula,
@@ -162,8 +160,15 @@ class LTL(Specification):
         if not (isinstance(self, LTL) and isinstance(other, LTL)):
             raise AttributeError
         if self.is_valid:
-            for field in fields(LTL):
-                setattr(self, field.name, deepcopy(getattr(other, field.name)))
+            init_formula = deepcopy(other.init_formula)
+            typeset = deepcopy(other.typeset)
+            boolean = deepcopy(other.boolean)
+            object.__setattr__(self, "_init_formula", init_formula)
+            object.__setattr__(self, "_typeset", typeset)
+            object.__setattr__(self, "_boolean", boolean)
+
+            self.__post_init__()  # type: ignore
+
             return self
 
         if other.is_valid:
@@ -172,6 +177,7 @@ class LTL(Specification):
         init_formula = f"({str(self)}) & ({str(other)})"
         typeset = self.typeset + other.typeset
         boolean = self.boolean & other.boolean
+
         object.__setattr__(self, "_init_formula", init_formula)
         object.__setattr__(self, "_typeset", typeset)
         object.__setattr__(self, "_boolean", boolean)

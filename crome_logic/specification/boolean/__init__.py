@@ -3,14 +3,12 @@ from __future__ import annotations
 from copy import deepcopy
 from dataclasses import dataclass, field, fields, replace
 
-from pydantic import validator
 from pyeda.boolalg.expr import AndOp, Expression, OrOp, expr
 from pyeda.boolalg.minimization import espresso_exprs
 from treelib import Tree
 
 from crome_logic.specification import Cnf, Dnf, Specification
 from crome_logic.specification.boolean.tools import dot_to_spot_string
-from crome_logic.specification.string_logic import and_, or_
 from crome_logic.specification.trees import extract_atoms_dictionary, gen_atoms_tree
 from crome_logic.tools.atomic_propositions import extract_ap
 from crome_logic.tools.string_manipulation import pyeda_syntax_fix, spot_syntax_fix
@@ -64,7 +62,7 @@ class Bool(Specification):
         cls = self.__class__
         result = cls.__new__(cls)
         for field in fields(cls):
-            if not (field.name == "expression" or field.name == "tree"):
+            if not (field.name == "_expression" or field.name == "_tree"):
                 object.__setattr__(
                     result, field.name, deepcopy(getattr(self, field.name))
                 )
