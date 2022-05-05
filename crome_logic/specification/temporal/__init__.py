@@ -358,19 +358,19 @@ class LTL(Specification):
     def __getstate__(self):
         state = self.__dict__.copy()
         del state["_tree"]
-        state["expression"] = str(self.expression)
-        state["boolean"] = str(self.boolean)
-        state["boolean_typeset"] = self.boolean.typeset
+        state["_expression"] = str(self.expression)
+        state["_boolean"] = str(self.boolean)
+        state["_boolean_typeset"] = self.boolean.typeset
 
         return state
 
     def __setstate__(self, state):
-        expression = state["expression"]
-        boolean = state["boolean"]
-        boolean_typeset = state["boolean_typeset"]
-        del state["expression"]
-        del state["boolean"]
-        del state["boolean_typeset"]
+        expression = state["_expression"]
+        boolean = state["_boolean"]
+        boolean_typeset = state["_boolean_typeset"]
+        del state["_expression"]
+        del state["_boolean"]
+        del state["_boolean_typeset"]
         self.__dict__.update(state)
         init_formula = expression
         boolean = Bool(_init_formula=boolean, _typeset=boolean_typeset)
