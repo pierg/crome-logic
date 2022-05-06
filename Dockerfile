@@ -1,7 +1,7 @@
 FROM continuumio/miniconda3 AS build
 
-COPY environment.yml .
-RUN conda env create -f environment.yml
+COPY environment-logic.yml .
+RUN conda env create -f environment-logic.yml
 
 # Use conda-pack to create a standalone enviornment in /venv:
 RUN conda install -c conda-forge conda-pack

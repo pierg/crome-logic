@@ -1,0 +1,13 @@
+HOA: v1
+tool: "strix" "21.0.0"
+States: 1
+Start: 0
+AP: 3 "a" "y" "x"
+controllable-AP: 1 2
+acc-name: all
+Acceptance: 0 t
+--BODY--
+State: 0 "[0]"
+[(!0) & (!(1 | 2))] 0
+[(0) & (1 & 2)] 0
+--END--

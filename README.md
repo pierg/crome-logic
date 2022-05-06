@@ -14,7 +14,7 @@ dependencies (e.g. linting, type checking).
 Create the environment using conda:
 
 ```bash
-conda env create -f environment.yml
+conda env create -f environment-logic.yml
 ```
 
 Activate the conda environment

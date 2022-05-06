@@ -22,12 +22,14 @@ from crome_logic.typelement.basic import Boolean
 from crome_logic.typeset import Typeset
 
 
+
+
 @dataclass(frozen=True)
 class LTL(Specification):
     _init_formula: str
     _typeset: Typeset | None = None
     _boolean: Bool | None = None
-    _kind: LTL.Kind = Specification.Kind.UNDEFINED
+    _kind: Specification.Kind = Specification.Kind.UNDEFINED
     _expression: spot.formula | None = None
     _tree: Tree | None = None
 
@@ -38,7 +40,7 @@ class LTL(Specification):
         raise AttributeError
 
     @property
-    def kind(self) -> LTL.Kind:
+    def kind(self) -> Specification.Kind:
         return self._kind
 
     @property

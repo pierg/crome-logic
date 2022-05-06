@@ -221,9 +221,9 @@ class Typeset(dict[str, AnyCromeType]):
     ) -> tuple[set[Boolean], set[Boolean]] | tuple[set[str], set[str]]:
         """Returns a set of variables in the typeset that are not controllable
         and controllable."""
-        i = set()
+        i: set[Boolean] = set()
         i_str: set[str] = set()
-        o = set()
+        o: set[Boolean] = set()
         o_str: set[str] = set()
         if len(self.values()) > 0:
             for t in self.values():
