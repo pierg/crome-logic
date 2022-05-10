@@ -22,8 +22,6 @@ from crome_logic.typelement.basic import Boolean
 from crome_logic.typeset import Typeset
 
 
-
-
 @dataclass(frozen=True)
 class LTL(Specification):
     _init_formula: str
@@ -81,8 +79,13 @@ class LTL(Specification):
     def __hash__(self: LTL):
         return hash(str(self))
 
-    def __str__(self):
+    @property
+    def formula(self) -> str:
         return str(self.expression)
+
+    def __str__(self):
+        return self.formula
+
 
     def __deepcopy__(self: LTL, memo):
         cls = self.__class__
@@ -162,7 +165,7 @@ class LTL(Specification):
         if not (isinstance(self, LTL) and isinstance(other, LTL)):
             raise AttributeError
         if self.is_valid:
-            init_formula = deepcopy(other.init_formula)
+            init_formula = deepcopy(other.formula)
             typeset = deepcopy(other.typeset)
             boolean = deepcopy(other.boolean)
             object.__setattr__(self, "_init_formula", init_formula)
@@ -379,3 +382,9 @@ class LTL(Specification):
         object.__setattr__(self, "_init_formula", init_formula)
         object.__setattr__(self, "_boolean", boolean)
         self.__post_init__()  # type: ignore
+
+
+
+if __name__ == '__main__':
+    tre = LTL("TRUE")
+    print(tre)

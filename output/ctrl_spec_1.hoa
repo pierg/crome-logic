@@ -1,0 +1,12 @@
+HOA: v1
+States: 1
+Start: 0
+AP: 2 "a" "x"
+acc-name: all
+Acceptance: 0 t
+properties: trans-labels explicit-labels state-acc deterministic
+--BODY--
+State: 0 "[0]"
+[!0&!1] 0
+[0&1] 0
+--END--

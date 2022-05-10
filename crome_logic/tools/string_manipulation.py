@@ -42,8 +42,8 @@ def pyeda_syntax_fix(text: str) -> str:
     if "->" in text:
         atom_tree = gen_atoms_tree(text)
         text = boolean_tree_to_formula(atom_tree)
-    return text.replace("TRUE", "1").replace("FALSE", "0").replace("!", "~")
+    return text.replace("TRUE", "1").replace("FALSE", "0").replace("!", "~").replace("\"", "")
 
 
 def spot_syntax_fix(text: str) -> str:
-    return text.replace("~", "!")
+    return text.replace("~", "!").replace("\"", "")

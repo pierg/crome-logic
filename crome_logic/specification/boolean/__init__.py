@@ -37,13 +37,14 @@ class Bool(Specification):
             object.__setattr__(self, "_expression", expression)
 
         if self._typeset is None:
-            set_ap_str = extract_ap(self.init_formula)
+            set_ap_str = extract_ap(self.formula)
             typeset = Typeset(set(map(lambda x: Boolean(name=x), set_ap_str)))
             object.__setattr__(self, "_typeset", typeset)
 
         if self._tree is None:
-            tree = gen_atoms_tree(self.init_formula)
+            tree = gen_atoms_tree(self.formula)
             object.__setattr__(self, "_tree", tree)
+
 
     @classmethod
     def from_expression(
@@ -69,8 +70,12 @@ class Bool(Specification):
         result.__post_init__()  # type: ignore
         return result
 
-    def __str__(self):
+    @property
+    def formula(self) -> str:
         return dot_to_spot_string(self.expression.to_dot())
+
+    def __str__(self):
+        return self.formula
 
     @property
     def atoms_dictionary(self) -> dict[str, str]:
@@ -167,7 +172,7 @@ class Bool(Specification):
                 atoms.add(
                     Bool.from_expression(
                         expression=atom,
-                        typeset=self.typeset.get_sub_typeset(str(atom)),
+                        typeset=self.typeset.get_sub_typeset(spot_syntax_fix(str(atom))),
                         atoms_dictionary=self.atoms_dictionary,
                     )
                 )

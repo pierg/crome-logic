@@ -34,6 +34,11 @@ class Specification(ABC):
         else:
             raise AttributeError
 
+
+    @property
+    def formula(self) -> str:
+        pass
+
     class Kind(Enum):
         UNDEFINED = auto()
 
