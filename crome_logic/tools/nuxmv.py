@@ -12,8 +12,10 @@ from crome_logic.specification.string_logic import not_
 from crome_logic.specification.tools import is_false_string, is_true_string
 from crome_logic.tools.string_manipulation import add_spaces_spot_ltl
 
-bloom_sat: BloomFilter = BloomFilter(max_elements=10000, error_rate=0.1)
-bloom_val: BloomFilter = BloomFilter(max_elements=10000, error_rate=0.1)
+bloom_sat_yes: BloomFilter = BloomFilter(max_elements=10000, error_rate=0.1)
+bloom_val_yes: BloomFilter = BloomFilter(max_elements=10000, error_rate=0.1)
+bloom_val_no: BloomFilter = BloomFilter(max_elements=10000, error_rate=0.1)
+bloom_sat_no: BloomFilter = BloomFilter(max_elements=10000, error_rate=0.1)
 
 
 class CheckType(Enum):
@@ -41,9 +43,13 @@ def check_satisfiability(expression: str, aps: list[str]) -> bool:
     if is_false_string(expression):
         return False
 
-    if expression in bloom_sat:
+    if expression in bloom_sat_yes:
         print("\t\t\tSAT-SKIPPED:\t" + expression)
         return True
+
+    if expression in bloom_sat_no:
+        print("\t\t\tSAT-SKIPPED:\t" + expression)
+        return False
 
     _write_file(aps, expression, CheckType.SATISFIABILITY)
 
@@ -52,7 +58,9 @@ def check_satisfiability(expression: str, aps: list[str]) -> bool:
     sat = _parse_output(output, CheckType.SATISFIABILITY)
 
     if sat:
-        bloom_sat.add(expression)
+        bloom_sat_yes.add(expression)
+    else:
+        bloom_sat_no.add(expression)
 
     return sat
 
@@ -64,9 +72,13 @@ def check_validity(expression: str, aps: list[str]) -> bool:
     if is_false_string(expression):
         return False
 
-    if expression in bloom_val:
+    if expression in bloom_val_yes:
         print("\t\t\tVAL-SKIPPED:\t" + expression)
         return True
+
+    if expression in bloom_val_no:
+        print("\t\t\tVAL-SKIPPED:\t" + expression)
+        return False
 
     _write_file(aps, expression, CheckType.VALIDITY)
 
@@ -75,7 +87,9 @@ def check_validity(expression: str, aps: list[str]) -> bool:
     valid = _parse_output(output, CheckType.VALIDITY)
 
     if valid:
-        bloom_val.add(expression)
+        bloom_val_yes.add(expression)
+    else:
+        bloom_val_no.add(expression)
 
     return valid
 

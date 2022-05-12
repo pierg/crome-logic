@@ -10,6 +10,7 @@ from crome_logic.patterns import Pattern
 from crome_logic.specification import Cnf, Dnf, Specification
 from crome_logic.specification.boolean import Bool
 from crome_logic.specification.temporal.tools import transform_spot_tree
+from crome_logic.specification.tools import is_true_string
 from crome_logic.specification.trees import (
     boolean_tree_to_formula,
     extract_atoms_dictionary,
@@ -24,7 +25,7 @@ from crome_logic.typeset import Typeset
 
 @dataclass(frozen=True)
 class LTL(Specification):
-    _init_formula: str
+    _init_formula: str | Pattern
     _typeset: Typeset | None = None
     _boolean: Bool | None = None
     _kind: Specification.Kind = Specification.Kind.UNDEFINED
@@ -50,6 +51,8 @@ class LTL(Specification):
         return self._tree
 
     def __post_init__(self):
+        if isinstance(self._init_formula, Pattern):
+            object.__setattr__(self, "_init_formula", str(self._init_formula))
         self._initialize_external_libraries_objects(self._init_formula)
 
         if self._typeset is None:
@@ -164,7 +167,7 @@ class LTL(Specification):
         """self &= other Modifies self with the conjunction with other."""
         if not (isinstance(self, LTL) and isinstance(other, LTL)):
             raise AttributeError
-        if self.is_valid:
+        if self.is_true_expression:
             init_formula = deepcopy(other.formula)
             typeset = deepcopy(other.typeset)
             boolean = deepcopy(other.boolean)
@@ -176,7 +179,7 @@ class LTL(Specification):
 
             return self
 
-        if other.is_valid:
+        if other.is_true_expression:
             return self
 
         init_formula = f"({str(self)}) & ({str(other)})"
@@ -195,7 +198,7 @@ class LTL(Specification):
         """self |= other Modifies self with the disjunction with other."""
         if not (isinstance(self, LTL) and isinstance(other, LTL)):
             raise AttributeError
-        if self.is_valid or other.is_valid:
+        if self.is_true_expression or other.is_true_expression:
             init_formula = f"TRUE"
         else:
             init_formula = f"({str(self)}) | ({str(other)})"
@@ -214,14 +217,14 @@ class LTL(Specification):
         """self & other Returns a new LTL with the conjunction with other."""
         if not (isinstance(self, LTL) and isinstance(other, LTL)):
             raise AttributeError
-        if self.is_valid:
+        if self.is_true_expression:
             return LTL(
                 _init_formula=str(other),
                 _boolean=other.boolean,
                 _typeset=other.typeset,
             )
 
-        if other.is_valid:
+        if other.is_true_expression:
             return LTL(
                 _init_formula=str(self),
                 _boolean=self.boolean,
@@ -238,7 +241,7 @@ class LTL(Specification):
         """self | other Returns a new LTL with the disjunction with other."""
         if not (isinstance(self, LTL) and isinstance(other, LTL)):
             raise AttributeError
-        if self.is_valid or other.is_valid:
+        if self.is_true_expression or other.is_true_expression:
             return LTL("TRUE")
 
         return LTL(
@@ -262,7 +265,7 @@ class LTL(Specification):
         (implies)"""
         if not (isinstance(self, LTL) and isinstance(other, LTL)):
             raise AttributeError
-        if self.is_valid:
+        if self.is_true_expression:
             return LTL(
                 _init_formula=str(other),
                 _boolean=other.boolean,
@@ -303,6 +306,9 @@ class LTL(Specification):
     def is_valid(self: LTL) -> bool:
         from crome_logic.specification.rules_extractors import extract_refinement_rules
 
+        if isinstance(self.kind, LTL.Kind.Rule):
+            return check_validity(str(self), self.typeset.to_str_nuxmv())
+
         ref_rules = extract_refinement_rules(self.typeset)
 
         if isinstance(ref_rules, LTL):
@@ -311,6 +317,12 @@ class LTL(Specification):
             new_f = self
 
         return check_validity(str(new_f), new_f.typeset.to_str_nuxmv())
+
+
+    @property
+    def is_true_expression(self) -> bool:
+        if is_true_string(str(self)):
+            return True
 
     def __lt__(self, other: LTL):
         """self < other.

@@ -1,11 +1,15 @@
 MODULE main
 VAR
-	register: boolean;
-	person: boolean;
-	r2: boolean;
-	r3: boolean;
-	r4: boolean;
-	greet: boolean;
-	r1: boolean;
+	lc: boolean;
+	l5: boolean;
+	l1: boolean;
+	pc: boolean;
+	lf: boolean;
+	re: boolean;
+	l3: boolean;
+	wa: boolean;
+	lb: boolean;
+	ch: boolean;
+	ps: boolean;
 
-LTLSPEC !(G F (r1 & F r2) & (!r2 U r1) & G (r2 -> X (!r2 U r1)) & G (r1 -> X (!r1 U r2)) & G F (r3 & F r4) & (!r4 U r3) & G (r4 -> X (!r4 U r3)) & G (r3 -> X (!r3 U r4)) & G (greet <-> person) & G (person <-> X register) & G ((!r1 & !r2 & !r3 & r4) | (!r1 & !r2 & r3 & !r4) | (r1 & !r2 & !r3 & !r4) | (!r1 & r2 & !r3 & !r4)) & G (!r1 | X r1) & G (!r2 | X r2) & G (!r4 | X r4) & G (!r3 | X r3))
+LTLSPEC !(((G F (l1 & F (l3 & F l5)) & (!l3 U l1) & (!l5 U l3) & G (l3 -> X (!l3 U l1)) & G (l5 -> X (!l5 U l3)) & G (l1 -> X (!l1 U l5)) & G F lc & (G F ps -> G (ps -> pc)) & (G F lc -> G (lf -> (X ch & X lc))) & (G F lb -> G (lb -> X re)) & (G F ps -> G (ps <-> wa))) | !((G F ps & G F lc & G F lb) | !((G F ps -> G (ps -> pc)) & (G F lc -> G (lf -> (X ch & X lc))) & (G F lb -> G (lb -> X re)) & (G F ps -> G (ps <-> wa))))) & ((G F lf & (G F ps -> G (ps -> pc)) & (G F ps -> G (ps <-> wa))) | !(G F ps | !((G F ps -> G (ps -> pc)) & (G F ps -> G (ps <-> wa))))) & (G F ps | (G F ps & G F lc & G F lb) | !((G F ps -> G (ps -> pc)) & (G F lc -> G (lf -> (X ch & X lc))) & (G F lb -> G (lb -> X re)) & (G F ps -> G (ps <-> wa))) | !((G F ps -> G (ps -> pc)) & (G F ps -> G (ps <-> wa)))) & G ((!lb & lf) | (lb & !lf)) & G ((!l1 & !l3 & l5) | (l1 & !l3 & !l5) | (!l1 & l3 & !l5)) & G (!l5 | X l5) & G (!lb | X lb) & G (!l3 | X l3) & G (!lf | X lf) & G (!l1 | X l1) & G (!lc | X lc))

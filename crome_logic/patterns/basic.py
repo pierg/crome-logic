@@ -2,69 +2,69 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from crome_logic.patterns import Pattern
+from crome_logic.patterns import Pattern, PatternKind
 
 
-@dataclass(kw_only=True)
+@dataclass
 class Init(Pattern):
     element: str
-    kind: Pattern.Kind = field(init=False, default=Pattern.Kind.BASIC)
 
     def __post_init__(self):
+        self.kind = PatternKind.BASIC
         self.formula = self.element
 
 
-@dataclass(kw_only=True)
+@dataclass
 class G(Pattern):
     element: str
-    kind: Pattern.Kind = field(init=False, default=Pattern.Kind.BASIC)
 
     def __post_init__(self):
+        self.kind = PatternKind.BASIC
         self.formula = f"G{self.element}"
 
 
-@dataclass(kw_only=True)
+@dataclass
 class F(Pattern):
     element: str
-    kind: Pattern.Kind = field(init=False, default=Pattern.Kind.BASIC)
 
     def __post_init__(self):
+        self.kind = PatternKind.BASIC
         self.formula = f"F{self.element}"
 
 
-@dataclass(kw_only=True)
+@dataclass
 class X(Pattern):
     element: str
-    kind: Pattern.Kind = field(init=False, default=Pattern.Kind.BASIC)
 
     def __post_init__(self):
+        self.kind = PatternKind.BASIC
         self.formula = f"X{self.element}"
 
 
-@dataclass(kw_only=True)
+@dataclass
 class GF(Pattern):
     element: str
-    kind: Pattern.Kind = field(init=False, default=Pattern.Kind.BASIC)
 
     def __post_init__(self):
+        self.kind = PatternKind.BASIC
         self.formula = f"GF{self.element}"
 
 
-@dataclass(kw_only=True)
+@dataclass
 class U(Pattern):
     pre: str
     post: str
-    kind: Pattern.Kind = field(init=False, default=Pattern.Kind.BASIC)
 
     def __post_init__(self):
+        self.kind = PatternKind.BASIC
         self.formula = f"(({self.pre}) U ({self.post}))"
 
 
-@dataclass(kw_only=True)
+@dataclass
 class W(Pattern):
     pre: str
     post: str
-    kind: Pattern.Kind = field(init=False, default=Pattern.Kind.BASIC)
 
     def __post_init__(self):
+        self.kind = PatternKind.BASIC
         self.formula = f"((({self.pre}) U ({self.post})) | G({self.pre}))"

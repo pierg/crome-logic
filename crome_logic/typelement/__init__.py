@@ -23,8 +23,9 @@ class CromeType:
     """Base class fo the types of CROME."""
 
     name: str
+    description: str = ""
     kind: TypeKind = TypeKind.UNKNOWN
-    refinement_of: set[str] = field(init=False, default_factory=set)
+    refinement_of: set[str] = field(default_factory=set)
 
     controllable: bool = field(init=False, default=False)
 

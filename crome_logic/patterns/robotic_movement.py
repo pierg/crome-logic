@@ -2,20 +2,20 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from crome_logic.patterns import Pattern
+from crome_logic.patterns import Pattern, PatternKind
 from crome_logic.tools.logic import Logic
 
 
-@dataclass(kw_only=True)
+@dataclass
 class CoreMovement(Pattern):
-    kind: Pattern.Kind = field(init=False, default=Pattern.Kind.ROBOTIC_MOVEMENT)
-    locations: list[str] = field(default_factory=list)
-    # TODO: locations validation
+    locations: list[str]
+
+    def __post_init__(self):
+        self.kind = PatternKind.ROBOTIC_MOVEMENT
 
 
-@dataclass(kw_only=True)
+@dataclass
 class Visit(CoreMovement):
-    description: str = field(init=False, default="TODO: description")
 
     def __post_init__(self):
         f = []
@@ -27,11 +27,9 @@ class Visit(CoreMovement):
         self.formula = new_formula
 
 
-@dataclass(kw_only=True)
+@dataclass
 class OrderedVisit(CoreMovement):
     """Given a set of locations the robot should visit all the locations."""
-
-    description: str = field(init=False, default="TODO: description")
 
     def __post_init__(self):
         lor = list(self.locations)
@@ -57,9 +55,8 @@ class OrderedVisit(CoreMovement):
         self.formula = new_formula
 
 
-@dataclass(kw_only=True)
+@dataclass
 class StrictOrderedVisit(CoreMovement):
-    description: str = field(init=False, default="TODO: description")
 
     def __post_init__(self):
 
@@ -105,11 +102,11 @@ class StrictOrderedVisit(CoreMovement):
         self.formula = new_formula
 
 
-@dataclass(kw_only=True)
+@dataclass
 class Patrolling(CoreMovement):
-    description: str = field(init=False, default="TODO: description")
 
     def __post_init__(self):
+
         f = []
 
         for l in self.locations:
@@ -118,11 +115,11 @@ class Patrolling(CoreMovement):
         self.formula = Logic.and_(f)
 
 
-@dataclass(kw_only=True)
+@dataclass
 class OrderedPatrolling(CoreMovement):
-    description: str = field(init=False, default="TODO: description")
 
     def __post_init__(self):
+
         lor = list(self.locations)
         lor.reverse()
         n = len(self.locations)
@@ -166,7 +163,7 @@ class OrderedPatrolling(CoreMovement):
         self.formula = new_formula
 
 
-@dataclass(kw_only=True)
+@dataclass
 class StrictOrderedPatrolling(CoreMovement):
     """Ordered patrolling patterns does not avoid a predecessor location to be
     visited multiple times before its successor.
@@ -174,8 +171,6 @@ class StrictOrderedPatrolling(CoreMovement):
     Strict Ordered Patrolling ensures that, after a predecessor is
     visited, it is not visited again before its successor.
     """
-
-    description: str = field(init=False, default="TODO: description")
 
     def __post_init__(self):
 
