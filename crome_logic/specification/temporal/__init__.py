@@ -296,9 +296,9 @@ class LTL(Specification):
         if isinstance(adj_rules, LTL):
             new_f = new_f & adj_rules
 
-        ref_rules = extract_refinement_rules(self.typeset)
-        if isinstance(ref_rules, LTL):
-            new_f = ref_rules >> new_f
+        # ref_rules = extract_refinement_rules(self.typeset)
+        # if isinstance(ref_rules, LTL):
+        #     new_f = ref_rules >> new_f
 
         return check_satisfiability(str(new_f), new_f.typeset.to_str_nuxmv())
 

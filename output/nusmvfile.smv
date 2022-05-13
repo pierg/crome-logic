@@ -1,15 +1,9 @@
 MODULE main
 VAR
-	lc: boolean;
-	l5: boolean;
-	l1: boolean;
-	pc: boolean;
+	l4: boolean;
 	lf: boolean;
-	re: boolean;
 	l3: boolean;
-	wa: boolean;
-	lb: boolean;
-	ch: boolean;
-	ps: boolean;
+	l2: boolean;
+	l1: boolean;
 
-LTLSPEC !(((G F (l1 & F (l3 & F l5)) & (!l3 U l1) & (!l5 U l3) & G (l3 -> X (!l3 U l1)) & G (l5 -> X (!l5 U l3)) & G (l1 -> X (!l1 U l5)) & G F lc & (G F ps -> G (ps -> pc)) & (G F lc -> G (lf -> (X ch & X lc))) & (G F lb -> G (lb -> X re)) & (G F ps -> G (ps <-> wa))) | !((G F ps & G F lc & G F lb) | !((G F ps -> G (ps -> pc)) & (G F lc -> G (lf -> (X ch & X lc))) & (G F lb -> G (lb -> X re)) & (G F ps -> G (ps <-> wa))))) & ((G F lf & (G F ps -> G (ps -> pc)) & (G F ps -> G (ps <-> wa))) | !(G F ps | !((G F ps -> G (ps -> pc)) & (G F ps -> G (ps <-> wa))))) & (G F ps | (G F ps & G F lc & G F lb) | !((G F ps -> G (ps -> pc)) & (G F lc -> G (lf -> (X ch & X lc))) & (G F lb -> G (lb -> X re)) & (G F ps -> G (ps <-> wa))) | !((G F ps -> G (ps -> pc)) & (G F ps -> G (ps <-> wa)))) & G ((!lb & lf) | (lb & !lf)) & G ((!l1 & !l3 & l5) | (l1 & !l3 & !l5) | (!l1 & l3 & !l5)) & G (!l5 | X l5) & G (!lb | X lb) & G (!l3 | X l3) & G (!lf | X lf) & G (!l1 | X l1) & G (!lc | X lc))
+LTLSPEC (G (!l1 | lf) & G (!l2 | lf) & G (!l4 | lf) & G (!l3 | lf)) -> ((G F l1 & G F l2 & G F l3 & G F l4) -> G F lf)

@@ -53,7 +53,9 @@ def check_satisfiability(expression: str, aps: list[str]) -> bool:
 
     _write_file(aps, expression, CheckType.SATISFIABILITY)
 
+    print(f"\t\t\tChecking SAT:\t\t{expression}")
     output = _launch_nuxmv()
+
 
     sat = _parse_output(output, CheckType.SATISFIABILITY)
 
@@ -82,6 +84,7 @@ def check_validity(expression: str, aps: list[str]) -> bool:
 
     _write_file(aps, expression, CheckType.VALIDITY)
 
+    print(f"\t\t\tChecking VAL:\t\t{expression}")
     output = _launch_nuxmv()
 
     valid = _parse_output(output, CheckType.VALIDITY)

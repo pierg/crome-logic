@@ -33,7 +33,9 @@ class CromeType:
         return self.name
 
     def __le__(self, other: CromeType):
-        return isinstance(self, type(other))
+        if other.name in self.refinement_of:
+            return True
+        return other.name in self.refinement_of
 
     def __eq__(self, other):
         if isinstance(other, CromeType):
