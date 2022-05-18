@@ -20,6 +20,7 @@ from crome_logic.specification.trees import (
 from crome_logic.tools.atomic_propositions import extract_ap
 from crome_logic.tools.nuxmv import check_satisfiability, check_validity
 from crome_logic.typelement.basic import Boolean
+from crome_logic.typelement.robotic import BooleanSensor, BooleanLocation
 from crome_logic.typeset import Typeset
 
 
@@ -89,15 +90,35 @@ class LTL(Specification):
     def __str__(self):
         return self.formula
 
+    def export_to_json(self):
+        json_content = {}
+        if self.formula == "1":
+            json_content = {"ltl_value": "true",
+                            "world_values": [[], [], []]}
+        else:
+            sensor = []
+            location = []
+            action = []
+            typeset = self.typeset
+            for keyType in typeset:
+                if type(typeset[keyType]) == BooleanSensor:
+                    sensor.append(keyType)
+                elif type(typeset[keyType]) == BooleanLocation:
+                    location.append(keyType)
+                else:
+                    action.append(keyType)
+            json_content = {"ltl_value": self.formula,
+                            "world_values": [sensor, action, location]}
+        return json_content
 
     def __deepcopy__(self: LTL, memo):
         cls = self.__class__
         result = cls.__new__(cls)
         for field in fields(cls):
             if not (
-                field.name == "_boolean"
-                or field.name == "_expression"
-                or field.name == "_tree"
+                    field.name == "_boolean"
+                    or field.name == "_expression"
+                    or field.name == "_tree"
             ):
                 object.__setattr__(
                     result, field.name, deepcopy(getattr(self, field.name))
@@ -318,7 +339,6 @@ class LTL(Specification):
 
         return check_validity(str(new_f), new_f.typeset.to_str_nuxmv())
 
-
     @property
     def is_true_expression(self) -> bool:
         if is_true_string(str(self)):
@@ -394,7 +414,6 @@ class LTL(Specification):
         object.__setattr__(self, "_init_formula", init_formula)
         object.__setattr__(self, "_boolean", boolean)
         self.__post_init__()  # type: ignore
-
 
 
 if __name__ == '__main__':
