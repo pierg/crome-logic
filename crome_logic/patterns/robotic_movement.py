@@ -18,6 +18,8 @@ class CoreMovement(Pattern):
 class Visit(CoreMovement):
 
     def __post_init__(self):
+        self.name = "Visit"
+        self.description = "Visit a set of location in an unspecified order"
         f = []
         """F(l1), F(l2), ...,F(ln)"""
         for l in self.locations:

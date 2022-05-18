@@ -1,9 +1,9 @@
 MODULE main
 VAR
-	l4: boolean;
-	lf: boolean;
-	l3: boolean;
-	l2: boolean;
 	l1: boolean;
+	l2: boolean;
+	l4: boolean;
+	l5: boolean;
+	l3: boolean;
 
-LTLSPEC (G (!l1 | lf) & G (!l2 | lf) & G (!l4 | lf) & G (!l3 | lf)) -> ((G F l1 & G F l2 & G F l3 & G F l4) -> G F lf)
+LTLSPEC (G F (l1 & F (l3 & F l5)) & (!l3 U l1) & (!l5 U l3) & G (l3 -> X (!l3 U l1)) & G (l5 -> X (!l5 U l3)) & G (l1 -> X (!l1 U l5)) & ((G F l1 & G F l2 & G F l3 & G F l4) | !(G F (l1 & F (l3 & F l5)) & (!l3 U l1) & (!l5 U l3) & G (l3 -> X (!l3 U l1)) & G (l5 -> X (!l5 U l3)) & G (l1 -> X (!l1 U l5))))) -> (G F (l1 & F (l3 & F l5)) & (!l3 U l1) & (!l5 U l3) & G (l3 -> X (!l3 U l1)) & G (l5 -> X (!l5 U l3)) & G (l1 -> X (!l1 U l5)))

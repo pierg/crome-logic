@@ -15,6 +15,7 @@ class PatternKind(Enum):
 @dataclass
 class Pattern:
     formula: str = field(init=False, default="")
+    name: str = field(init=False, default="")
     description: str = field(init=False, default="")
     kind: PatternKind = field(init=False, default=PatternKind.UNKNOWN)
 
