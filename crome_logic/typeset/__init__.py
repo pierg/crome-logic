@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from copy import copy, deepcopy
+from typing import Iterable
 
 from crome_logic.tools.atomic_propositions import extract_ap
 from crome_logic.typelement import AnyCromeType, TypeKind
@@ -10,7 +11,6 @@ from crome_logic.typelement.basic import (
     BooleanUncontrollable,
     BoundedInteger,
 )
-from crome_logic.typelement.robotic import BooleanSensor
 
 BASE_CLASS_TYPES = [
     "Boolean",
@@ -47,9 +47,9 @@ class Typeset(dict[str, AnyCromeType]):
 
     @classmethod
     def from_aps(
-        cls,
-        controllable: set[str] | None = None,
-        uncontrollable: set[str] | None = None,
+            cls,
+            controllable: set[str] | None = None,
+            uncontrollable: set[str] | None = None,
     ) -> Typeset:
 
         crome_types: set[Boolean] = set()
@@ -62,6 +62,19 @@ class Typeset(dict[str, AnyCromeType]):
                 crome_types.add(BooleanUncontrollable(name=ap))
 
         return cls(crome_types)  # type: ignore
+
+    @classmethod
+    def from_typesets(
+            cls,
+            typesets: Iterable[Typeset]
+    ) -> Typeset:
+
+        typeset = cls()
+
+        for t in typesets:
+            typeset += t
+
+        return typeset
 
     def __setitem__(self, name, elem):
         self._add_elements({elem})
@@ -196,11 +209,11 @@ class Typeset(dict[str, AnyCromeType]):
                         self._adjacent_types[variable] = {variable}
                     for adjacent_class in variable.adjacency_set:
                         for variable_candidate in filter(
-                            lambda x: isinstance(x, Boolean), self.values()
+                                lambda x: isinstance(x, Boolean), self.values()
                         ):
                             if (
-                                variable_candidate.__class__.__name__ == adjacent_class
-                                and isinstance(variable_candidate, Boolean)
+                                    variable_candidate.__class__.__name__ == adjacent_class
+                                    and isinstance(variable_candidate, Boolean)
                             ):
                                 self._adjacent_types[variable].add(variable_candidate)
 
@@ -217,8 +230,8 @@ class Typeset(dict[str, AnyCromeType]):
         return self._adjacent_types
 
     def extract_inputs_outputs(
-        self, string: bool = False
-    ) -> tuple[set[Boolean], set[Boolean]] | tuple[set[str], set[str]]:
+            self, string: bool = False
+    ) -> tuple[set[Boolean], set[Boolean]] | tuple[set[str], list[str]]:
         """Returns a set of variables in the typeset that are not controllable
         and controllable."""
         i: set[Boolean] = set()
@@ -240,7 +253,7 @@ class Typeset(dict[str, AnyCromeType]):
                             o.add(t)
         if string:
             return i_str, o_str
-        return i, o
+        return list(i), list(o)
 
     def extract_viewpoint(self):
         for v in self.values():

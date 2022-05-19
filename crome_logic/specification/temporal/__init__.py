@@ -86,18 +86,22 @@ class LTL(Specification):
     def formula(self) -> str:
         return str(self.expression)
 
+
+    @property
+    def typeset_complete(self) -> Typeset:
+        return self.typeset + self.refinement_rules.typeset + self.adjacency_and_mutex_rules.typeset
+
     def __str__(self):
         return self.formula
-
 
     def __deepcopy__(self: LTL, memo):
         cls = self.__class__
         result = cls.__new__(cls)
         for field in fields(cls):
             if not (
-                field.name == "_boolean"
-                or field.name == "_expression"
-                or field.name == "_tree"
+                    field.name == "_boolean"
+                    or field.name == "_expression"
+                    or field.name == "_tree"
             ):
                 object.__setattr__(
                     result, field.name, deepcopy(getattr(self, field.name))
@@ -279,26 +283,25 @@ class LTL(Specification):
         )
 
     @property
-    def is_satisfiable(self: LTL) -> bool:
+    def adjacency_and_mutex_rules(self) -> LTL:
         from crome_logic.specification.rules_extractors import (
-            extract_adjacency_rules,
-            extract_mutex_rules,
-            extract_refinement_rules,
+            extract_adjacency_rules, extract_mutex_rules
         )
 
-        mtx_rules = extract_mutex_rules(self.typeset)
-        new_f = self
+        return extract_mutex_rules(self.typeset) & extract_adjacency_rules(self.typeset)
 
-        if isinstance(mtx_rules, LTL):
-            new_f = self & mtx_rules
+    @property
+    def refinement_rules(self) -> LTL:
+        from crome_logic.specification.rules_extractors import (
+            extract_refinement_rules
+        )
 
-        adj_rules = extract_adjacency_rules(self.typeset)
-        if isinstance(adj_rules, LTL):
-            new_f = new_f & adj_rules
+        return extract_refinement_rules(self.typeset)
 
-        # ref_rules = extract_refinement_rules(self.typeset)
-        # if isinstance(ref_rules, LTL):
-        #     new_f = ref_rules >> new_f
+    @property
+    def is_satisfiable(self: LTL) -> bool:
+
+        new_f = self & self.adjacency_and_mutex_rules
 
         return check_satisfiability(str(new_f), new_f.typeset.to_str_nuxmv())
 
@@ -309,15 +312,9 @@ class LTL(Specification):
         if isinstance(self.kind, LTL.Kind.Rule):
             return check_validity(str(self), self.typeset.to_str_nuxmv())
 
-        ref_rules = extract_refinement_rules(self.typeset)
-
-        if isinstance(ref_rules, LTL):
-            new_f = ref_rules >> self
-        else:
-            new_f = self
+        new_f = self.refinement_rules >> self
 
         return check_validity(str(new_f), new_f.typeset.to_str_nuxmv())
-
 
     @property
     def is_true_expression(self) -> bool:
@@ -394,7 +391,6 @@ class LTL(Specification):
         object.__setattr__(self, "_init_formula", init_formula)
         object.__setattr__(self, "_boolean", boolean)
         self.__post_init__()  # type: ignore
-
 
 
 if __name__ == '__main__':

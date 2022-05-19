@@ -9,7 +9,7 @@ from crome_logic.typeset import Typeset
 def extract_refinement_rules(
     typeset: Typeset,
     output_list: bool = False,
-) -> LTL | tuple[list[str], Typeset] | None:
+) -> LTL | tuple[list[str], Typeset]:
     """Extract Refinement rules from the Formula."""
 
     rules_str = []
@@ -30,7 +30,7 @@ def extract_refinement_rules(
                 rules_typeset += Typeset(set_super_types)
 
     if len(rules_str) == 0:
-        return None
+        return LTL("TRUE")
 
     if output_list:
         return rules_str, rules_typeset
@@ -45,7 +45,7 @@ def extract_refinement_rules(
 def extract_mutex_rules(
     typeset: Typeset,
     output_list: bool = False,
-) -> LTL | tuple[list[str], Typeset] | None:
+) -> LTL | tuple[list[str], Typeset]:
     """Extract Mutex rules from the Formula."""
 
     rules_str = []
@@ -66,7 +66,7 @@ def extract_mutex_rules(
             rules_typeset += Typeset(set(mutex_group))
 
     if len(rules_str) == 0:
-        return None
+        return LTL("TRUE")
 
     if output_list:
         return rules_str, rules_typeset
@@ -81,7 +81,7 @@ def extract_mutex_rules(
 def extract_adjacency_rules(
     typeset: Typeset,
     output_list: bool = False,
-) -> LTL | tuple[list[str], Typeset] | None:
+) -> LTL | tuple[list[str], Typeset]:
     """Extract Adjacency rules from the Formula."""
 
     rules_str = []
@@ -106,7 +106,7 @@ def extract_adjacency_rules(
             rules_typeset += Typeset(set_adjacent_types)
 
     if len(rules_str) == 0:
-        return None
+        return LTL("TRUE")
 
     if output_list:
         return rules_str, rules_typeset
