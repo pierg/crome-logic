@@ -391,8 +391,3 @@ class LTL(Specification):
         object.__setattr__(self, "_init_formula", init_formula)
         object.__setattr__(self, "_boolean", boolean)
         self.__post_init__()  # type: ignore
-
-
-if __name__ == '__main__':
-    tre = LTL("TRUE")
-    print(tre)
