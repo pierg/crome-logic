@@ -69,11 +69,9 @@ class Typeset(dict[str, AnyCromeType]):
             typesets: Iterable[Typeset]
     ) -> Typeset:
 
-        typeset = cls()
-
+        typeset = Typeset()
         for t in typesets:
             typeset += t
-
         return typeset
 
     def __setitem__(self, name, elem):
