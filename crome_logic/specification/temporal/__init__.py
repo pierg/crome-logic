@@ -87,6 +87,9 @@ class LTL(Specification):
     def formula(self) -> str:
         return str(self.expression)
 
+    @property
+    def typeset(self) -> Typeset:
+        return self._typeset
 
     @property
     def typeset_complete(self) -> Typeset:
