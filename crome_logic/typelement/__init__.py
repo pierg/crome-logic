@@ -48,5 +48,8 @@ class CromeType:
     def __hash__(self):
         return hash(self.name + type(self).__name__)
 
+    def is_similar_to(self, other: CromeType) -> bool:
+        return self.name == other.name or other.name in self.refinement_of
+
 
 AnyCromeType = TypeVar("AnyCromeType", bound=CromeType)

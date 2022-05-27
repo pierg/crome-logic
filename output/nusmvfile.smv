@@ -1,6 +1,11 @@
 MODULE main
 VAR
-	night: boolean;
-	day: boolean;
+	l5: boolean;
+	l1: boolean;
+	g: boolean;
+	lf: boolean;
+	lb: boolean;
+	s: boolean;
+	l3: boolean;
 
-LTLSPEC !((day | night) & G ((day & !night) | (!day & night)))
+LTLSPEC (G (!l1 | lf) & G (!l3 | lf) & G (!l5 | lb)) -> ((G F l1 & G F l5 & G F l3) -> (G F (lf & F lb) & (!lb U lf) & G (lb -> X (!lb U lf)) & G (lf -> X (!lf U lb)) & G (s -> g)))

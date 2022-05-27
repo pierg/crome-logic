@@ -307,7 +307,6 @@ class LTL(Specification):
 
     @property
     def is_valid(self: LTL) -> bool:
-        from crome_logic.specification.rules_extractors import extract_refinement_rules
 
         if isinstance(self.kind, LTL.Kind.Rule):
             return check_validity(str(self), self.typeset.to_str_nuxmv())

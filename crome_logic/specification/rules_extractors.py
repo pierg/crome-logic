@@ -29,11 +29,12 @@ def extract_refinement_rules(
                 rules_typeset += Typeset({key_type})
                 rules_typeset += Typeset(set_super_types)
 
-    if len(rules_str) == 0:
-        return LTL("TRUE")
 
     if output_list:
         return rules_str, rules_typeset
+
+    if len(rules_str) == 0:
+        return LTL("TRUE")
 
     return LTL(
         _init_formula=and_(rules_str, brackets=True),
@@ -65,11 +66,11 @@ def extract_mutex_rules(
             )
             rules_typeset += Typeset(set(mutex_group))
 
-    if len(rules_str) == 0:
-        return LTL("TRUE")
-
     if output_list:
         return rules_str, rules_typeset
+
+    if len(rules_str) == 0:
+        return LTL("TRUE")
 
     return LTL(
         _init_formula=and_(rules_str, brackets=True),
@@ -105,11 +106,11 @@ def extract_adjacency_rules(
             rules_typeset += Typeset({key_type})
             rules_typeset += Typeset(set_adjacent_types)
 
-    if len(rules_str) == 0:
-        return LTL("TRUE")
-
     if output_list:
         return rules_str, rules_typeset
+
+    if len(rules_str) == 0:
+        return LTL("TRUE")
 
     return LTL(
         _init_formula=and_(rules_str, brackets=True),
@@ -135,11 +136,11 @@ def extract_liveness_rules(
                 rules_str.append(g_(f_(t.name)))
             rules_typeset += Typeset({t})
 
-    if len(rules_str) == 0:
-        return None
-
     if output_list:
         return rules_str, rules_typeset
+
+    if len(rules_str) == 0:
+        return LTL("TRUE")
 
     return LTL(
         _init_formula=and_(rules_str, brackets=True),

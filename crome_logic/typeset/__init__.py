@@ -4,7 +4,7 @@ from copy import copy, deepcopy
 from typing import Iterable
 
 from crome_logic.tools.atomic_propositions import extract_ap
-from crome_logic.typelement import AnyCromeType, TypeKind
+from crome_logic.typelement import AnyCromeType, TypeKind, CromeType
 from crome_logic.typelement.basic import (
     Boolean,
     BooleanControllable,
@@ -203,19 +203,10 @@ class Typeset(dict[str, AnyCromeType]):
             self._adjacent_types = {}
             for variable in self.values():
                 if isinstance(variable, Boolean):
-                    """Adding 'self' as adjacent as well i.e. the robot can
-                    stay still."""
                     if len(list(variable.adjacency_set)) != 0:
                         self._adjacent_types[variable] = {variable}
-                    for adjacent_class in variable.adjacency_set:
-                        for variable_candidate in filter(
-                                lambda x: isinstance(x, Boolean), self.values()
-                        ):
-                            if (
-                                    variable_candidate.__class__.__name__ == adjacent_class
-                                    and isinstance(variable_candidate, Boolean)
-                            ):
-                                self._adjacent_types[variable].add(variable_candidate)
+                        adjacent_types = filter(lambda x: x.name in variable.adjacency_set, self.values())
+                        self._adjacent_types[variable] |= set(adjacent_types)
 
     @property
     def super_types(self) -> dict[AnyCromeType, set[AnyCromeType]]:
@@ -228,6 +219,21 @@ class Typeset(dict[str, AnyCromeType]):
     @property
     def adjacent_types(self) -> dict[Boolean, set[Boolean]]:
         return self._adjacent_types
+
+    def similar_types(self, other: Typeset) -> set[CromeType]:
+        """Returns the types that are 'similar' to the types in typeset
+        """
+        similar_types: set[CromeType] = set()
+        for st in self.values():
+            for ot in other.values():
+                if st.is_similar_to(ot):
+                    similar_types.add(st)
+        return similar_types
+
+    def similarity_score(self, other: Typeset) -> float:
+        """Returns the percentage of types similar to 'other'
+        """
+        return len(self.similar_types(other)) / other.size * 100
 
     def extract_inputs_outputs(
             self, string: bool = False
