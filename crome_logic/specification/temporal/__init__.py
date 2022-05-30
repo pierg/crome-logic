@@ -20,6 +20,7 @@ from crome_logic.specification.trees import (
 from crome_logic.tools.atomic_propositions import extract_ap
 from crome_logic.tools.nuxmv import check_satisfiability, check_validity
 from crome_logic.typelement.basic import Boolean
+from crome_logic.typelement.robotic import BooleanSensor, BooleanLocation
 from crome_logic.typeset import Typeset
 
 
@@ -166,6 +167,27 @@ class LTL(Specification):
                 atoms.add(ltl_object)
             dnf_list.append(atoms)
         return Dnf(dnf_list)  # type: ignore
+
+    def export_to_json(self):
+        json_content = {}
+        if self.formula == "1":
+            json_content = {"ltl_value": "true",
+                            "world_values": [[], [], []]}
+        else:
+            sensor = []
+            location = []
+            action = []
+            typeset = self.typeset
+            for keyType in typeset:
+                if type(typeset[keyType]) == BooleanSensor:
+                    sensor.append(keyType)
+                elif type(typeset[keyType]) == BooleanLocation:
+                    location.append(keyType)
+                else:
+                    action.append(keyType)
+            json_content = {"ltl_value": self.formula,
+                            "world_values": [sensor, action, location]}
+        return json_content
 
     def __iand__(self: Specification, other: Specification) -> LTL:
         """self &= other Modifies self with the conjunction with other."""
