@@ -114,7 +114,11 @@ class Cnf:
 
     @property
     def to_str(self) -> str:
-        return " & ".join([or_([str(e) for e in elem]) for elem in self.clauses])
+        return " & ".join(self.to_str_list)
+
+    @property
+    def to_str_list(self) -> list[str]:
+        return [or_([str(e) for e in elem]) for elem in self.clauses]
 
     @property
     def to_set(self) -> set[Specification]:
@@ -137,9 +141,12 @@ class Dnf:
 
     @property
     def to_str(self) -> str:
-        return " | ".join(
-            [and_([str(e) for e in elem], brackets=True) for elem in self.clauses]
-        )
+        return " | ".join(self.to_str_list)
+
+    @property
+    def to_str_list(self) -> list[str]:
+        return [and_([str(e) for e in elem], brackets=True) for elem in self.clauses]
+
 
     @property
     def to_set(self) -> set[Specification]:

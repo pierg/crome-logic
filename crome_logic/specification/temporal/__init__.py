@@ -111,7 +111,9 @@ class LTL(Specification):
         return result
 
     @property
-    def print_summary(self) -> str:
+    def summary(self) -> str:
+        cnf_list = "\n".join(self.cnf.to_str_list)
+        dnf_list = "\n".join(self.dnf.to_str_list)
         ret = (
             f"\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n"
             f"LTL SIMPLIFIED\n"
@@ -119,9 +121,13 @@ class LTL(Specification):
             f"BOOLEAN REPRESENTATION\n"
             f"{str(self.boolean)}\n\n"
             f"LTL CNF (from booleans)\n"
-            f"{self.cnf.to_str}\n\n"
+            f"{self.cnf.to_str}\n"
+            f"LTL CNF (list)\n"
+            f"{cnf_list}\n\n"
             f"LTL DNF (from booleans)\n"
             f"{self.dnf.to_str}\n"
+            f"LTL DNF (list)\n"
+            f"{dnf_list}\n"
             f"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n"
         )
         return ret

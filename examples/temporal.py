@@ -13,7 +13,7 @@ def example_1() -> None:
     assert ltl == lel2
     print(ltl.tree)
     print(ltl.boolean.tree)
-    print(ltl.print_summary)
+    print(ltl.summary)
 
 
 def sat1() -> None:

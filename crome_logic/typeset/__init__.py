@@ -223,11 +223,13 @@ class Typeset(dict[str, AnyCromeType]):
     def similar_types(self, other: Typeset) -> set[CromeType]:
         """Returns the types that are 'similar' to the types in typeset
         """
+        similar_to: set[CromeType] = set()
         similar_types: set[CromeType] = set()
         for st in self.values():
             for ot in other.values():
-                if st.is_similar_to(ot):
+                if st.is_similar_to(ot) and ot not in similar_to:
                     similar_types.add(st)
+                    similar_to.add(ot)
         return similar_types
 
     def similarity_score(self, other: Typeset) -> float:
