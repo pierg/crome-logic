@@ -9,6 +9,7 @@ from treelib import Tree
 
 from crome_logic.specification import Cnf, Dnf, Specification
 from crome_logic.specification.boolean.tools import dot_to_spot_string
+from crome_logic.specification.tools import is_true_string
 from crome_logic.specification.trees import extract_atoms_dictionary, gen_atoms_tree
 from crome_logic.tools.atomic_propositions import extract_ap
 from crome_logic.tools.string_manipulation import pyeda_syntax_fix, spot_syntax_fix
@@ -33,6 +34,7 @@ class Bool(Specification):
 
     def __post_init__(self):
         if self._expression is None:
+            # print(pyeda_syntax_fix(self._init_formula))
             expression = expr(pyeda_syntax_fix(self._init_formula))
             object.__setattr__(self, "_expression", expression)
 
@@ -258,3 +260,8 @@ class Bool(Specification):
             return True
         else:
             return False
+
+    @property
+    def is_true_expression(self) -> bool:
+        if is_true_string(str(self)):
+            return True

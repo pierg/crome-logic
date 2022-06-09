@@ -98,8 +98,6 @@ def check_validity(expression: str, aps: list[str]) -> bool:
 
 
 def _write_file(variables: List[str], expression: str, check_type: CheckType):
-    if len(variables) == 0:
-        print("WTDF")
     expression = add_spaces_spot_ltl(expression)
     with open(file_path, "w") as ofile:
         ofile.write("MODULE main\n")

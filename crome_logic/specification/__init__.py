@@ -83,6 +83,11 @@ class Specification(ABC):
     def is_valid(self: Specification) -> bool:
         pass
 
+    @property
+    @abstractmethod
+    def is_true_expression(self) -> bool:
+        pass
+
     @abstractmethod
     def __and__(self: Specification, other: Specification) -> Specification:
         pass

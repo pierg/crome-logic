@@ -36,5 +36,6 @@ def save_to_file(
         f.write(file_content)
 
     f.close()
+    print(f"{file_path} generated")
 
     return file_path

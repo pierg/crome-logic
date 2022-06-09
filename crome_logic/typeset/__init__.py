@@ -220,6 +220,9 @@ class Typeset(dict[str, AnyCromeType]):
     def adjacent_types(self) -> dict[Boolean, set[Boolean]]:
         return self._adjacent_types
 
+    def n_elements_in_common_with(self, other: Typeset) -> int:
+        return len(set(self.keys()).intersection(other.keys()))
+
     def similar_types(self, other: Typeset) -> set[CromeType]:
         """Returns the types that are 'similar' to the types in typeset
         """
@@ -236,6 +239,17 @@ class Typeset(dict[str, AnyCromeType]):
         """Returns the percentage of types similar to 'other'
         """
         return len(self.similar_types(other)) / other.size * 100
+
+    @property
+    def split_controllable_uncontrollable(self) -> tuple[Typeset, Typeset]:
+        t_c = Typeset()
+        t_u = Typeset()
+        for t in self.values():
+            if t.controllable:
+                t_c += t
+            else:
+                t_u += t
+        return t_c, t_u
 
     def extract_inputs_outputs(
             self, string: bool = False

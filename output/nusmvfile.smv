@@ -1,11 +1,7 @@
 MODULE main
 VAR
-	register: boolean;
-	r2: boolean;
-	r4: boolean;
-	r3: boolean;
-	greet: boolean;
-	person: boolean;
-	r1: boolean;
+	k3: boolean;
+	hl: boolean;
+	dp: boolean;
 
-LTLSPEC !((G F person | !((G F person -> G (greet <-> person)) & (G F person -> G (person <-> X register)))) & ((G F (r1 & F r2) & (!r2 U r1) & G (r2 -> X (!r2 U r1)) & G (r1 -> X (!r1 U r2)) & (G F person -> G (greet <-> person)) & (G F person -> G (person <-> X register))) | !(G F person | !((G F person -> G (greet <-> person)) & (G F person -> G (person <-> X register))))) & ((G F (r3 & F r4) & (!r4 U r3) & G (r4 -> X (!r4 U r3)) & G (r3 -> X (!r3 U r4)) & (G F person -> G (greet <-> person))) | !G F person) & G ((!r1 & r2 & !r3 & !r4) | (!r1 & !r2 & !r3 & r4) | (!r1 & !r2 & r3 & !r4) | (r1 & !r2 & !r3 & !r4)) & G (!r2 | X r2) & G (!r3 | X r3) & G (!r4 | X r4))
+LTLSPEC !(G ((hl & k3) -> dp) & G (!k3 | X k3))

@@ -42,13 +42,14 @@ def and_(propositions: List[str], brackets: bool = False) -> str:
     elif len(propositions) == 1:
         return propositions[0]
     else:
-        raise Exception("List of propositions is empty")
+        print("List of propositions is empty")
+        return ""
 
 
 def implies_(prop_1: str, prop_2: str) -> str:
     """Returns an str formula representing the logical IMPLIES of prop_1 and
     prop_2."""
-    if prop_1 == "TRUE" or prop_1 == "(TRUE)" or prop_1 == "true" or prop_1 == "(true)":
+    if prop_1 == "TRUE" or prop_1 == "(TRUE)" or prop_1 == "true" or prop_1 == "(true)" or prop_1 == "":
         return prop_2
     return f"(!({prop_1}) | ({prop_2}))"
     # return f"(!({prop_1}) | ({prop_2}))"

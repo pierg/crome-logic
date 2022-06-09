@@ -20,7 +20,7 @@ class G(Pattern):
 
     def __post_init__(self):
         self.kind = PatternKind.BASIC
-        self.formula = f"G{self.element}"
+        self.formula = f"G({self.element})"
 
 
 @dataclass
