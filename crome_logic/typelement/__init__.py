@@ -25,7 +25,7 @@ class CromeType:
     name: str
     description: str = ""
     kind: TypeKind = TypeKind.UNKNOWN
-    refinement_of: set[str] = field(default_factory=set)
+    refinement_of: set[AnyCromeType | str] = field(default_factory=set)
 
     controllable: bool = field(init=False, default=False)
 
@@ -49,7 +49,17 @@ class CromeType:
         return hash(self.name + type(self).__name__)
 
     def is_similar_to(self, other: CromeType) -> bool:
-        return self.name == other.name or other.name in self.refinement_of
+        if self.name == other.name:
+            return True
+        for elem in self.refinement_of:
+            if isinstance(elem, str):
+                if other.name in elem:
+                    return True
+            else:
+                if other.name in elem.name:
+                    return True
+
+        return False
 
 
 AnyCromeType = TypeVar("AnyCromeType", bound=CromeType)

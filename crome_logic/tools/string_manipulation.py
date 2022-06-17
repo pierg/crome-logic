@@ -10,8 +10,10 @@ match_LTL_no_spaces = r"((?<=[G|F|X])(?=[^\s]))|((?<=[U])(?=[a-z]))|(?=[U])+(?<=
 
 def latexit(formula: str) -> str:
     import spot
-
-    return spot.formula(str(formula))._repr_latex_()
+    print(f"\nFormula:\t{formula}")
+    f_spot = spot.formula(str(formula))
+    print(f"LaTeX of:\t{str(f_spot)}")
+    return f_spot._repr_latex_()
 
 
 def add_spaces_spot_ltl(formula: str) -> str:

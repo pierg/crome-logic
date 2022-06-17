@@ -51,6 +51,11 @@ class GF(Pattern):
 
 
 @dataclass
+class InfOft(GF):
+    pass
+
+
+@dataclass
 class U(Pattern):
     pre: str
     post: str

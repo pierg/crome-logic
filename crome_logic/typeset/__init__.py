@@ -34,7 +34,7 @@ class Typeset(dict[str, AnyCromeType]):
     def __init__(self, types: set[AnyCromeType] | None = None):
         """Indicates the supertypes relationships for each typelement in the
         typeset."""
-        self._super_types: dict[AnyCromeType, set[AnyCromeType]] = {}
+        self._super_types: dict[AnyCromeType, set[AnyCromeType | str]] = {}
         """Indicates the mutex relationships for the typelement in the typeset"""
         self._mutex_types: set[frozenset[Boolean]] = set()
         """Indicates the adjacency relationships for the typelement in the typeset"""
@@ -103,13 +103,13 @@ class Typeset(dict[str, AnyCromeType]):
 
     def __add__(self, element: Typeset | Boolean) -> Typeset:
         """Returns self + element.
-
+        If refinements are found, it concretize all the abstract variables
         WARNING: violates Liskov Substitution Principle
         """
         if isinstance(element, Boolean):
             element = Typeset({element})
-        """Shallow copy"""
-        new_dict = copy(self)
+
+        new_dict = Typeset(set(self.values()))
         new_dict.__iadd__(element)
         return new_dict
 
@@ -175,11 +175,13 @@ class Typeset(dict[str, AnyCromeType]):
         if len(self.values()) > 1:
             for element in self.values():
                 for super_type in element.refinement_of:
-                    if super_type in self.keys():
-                        if element in self._super_types.keys():
-                            self._super_types[element].add(self[super_type])
-                        else:
-                            self._super_types[element] = {self[super_type]}
+                    if isinstance(super_type, str):
+                        if super_type in self.keys():
+                            super_type = self[super_type]
+                    if element in self._super_types.keys():
+                        self._super_types[element].add(super_type)
+                    else:
+                        self._super_types[element] = {super_type}
 
     def _update_mutex(self) -> None:
         """Updates the mutually exclusion relationships in the typeset."""
@@ -210,6 +212,14 @@ class Typeset(dict[str, AnyCromeType]):
 
     @property
     def super_types(self) -> dict[AnyCromeType, set[AnyCromeType]]:
+
+        for t, set_super_types in self._super_types.items():
+            super_types_str = set(filter(lambda t: isinstance(t, str), set_super_types))
+            set_super_types -= super_types_str
+            for type_str in super_types_str:
+                set_super_types |= self[type_str]
+            self._super_types[t] = set_super_types
+
         return self._super_types
 
     @property

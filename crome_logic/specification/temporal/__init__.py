@@ -19,7 +19,7 @@ from crome_logic.specification.trees import (
 )
 from crome_logic.tools.atomic_propositions import extract_ap
 from crome_logic.tools.nuxmv import check_satisfiability, check_validity
-from crome_logic.typelement.basic import Boolean
+from crome_logic.typelement.basic import Boolean, BooleanUncontrollable, BooleanControllable
 from crome_logic.typelement.robotic import BooleanSensor, BooleanLocation
 from crome_logic.typeset import Typeset
 
@@ -32,6 +32,7 @@ class LTL(Specification):
     _kind: Specification.Kind = Specification.Kind.UNDEFINED
     _expression: spot.formula | None = None
     _tree: Tree | None = None
+    _parse_env_systems: bool = False
 
     @property
     def boolean(self) -> Bool:
@@ -58,10 +59,19 @@ class LTL(Specification):
 
         if self._typeset is None:
             set_ap_str = extract_ap(self.expression)
-            set_ap = set(map(lambda x: Boolean(name=x), set_ap_str))
-            typeset = Typeset(set_ap)
+            if self._parse_env_systems:
+                set_ap_str_s = list(filter(lambda x: x.startswith('s'), set_ap_str))
+                set_ap_str_e = list(filter(lambda x: x.startswith('e'), set_ap_str))
+                set_ap_s = set(map(lambda x: BooleanControllable(name=x), set_ap_str_s))
+                set_ap_e = set(map(lambda x: BooleanUncontrollable(name=x), set_ap_str_e))
+                typeset = Typeset(set_ap_s | set_ap_e)
+            else:
+                set_ap = set(map(lambda x: Boolean(name=x), set_ap_str))
+                typeset = Typeset(set_ap)
         else:
-            typeset = self.typeset.get_sub_typeset(str(self.expression))
+            # typeset = self.typeset.get_sub_typeset(str(self.expression))
+            typeset = self._typeset
+            # TODO: introduce the world
         object.__setattr__(self, "_typeset", typeset)
 
     def _initialize_external_libraries_objects(self, formula: str):
@@ -86,7 +96,6 @@ class LTL(Specification):
     @property
     def formula(self) -> str:
         return str(self.expression)
-
 
     @property
     def typeset_complete(self) -> Typeset:
@@ -312,11 +321,23 @@ class LTL(Specification):
 
     @property
     def adjacency_and_mutex_rules(self) -> LTL:
+        return self.adjacency_rules & self.mutex_rules
+
+    @property
+    def adjacency_rules(self) -> LTL:
         from crome_logic.specification.rules_extractors import (
-            extract_adjacency_rules, extract_mutex_rules
+            extract_adjacency_rules
         )
 
-        return extract_mutex_rules(self.typeset) & extract_adjacency_rules(self.typeset)
+        return extract_adjacency_rules(self.typeset)
+
+    @property
+    def mutex_rules(self) -> LTL:
+        from crome_logic.specification.rules_extractors import (
+            extract_mutex_rules
+        )
+
+        return extract_mutex_rules(self.typeset)
 
     @property
     def refinement_rules(self) -> LTL:
@@ -328,8 +349,17 @@ class LTL(Specification):
 
     @property
     def is_satisfiable(self: LTL) -> bool:
+        # print("CHECKSATNOW")
+        # print(self)
+        #
+        # adj = self.adjacency_rules
+        # print(adj)
+        #
+        # mtx = self.mutex_rules
+        # # print(mtx)
 
         new_f = self & self.adjacency_and_mutex_rules
+        # print(new_f)
 
         return check_satisfiability(str(new_f), new_f.typeset.to_str_nuxmv())
 
@@ -339,7 +369,14 @@ class LTL(Specification):
         if isinstance(self.kind, LTL.Kind.Rule):
             return check_validity(str(self), self.typeset.to_str_nuxmv())
 
-        new_f = self.refinement_rules >> self
+        # print(f"EXT:\n{self.refinement_rules}")
+        # print(f"ADJ:\n{self.adjacency_rules}")
+        # print(f"MTX:\n{self.mutex_rules}")
+        # print(f"VAL:\n{self}")
+        #
+        # new_f = (self.refinement_rules & self.adjacency_and_mutex_rules) >> self
+
+        new_f = self
 
         return check_validity(str(new_f), new_f.typeset.to_str_nuxmv())
 
@@ -361,7 +398,55 @@ class LTL(Specification):
         True if self is a refinement of other
         """
         """Check if (self -> other) is valid"""
-        return (self >> other).is_valid
+
+        # print(f"REFCHECK\n{str(self)}\n{str(other)}")
+        if not self.is_satisfiable:
+            return False
+        if not other.is_satisfiable:
+            return False
+
+        s = self
+        s_r = self.refinement_rules
+        s_a = self.adjacency_rules
+        s_m = self.mutex_rules
+        o = other
+        o_r = other.refinement_rules
+        o_a = other.adjacency_rules
+        o_m = other.mutex_rules
+        #
+        # print(f"sPHI:\n{s}")
+        # print(f"sEXT:\n{s_r}")
+        # print(f"sADJ:\n{s_a}")
+        # print(f"sMTX:\n{s_m}")
+        # print(f"oPHI:\n{o}")
+        # print(f"oEXT:\n{o_r}")
+        # print(f"oADJ:\n{o_a}")
+        # print(f"oMTX:\n{o_m}")
+
+        # new_f = (s_r & s_a & s_m & s) >> o
+        # new_f = (s_r & s_a & s_m & s) >> (o_r & o_a & o_m & o)
+        # new_f = (s_r & s_a & s_m & o_m & o_a & o_r) >> s >> o
+
+        # new_f = (s_r & s_a & s_m & o_m & o_a & o_r & s) >> o
+        # new_f = (s_r & s_a & s_m & o_m & o_a & s) >> o
+        new_f = (s_r & s_a & s_m & s) >> o
+
+
+
+        # new_f = (s_r & s_a & s_m & o_m & o_a & o_r & s) >> o
+        # new_f = (s_r & s_a & s_m & s) >> o
+        # new_f = (s_r & s_a & s_m & s) >> o
+
+        # new_f = s_r >> s >> o
+        # new_f = (((s_r & s_m) & (o_r & o_m) & s) >> o)
+
+        # new_f = ((s_r & s_m & s) >> o)
+        #
+        # new_f = (((s_r & s_m) >> s) >> ((s_r & s_m) >> o))
+
+        # new_f = (self.refinement_rules & self.adjacency_and_mutex_rules) >> other
+
+        return new_f.is_valid
 
     def __gt__(self, other: LTL):
         """self > other.

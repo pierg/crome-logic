@@ -44,11 +44,11 @@ def check_satisfiability(expression: str, aps: list[str]) -> bool:
         return False
 
     if expression in bloom_sat_yes:
-        print("\t\t\tSAT-SKIPPED:\t" + expression)
+        print("\t\t\tSAT-SKIPPED (YES):\t" + expression)
         return True
 
     if expression in bloom_sat_no:
-        print("\t\t\tSAT-SKIPPED:\t" + expression)
+        print("\t\t\tSAT-SKIPPED (NO):\t" + expression)
         return False
 
     _write_file(aps, expression, CheckType.SATISFIABILITY)
@@ -74,17 +74,18 @@ def check_validity(expression: str, aps: list[str]) -> bool:
     if is_false_string(expression):
         return False
 
+    print(f"\t\t\tChecking VAL:\t\t{expression}")
+
     if expression in bloom_val_yes:
-        print("\t\t\tVAL-SKIPPED:\t" + expression)
+        print("\t\t\tVAL-SKIPPED (YES):\t" + expression)
         return True
 
     if expression in bloom_val_no:
-        print("\t\t\tVAL-SKIPPED:\t" + expression)
+        print("\t\t\tVAL-SKIPPED (NO):\t" + expression)
         return False
 
     _write_file(aps, expression, CheckType.VALIDITY)
 
-    print(f"\t\t\tChecking VAL:\t\t{expression}")
     output = _launch_nuxmv()
 
     valid = _parse_output(output, CheckType.VALIDITY)

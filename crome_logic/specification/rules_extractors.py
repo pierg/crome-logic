@@ -1,5 +1,5 @@
 from crome_logic.specification import Specification
-from crome_logic.specification.string_logic import and_, f_, g_, implies_, not_, or_, x_
+from crome_logic.specification.string_logic import and_, f_, g_, implies_, not_, or_, x_, iff_
 from crome_logic.specification.temporal import LTL
 from crome_logic.typelement import TypeKind
 from crome_logic.typelement.basic import Boolean
@@ -7,8 +7,44 @@ from crome_logic.typeset import Typeset
 
 
 def extract_refinement_rules(
-    typeset: Typeset,
-    output_list: bool = False,
+        typeset: Typeset,
+        output_list: bool = False,
+) -> LTL | tuple[list[str], Typeset]:
+    """Extract Refinement rules from the Formula."""
+
+    rules_str = []
+    rules_typeset: Typeset = Typeset()
+
+    refinements: dict[Boolean, set[Boolean]] = {}
+
+    for key_type, set_super_types in typeset.super_types.items():
+        if isinstance(key_type, Boolean):
+            for super_type in set_super_types:
+                if super_type in refinements.keys():
+                    refinements[super_type].add(key_type)
+                else:
+                    refinements[super_type] = {key_type}
+                rules_typeset += Typeset({key_type})
+                rules_typeset += Typeset(set_super_types)
+    for super, refined in refinements.items():
+        rules_str.append(g_(iff_(super.name, or_([r.name for r in refined]))))
+
+    if output_list:
+        return rules_str, rules_typeset
+
+    if len(rules_str) == 0:
+        return LTL("TRUE")
+
+    return LTL(
+        _init_formula=and_(rules_str, brackets=True),
+        _typeset=rules_typeset,
+        _kind=Specification.Kind.Rule.REFINEMENT,
+    )
+
+
+def extract_refinement_rules_legacy(
+        typeset: Typeset,
+        output_list: bool = False,
 ) -> LTL | tuple[list[str], Typeset]:
     """Extract Refinement rules from the Formula."""
 
@@ -29,7 +65,6 @@ def extract_refinement_rules(
                 rules_typeset += Typeset({key_type})
                 rules_typeset += Typeset(set_super_types)
 
-
     if output_list:
         return rules_str, rules_typeset
 
@@ -44,8 +79,8 @@ def extract_refinement_rules(
 
 
 def extract_mutex_rules(
-    typeset: Typeset,
-    output_list: bool = False,
+        typeset: Typeset,
+        output_list: bool = False,
 ) -> LTL | tuple[list[str], Typeset]:
     """Extract Mutex rules from the Formula."""
 
@@ -80,8 +115,8 @@ def extract_mutex_rules(
 
 
 def extract_adjacency_rules(
-    typeset: Typeset,
-    output_list: bool = False,
+        typeset: Typeset,
+        output_list: bool = False,
 ) -> LTL | tuple[list[str], Typeset]:
     """Extract Adjacency rules from the Formula."""
 
@@ -120,8 +155,8 @@ def extract_adjacency_rules(
 
 
 def extract_liveness_rules(
-    typeset: Typeset,
-    output_list: bool = False,
+        typeset: Typeset,
+        output_list: bool = False,
 ) -> LTL | tuple[list[str], Typeset] | None:
     """Extract Liveness rules from the Formula."""
 
@@ -150,8 +185,8 @@ def extract_liveness_rules(
 
 
 def context_active_rules(
-    typeset: Typeset,
-    output_list: bool = False,
+        typeset: Typeset,
+        output_list: bool = False,
 ) -> LTL | tuple[list[str], Typeset] | None:
     """Extract Liveness rules from the Formula."""
 

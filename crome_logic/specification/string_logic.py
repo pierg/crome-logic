@@ -30,6 +30,8 @@ def and_(propositions: List[str], brackets: bool = False) -> str:
             return "FALSE"
         """Remove all TRUE elements"""
         propositions = list(filter("TRUE".__ne__, propositions))
+        """Remove all empty elements"""
+        propositions = list(filter("".__ne__, propositions))
         if len(propositions) == 0:
             return "TRUE"
 
@@ -125,6 +127,8 @@ def or_(propositions: List[str], brackets=True) -> str:
             return "TRUE"
         """Remove all FALSE elements"""
         propositions = list(filter("FALSE".__ne__, propositions))
+        """Remove all empty elements"""
+        propositions = list(filter("".__ne__, propositions))
 
         res = " | ".join(propositions)
         if brackets:
