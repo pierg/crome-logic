@@ -17,6 +17,7 @@ class Pattern:
     formula: str = field(init=False, default="")
     name: str = field(init=False, default="")
     description: str = field(init=False, default="")
+    arguments: list[dict[str, str]] = field(init=False, default=list)
     kind: PatternKind = field(init=False, default=PatternKind.UNKNOWN)
 
     def __str__(self):
