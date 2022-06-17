@@ -15,55 +15,55 @@ class Trigger(Pattern):
 
 @dataclass
 class InstantaneousReaction(Trigger):
+    name = "Instantaneous Reaction"
+    description = "The occurrence of a stimulus instantaneously triggers a counteraction."
 
     def __post_init__(self):
-        self.name = "Instantaneous Reaction"
-        self.description = "The occurrence of a stimulus instantaneously triggers a counteraction."
         self.formula = Logic.g_(Logic.implies_(self.pre, self.post))
 
 
 @dataclass
 class BoundReaction(Trigger):
+    name = "Bound Reaction"
+    description = "A counteraction must be performed every time and only when a specific location is entered."
 
     def __post_init__(self):
-        self.name = "Bound Reaction"
-        self.description = "A counteraction must be performed every time and only when a specific location is entered."
         self.formula = Logic.g_(Logic.iff_(self.pre, self.post))
 
 
 @dataclass
 class BoundDelay(Trigger):
+    name = "Bound Delay"
+    description = "A counteraction must be performed, in the next time instant, every time and only when a " \
+                       "specific location is entered."
 
     def __post_init__(self):
-        self.name = "Bound Delay"
-        self.description = "A counteraction must be performed, in the next time instant, every time and only when a " \
-                           "specific location is entered."
         self.formula = Logic.g_(Logic.iff_(self.pre, Logic.x_(self.post)))
 
 
 @dataclass
 class PromptReaction(Trigger):
+    name = "Prompt Reaction"
+    description = "The occurrence of a stimulus triggers a counteraction promptly, i.e in the next time " \
+                       "instant."
 
     def __post_init__(self):
-        self.name = "Prompt Reaction"
-        self.description = "The occurrence of a stimulus triggers a counteraction promptly, i.e in the next time " \
-                           "instant."
         self.formula = Logic.g_(Logic.implies_(self.pre, Logic.x_(self.post)))
 
 
 @dataclass
 class DelayedReaction(Trigger):
+    name = "Delayed Reaction"
+    description = "The occurrence of a stimulus triggers a counteraction some time later."
 
     def __post_init__(self):
-        self.name = "Delayed Reaction"
-        self.description = "The occurrence of a stimulus triggers a counteraction some time later."
         self.formula = Logic.g_(Logic.implies_(self.pre, Logic.f_(self.post)))
 
 
 @dataclass
 class Wait(Trigger):
+    name = "Wait"
+    description = "Inaction is desired till a stimulus occurs."
 
     def __post_init__(self):
-        self.name = "Wait"
-        self.description = "Inaction is desired till a stimulus occurs."
         self.formula = Logic.u_(self.pre, self.post)
