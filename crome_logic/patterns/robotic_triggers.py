@@ -25,48 +25,59 @@ class Trigger(Pattern):
 
 @dataclass
 class InitInstantaneousReaction(Trigger):
+    name = "Init Instantaneous Reaction"
+    description = "At the first step, the occurrence of a stimulus instantaneously triggers a counteraction."
+    arguments = [{"name": "trigger", "format": "value", "type": "any"},
+                 {"name": "reaction", "format": "value", "type": "any"}]
 
     def __post_init__(self):
-        self.name = "Init Instantaneous Reaction"
-        self.description = "At the first step, the occurrence of a stimulus instantaneously triggers a counteraction."
         self.formula = (Logic.implies_(self.pre, self.post))
 
 
 @dataclass
 class InitBoundReaction(Trigger):
+    name = "Init Bound Reaction"
+    description = "At the first step, a counteraction must be performed every time and only when a specific location " \
+                  "is entered. "
+    arguments = [{"name": "trigger", "format": "value", "type": "any"},
+                 {"name": "reaction", "format": "value", "type": "any"}]
 
     def __post_init__(self):
-        self.name = "Init Bound Reaction"
-        self.description = "At the first step, a counteraction must be performed every time and only when a specific location is entered."
         self.formula = (Logic.iff_(self.pre, self.post))
 
 
 @dataclass
 class InitBoundDelay(Trigger):
+    name = "Init Bound Delay"
+    description = "At the first step, a counteraction must be performed, in the next time instant, every time and " \
+                  "only when a specific location is entered."
+    arguments = [{"name": "trigger", "format": "value", "type": "any"},
+                 {"name": "reaction", "format": "value", "type": "any"}]
 
     def __post_init__(self):
-        self.name = "Init Bound Delay"
-        self.description = "At the first step, a counteraction must be performed, in the next time instant, every time and only when a " \
-                           "specific location is entered."
         self.formula = (Logic.iff_(self.pre, Logic.x_(self.post)))
 
 
 @dataclass
 class InitPromptReaction(Trigger):
+    name = "Init Prompt Reaction"
+    description = "At the first step, the occurrence of a stimulus triggers a counteraction promptly, i.e in the next " \
+                  "time instant."
+    arguments = [{"name": "trigger", "format": "value", "type": "any"},
+                 {"name": "reaction", "format": "value", "type": "any"}]
 
     def __post_init__(self):
-        self.name = "Init Prompt Reaction"
-        self.description = "At the first step, the occurrence of a stimulus triggers a counteraction promptly, i.e in the next time " \
-                           "instant."
         self.formula = (Logic.implies_(self.pre, Logic.x_(self.post)))
 
 
 @dataclass
 class InitDelayedReaction(Trigger):
+    name = "Init Delayed Reaction"
+    description = "At the first step, the occurrence of a stimulus triggers a counteraction some time later."
+    arguments = [{"name": "trigger", "format": "value", "type": "any"},
+                 {"name": "reaction", "format": "value", "type": "any"}]
 
     def __post_init__(self):
-        self.name = "Init Delayed Reaction"
-        self.description = "At the first step, the occurrence of a stimulus triggers a counteraction some time later."
         self.formula = (Logic.implies_(self.pre, Logic.f_(self.post)))
 
 

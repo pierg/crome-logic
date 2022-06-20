@@ -254,13 +254,14 @@ class StrictOrderedPatrolling(CoreMovement):
 
 @dataclass
 class StrictOrderedLocations(CoreMovement):
+    name = "Strict Order"
+    description = "Modification of StrictOrderedPatrolling, it impose the order but not the actual visit." \
+                  "The ordered patrolling does not avoid a predecessor location to be visited multiple " \
+                  "times before its successor. Strict Ordered Patrolling ensures that, after a predecessor " \
+                  "is visited, it is not visited again before its successor. "
+    arguments = [{"name": "locations", "format": "list", "type": "location"}]
 
     def __post_init__(self):
-        self.name = "Strict Order"
-        self.description = "Modification of StrictOrderedPatrolling, it impose the order but not the actual visit." \
-                           "The ordered patrolling does not avoid a predecessor location to be visited multiple " \
-                           "times before its successor. Strict Ordered Patrolling ensures that, after a predecessor " \
-                           "is visited, it is not visited again before its successor. "
         lor = list(self.locations)
         lor.reverse()
         n = len(self.locations)
@@ -325,13 +326,14 @@ class StrictOrderedLocations(CoreMovement):
 
 @dataclass
 class OrderedLocations(CoreMovement):
+    name = "Order Location"
+    description = "Modification of OrderedPatrolling, it impose the order but not the actual visit." \
+                  "The ordered patrolling does not avoid a predecessor location to be visited multiple " \
+                  "times before its successor. Strict Ordered Patrolling ensures that, after a predecessor " \
+                  "is visited, it is not visited again before its successor. "
+    arguments = [{"name": "locations", "format": "list", "type": "location"}]
 
     def __post_init__(self):
-        self.name = "Order Location"
-        self.description = "Modification of OrderedPatrolling, it impose the order but not the actual visit." \
-                           "The ordered patrolling does not avoid a predecessor location to be visited multiple " \
-                           "times before its successor. Strict Ordered Patrolling ensures that, after a predecessor " \
-                           "is visited, it is not visited again before its successor. "
         lor = list(self.locations)
         lor.reverse()
         n = len(self.locations)
