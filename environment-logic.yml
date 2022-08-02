@@ -10,7 +10,7 @@ dependencies:
   - spot
   - pre-commit
   - matplotlib
-  - poetry
+  - pdm
   - aenum
   - treelib
   - docker-py

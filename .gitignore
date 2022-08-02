@@ -1,6 +1,20 @@
-#### joe made this: http://goel.io/joe
-#### macos ####
-# General
+.idea/
+__pycache__/
+*.py[cod]
+dist/
+*.egg-info/
+build/
+htmlcov/
+.coverage*
+pip-wheel-metadata/
+.pytest_cache/
+.mypy_cache/
+site/
+pdm.lock
+.pdm.toml
+__pypackages__/
+.venv/
+
 *.DS_Store
 .AppleDouble
 .LSOverride
@@ -67,8 +81,6 @@ $RECYCLE.BIN/
 *.lnk
 #### python ####
 # Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
 *$py.class
 
 # C extensions
@@ -76,9 +88,9 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-build/
+
 develop-eggs/
-dist/
+
 downloads/
 eggs/
 .eggs/
@@ -88,7 +100,6 @@ parts/
 sdist/
 var/
 wheels/
-*.egg-info/
 .installed.cfg
 *.egg
 
@@ -103,7 +114,6 @@ pip-log.txt
 pip-delete-this-directory.txt
 
 # Unit test / coverage reports
-htmlcov/
 .tox/
 .coverage
 .coverage.*
@@ -160,8 +170,6 @@ ENV/
 # mkdocs documentation
 /site
 
-# mypy
-.mypy_cache/
 
 #### jetbrains ####
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio and Webstorm
