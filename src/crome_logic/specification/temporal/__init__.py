@@ -6,22 +6,22 @@ from dataclasses import dataclass, fields
 import spot
 from treelib import Tree
 
-from crome_logic.patterns import Pattern
-from crome_logic.specification import Cnf, Dnf, Specification
-from crome_logic.specification.boolean import Bool
-from crome_logic.specification.temporal.tools import transform_spot_tree
-from crome_logic.specification.tools import is_true_string
-from crome_logic.specification.trees import (
+from src.crome_logic.patterns import Pattern
+from src.crome_logic.specification import Cnf, Dnf, Specification
+from src.crome_logic.specification.boolean import Bool
+from src.crome_logic.specification.temporal.tools import transform_spot_tree
+from src.crome_logic.specification.tools import is_true_string
+from src.crome_logic.specification.trees import (
     boolean_tree_to_formula,
     extract_atoms_dictionary,
     gen_atoms_tree,
     gen_ltl_tree,
 )
-from crome_logic.tools.atomic_propositions import extract_ap
-from crome_logic.tools.nuxmv import check_satisfiability, check_validity
-from crome_logic.typelement.basic import Boolean, BooleanUncontrollable, BooleanControllable
-from crome_logic.typelement.robotic import BooleanSensor, BooleanLocation
-from crome_logic.typeset import Typeset
+from src.crome_logic.tools.atomic_propositions import extract_ap
+from src.crome_logic.tools.nuxmv import check_satisfiability, check_validity
+from src.crome_logic.typelement.basic import Boolean, BooleanUncontrollable, BooleanControllable
+from src.crome_logic.typelement.robotic import BooleanSensor, BooleanLocation
+from src.crome_logic.typeset import Typeset
 
 
 @dataclass(frozen=True)
