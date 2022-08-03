@@ -1,4 +1,4 @@
-from crome_logic.specification.boolean import Bool
+from src.crome_logic.specification.boolean import Bool
 
 
 def group_conjunction(elements: set[Bool]) -> Bool:

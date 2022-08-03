@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from crome_logic.typelement import TypeKind
-from crome_logic.typelement.basic import (
+from src.crome_logic.typelement import TypeKind
+from src.crome_logic.typelement.basic import (
     BooleanControllable,
     BooleanUncontrollable,
     BoundedInteger,

@@ -7,14 +7,14 @@ from pyeda.boolalg.expr import AndOp, Expression, OrOp, expr
 from pyeda.boolalg.minimization import espresso_exprs
 from treelib import Tree
 
-from crome_logic.specification import Cnf, Dnf, Specification
-from crome_logic.specification.boolean.tools import dot_to_spot_string
-from crome_logic.specification.tools import is_true_string
-from crome_logic.specification.trees import extract_atoms_dictionary, gen_atoms_tree
-from crome_logic.tools.atomic_propositions import extract_ap
-from crome_logic.tools.string_manipulation import pyeda_syntax_fix, spot_syntax_fix
-from crome_logic.typelement.basic import Boolean
-from crome_logic.typeset import Typeset
+from src.crome_logic.specification import Cnf, Dnf, Specification
+from src.crome_logic.specification.boolean.tools import dot_to_spot_string
+from src.crome_logic.specification.tools import is_true_string
+from src.crome_logic.specification.trees import extract_atoms_dictionary, gen_atoms_tree
+from src.crome_logic.tools.atomic_propositions import extract_ap
+from src.crome_logic.tools.string_manipulation import pyeda_syntax_fix, spot_syntax_fix
+from src.crome_logic.typelement.basic import Boolean
+from src.crome_logic.typeset import Typeset
 
 
 @dataclass(frozen=True)

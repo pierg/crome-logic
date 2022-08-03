@@ -5,8 +5,8 @@ from dataclasses import dataclass
 
 from aenum import Enum, auto, skip
 
-from crome_logic.specification.string_logic import and_, or_
-from crome_logic.typeset import Typeset
+from src.crome_logic.specification.string_logic import and_, or_
+from src.crome_logic.typeset import Typeset
 
 
 class Specification(ABC):

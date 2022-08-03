@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from crome_logic.typelement import CromeType
+from src.crome_logic.typelement import CromeType
 
 
 @dataclass(kw_only=True)

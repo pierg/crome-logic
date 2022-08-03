@@ -8,9 +8,9 @@ from typing import List
 from bloom_filter import BloomFilter
 
 import docker
-from crome_logic.specification.string_logic import not_
-from crome_logic.specification.tools import is_false_string, is_true_string
-from crome_logic.tools.string_manipulation import add_spaces_spot_ltl
+from src.crome_logic.specification.string_logic import not_
+from src.crome_logic.specification.tools import is_false_string, is_true_string
+from src.crome_logic.tools.string_manipulation import add_spaces_spot_ltl
 
 bloom_sat_yes: BloomFilter = BloomFilter(max_elements=10000, error_rate=0.1)
 bloom_val_yes: BloomFilter = BloomFilter(max_elements=10000, error_rate=0.1)

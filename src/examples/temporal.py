@@ -1,9 +1,9 @@
 from copy import deepcopy
 
-from crome_cgg.context import Context
-from crome_logic.specification.temporal import LTL
-from crome_logic.typelement.robotic import BooleanContext
-from crome_logic.typeset import Typeset
+from src.crome_cgg.context import Context
+from src.crome_logic.specification.temporal import LTL
+from src.crome_logic.typelement.robotic import BooleanContext
+from src.crome_logic.typeset import Typeset
 
 
 def example_1() -> None:

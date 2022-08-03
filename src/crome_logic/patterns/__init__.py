@@ -4,7 +4,7 @@ from copy import deepcopy
 from dataclasses import dataclass, field
 from enum import Enum, auto
 
-from crome_logic.specification import and_
+from src.crome_logic.specification import and_
 
 
 class PatternKind(Enum):

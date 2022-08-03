@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from crome_logic.patterns import Pattern, PatternKind
-from crome_logic.tools.logic import Logic
+from src.crome_logic.patterns import Pattern, PatternKind
+from src.crome_logic.tools.logic import Logic
 
 
 @dataclass
