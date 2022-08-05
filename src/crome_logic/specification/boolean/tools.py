@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING
 
 import pygraphviz as pgv
 
-from src.crome_logic.specification.string_logic import and_, implies_, not_, or_
-from src.crome_logic.tools.string_manipulation import spot_syntax_fix
+from crome_logic.src.crome_logic.specification.string_logic import and_, implies_, not_, or_
+from crome_logic.src.crome_logic.tools.string_manipulation import spot_syntax_fix
 
 if TYPE_CHECKING:
     from pygraphviz.agraph import Node

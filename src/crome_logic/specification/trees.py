@@ -4,7 +4,7 @@ from typing import Any
 import spot
 from treelib import Tree
 
-from src.crome_logic.specification.string_logic import general_logic
+from crome_logic.src.crome_logic.specification.string_logic import general_logic
 
 
 def gen_ltl_tree(spot_f, tree: Tree | None = None, parent=None) -> Tree:

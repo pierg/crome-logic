@@ -3,7 +3,7 @@ import random
 import re
 import string
 
-from src.crome_logic.specification.trees import boolean_tree_to_formula, gen_atoms_tree
+from crome_logic.src.crome_logic.specification.trees import boolean_tree_to_formula, gen_atoms_tree
 
 match_LTL_no_spaces = r"((?<=[G|F|X])(?=[^\s]))|((?<=[U])(?=[a-z]))|(?=[U])+(?<=[a-z])"
 

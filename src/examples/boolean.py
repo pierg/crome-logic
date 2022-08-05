@@ -1,4 +1,4 @@
-from crome_logic.specification.boolean import Bool
+from crome_logic.src.crome_logic.specification.boolean import Bool
 
 
 def example_1() -> None:
