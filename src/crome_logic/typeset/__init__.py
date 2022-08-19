@@ -3,9 +3,9 @@ from __future__ import annotations
 from copy import copy, deepcopy
 from typing import Iterable
 
-from crome_logic.src.crome_logic.tools.atomic_propositions import extract_ap
-from crome_logic.src.crome_logic.typelement import AnyCromeType, TypeKind, CromeType
-from crome_logic.src.crome_logic.typelement.basic import (
+from src.crome_logic.tools.atomic_propositions import extract_ap
+from src.crome_logic.typelement import AnyCromeType, TypeKind, CromeType
+from src.crome_logic.typelement.basic import (
     Boolean,
     BooleanControllable,
     BooleanUncontrollable,
