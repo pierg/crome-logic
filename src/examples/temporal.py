@@ -1,6 +1,5 @@
 from copy import deepcopy
 
-from src.crome_cgg.context import Context
 from crome_logic.src.crome_logic.specification.temporal import LTL
 from crome_logic.src.crome_logic.typelement.robotic import BooleanContext
 from crome_logic.src.crome_logic.typeset import Typeset
@@ -48,28 +47,5 @@ def simplify() -> None:
 
 
 
-def sat_example():
-    day = Context("day")
-    night = Context("night")
-    c = day & night
-    print(c.is_satisfiable)
-    print(c)
-
-
-def unsat_example():
-    typeset = Typeset({
-        BooleanContext(name="day", mutex_group="time"),
-        BooleanContext(name="night", mutex_group="time"),
-    })
-    day = Context(_init_formula="day", _typeset=typeset)
-    night = Context(_init_formula="night", _typeset=typeset)
-    c = day & night
-    print(c.is_satisfiable)
-    print(c)
-    c = day | night
-    print(c.is_satisfiable)
-    print(c)
-
-
 if __name__ == '__main__':
-    unsat_example()
+    example_1()
