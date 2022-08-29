@@ -13,7 +13,7 @@ from urllib.request import urlopen
 
 from duty import duty
 
-PY_SRC_PATHS = (Path(_) for _ in ("src", "tests", "duties.py", "docs"))
+PY_SRC_PATHS = (Path(_) for _ in ("crome_logic", "duties.py", "docs"))
 PY_SRC_LIST = tuple(str(_) for _ in PY_SRC_PATHS)
 PY_SRC = " ".join(PY_SRC_LIST)
 TESTING = os.environ.get("TESTING", "0") in {"1", "true"}
@@ -68,7 +68,9 @@ def update_changelog(
             planned_tag = "0.1.0"
             last_version.tag = planned_tag
             last_version.url += planned_tag
-            last_version.compare_url = last_version.compare_url.replace("HEAD", planned_tag)
+            last_version.compare_url = last_version.compare_url.replace(
+                "HEAD", planned_tag
+            )
 
     with open(inplace_file, "r") as changelog_file:
         lines = changelog_file.read().splitlines()
@@ -125,7 +127,11 @@ def check_quality(ctx, files=PY_SRC):
         ctx: The context instance (passed automatically).
         files: The files to check.
     """
-    ctx.run(f"flake8 --config=config/flake8.ini {files}", title="Checking code quality", pty=PTY)
+    ctx.run(
+        f"flake8 --config=config/flake8.ini {files}",
+        title="Checking code quality",
+        pty=PTY,
+    )
 
 
 @duty
@@ -159,7 +165,14 @@ def check_dependencies(ctx):
     # check using safety as a library
     def safety():  # noqa: WPS430
         packages = list(read_requirements(StringIO(requirements)))
-        vulns = safety_check(packages=packages, ignore_ids="", key="", db_mirror="", cached=False, proxy={})
+        vulns = safety_check(
+            packages=packages,
+            ignore_ids="",
+            key="",
+            db_mirror="",
+            cached=False,
+            proxy={},
+        )
         output_report = report(vulns=vulns, full=True, checked_packages=len(packages))
         if vulns:
             print(output_report)
@@ -198,13 +211,18 @@ def check_types(ctx):  # noqa: WPS231
     # build the list of available packages
     packages = {}
     for package in pkgs_dir.glob("*"):
-        if package.suffix not in {".dist-info", ".pth"} and package.name != "__pycache__":
+        if (
+            package.suffix not in {".dist-info", ".pth"}
+            and package.name != "__pycache__"
+        ):
             packages[package.name] = package
 
     # handle .pth files
     for pth in pkgs_dir.glob("*.pth"):
         with suppress(OSError):
-            for package in Path(pth.read_text().splitlines()[0]).glob("*"):  # noqa: WPS440
+            for package in Path(pth.read_text().splitlines()[0]).glob(
+                "*"
+            ):  # noqa: WPS440
                 if package.suffix != ".dist-info":
                     packages[package.name] = package
 
@@ -213,24 +231,32 @@ def check_types(ctx):  # noqa: WPS231
 
         # symlink the stubs
         ignore = set()
-        for stubs in (path for name, path in packages.items() if name.endswith("-stubs")):  # noqa: WPS335
+        for stubs in (
+            path for name, path in packages.items() if name.endswith("-stubs")
+        ):  # noqa: WPS335
             Path(tmpdir, stubs.name).symlink_to(stubs, target_is_directory=True)
             # try to symlink the corresponding package
             # see https://www.python.org/dev/peps/pep-0561/#stub-only-packages
             pkg_name = stubs.name.replace("-stubs", "")
             if pkg_name in packages:
                 ignore.add(pkg_name)
-                Path(tmpdir, pkg_name).symlink_to(packages[pkg_name], target_is_directory=True)
+                Path(tmpdir, pkg_name).symlink_to(
+                    packages[pkg_name], target_is_directory=True
+                )
 
         # create temporary mypy config to ignore stubbed packages
         newconfig = Path("config", "mypy.ini").read_text()
-        newconfig += "\n" + "\n\n".join(f"[mypy-{pkg}.*]\nignore_errors=true" for pkg in ignore)
+        newconfig += "\n" + "\n\n".join(
+            f"[mypy-{pkg}.*]\nignore_errors=true" for pkg in ignore
+        )
         tmpconfig = Path(tmpdir, "mypy.ini")
         tmpconfig.write_text(newconfig)
 
         # set MYPYPATH and run mypy
         os.environ["MYPYPATH"] = tmpdir
-        ctx.run(f"mypy --config-file {tmpconfig} {PY_SRC}", title="Type-checking", pty=PTY)
+        ctx.run(
+            f"mypy --config-file {tmpconfig} {PY_SRC}", title="Type-checking", pty=PTY
+        )
 
 
 @duty(silent=True)
@@ -275,7 +301,9 @@ def docs_serve(ctx, host="127.0.0.1", port=8000):
         host: The host to serve the docs from.
         port: The port to serve the docs on.
     """
-    ctx.run(f"mkdocs serve -a {host}:{port}", title="Serving documentation", capture=False)
+    ctx.run(
+        f"mkdocs serve -a {host}:{port}", title="Serving documentation", capture=False
+    )
 
 
 @duty
@@ -316,13 +344,19 @@ def release(ctx, version):
         version: The new version number to use.
     """
     ctx.run("git add pyproject.toml CHANGELOG.md", title="Staging files", pty=PTY)
-    ctx.run(["git", "commit", "-m", f"chore: Prepare release {version}"], title="Committing changes", pty=PTY)
+    ctx.run(
+        ["git", "commit", "-m", f"chore: Prepare release {version}"],
+        title="Committing changes",
+        pty=PTY,
+    )
     ctx.run(f"git tag {version}", title="Tagging commit", pty=PTY)
     if not TESTING:
         ctx.run("git push", title="Pushing commits", pty=False)
         ctx.run("git push --tags", title="Pushing tags", pty=False)
         ctx.run("pdm build", title="Building dist/wheel", pty=PTY)
-        ctx.run("twine upload --skip-existing dist/*", title="Publishing version", pty=PTY)
+        ctx.run(
+            "twine upload --skip-existing dist/*", title="Publishing version", pty=PTY
+        )
         docs_deploy.run()
 
 

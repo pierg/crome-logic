@@ -55,7 +55,7 @@ $(QUALITY_DUTIES):
 
 .PHONY: pre-commit
 pre-commit:
-	pre-commit run --all-files
+	pdm run pre-commit run --all-files
 
 #* Cleaning
 .PHONY: pycache-remove

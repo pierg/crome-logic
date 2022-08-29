@@ -4,54 +4,87 @@ LTL and Boolean formulas manipulation
 
 ## Installation
 
-We use
-[conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html) to
-manage the environment and dependencies.
+We use [pdm](https://github.com/pdm-project/pdm) to most of the dependencies, and
+[conda](https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html).
 
-We use [pdm](https://github.com/pdm-project/pdm) to manage 'development'
-dependencies (e.g. linting, type checking).
-
-Create the environment using conda:
+To setup the environment, simply run:
 
 ```bash
-conda env create -f environment-logic.yml
+make setup
 ```
 
-Activate the conda environment
+
+> NOTE:
+> If it fails for some reason,
+> you'll need to install
+> [PDM](https://github.com/pdm-project/pdm)
+> manually.
+> 
+> You can install it with:
+> 
+> ```bash
+> python3 -m pip install --user pipx
+> pipx install pdm
+> ```
+> 
+> Now you can try running `make setup` again,
+> or simply `pdm install`.
+
+> NOTE: Conda for Mac with Apple Silicon
+> 
+> Some of the packages in conda do not support arm64 architecture. To install all the dependencies correctly on a Mac with Apple Silicon, make sure that you are running conda for x86_64 architecture. 
+> 
+> You can install miniconda for MacOSX x86_64 by running the following commands
+> 
+> ```bash
+> curl -L https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh > Miniconda3-latest-MacOSX-x86_64.sh
+> ```
+> 
+> ```bash
+> sh Miniforge3-MacOSX-arm64.sh
+> ```
+
+
+### Activate conda enviornmnet
 
 ```bash
-conda activate crome-logic
+conda activate ./.venv
 ```
+You can launch the python scripts with `pdm run python ...`
 
-Install the other dependencies with pdm (optional):
 
-```bash
-pdm install
-```
-
-## Docker
-
-You can directly run the project by running the docker image on any platform
-
-`docker run -it --platform linux/x86_64 pmallozzi/crome-logic:latest`
-
-### Building the image
-
-To build the image you can run the following command
-
-`docker buildx build --platform linux/x86_64 -t [DOCKERUSERNAME]/[PROJECT]:[TAG] --push .`
+> NOTE: Working with PEP 582
+> With PEP 582, dependencies will be installed into __pypackages__ directory under the project root. With PEP 582 enabled globally, you can also use the project interpreter to run scripts directly.
+> Check [pdm documentation](https://pdm.fming.dev/latest/usage/pep582/) on PEP 582.
+> To configure VSCode to support PEP 582, open `.vscode/settings.json` (create one if it does not exist) and add the following entries:
+> ```json
+> {
+>   "python.autoComplete.extraPaths": ["__pypackages__/3.10/lib"],
+>   "python.analysis.extraPaths": ["__pypackages__/3.10/lib"]
+> }
+> ```
 
 ## Usage
 
 Check the `examples` folder
 
-## One magic command
+Run `make help` to see all the available commands
 
-Run `make lint` to run all the typing, linting and formatting tools
+## Docker
 
-Run `make pre-commit` to run all the pre-commit tools
+You can directly run the project by running the docker image on any platform
 
-Check all the available commands in `Makefile`
+```bash
+docker run -it --platform linux/x86_64 pmallozzi/crome-logic:latest
+```
+
+### Building the image
+
+To build the image you can run the following command
+
+```bash
+docker buildx build --platform linux/x86_64 -t [DOCKERUSERNAME]/[PROJECT]:[TAG] --push .
+```
 
 ## License
 
@@ -61,6 +94,3 @@ Check all the available commands in `Makefile`
 
 - Fully typed with annotations and checked with mypy,
   [PEP561 compatible](https://www.python.org/dev/peps/pep-0o561/)
-
-- This project has been initially generated with
-  [`wemake-python-package`](https://github.com/wemake-services/wemake-python-package).

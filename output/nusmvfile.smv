@@ -1,5 +1,5 @@
 MODULE main
 VAR
-	R1: boolean;
+	a: boolean;
 
-LTLSPEC !(F R1)
+LTLSPEC a | !a
