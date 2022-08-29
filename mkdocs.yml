@@ -11,11 +11,11 @@ nav:
   - Overview: index.md
   - License: license.md
 # defer to gen-files + literate-nav
-- Code Reference: reference/
+# - Code Reference: reference/
 - Development:
   - Contributing: contributing.md
-  - Code of Conduct: code_of_conduct.md
-  - Coverage report: coverage.md
+  # - Code of Conduct: code_of_conduct.md
+  # - Coverage report: coverage.md
 
 theme:
   name: material

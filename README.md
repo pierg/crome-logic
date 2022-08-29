@@ -1,6 +1,8 @@
 # crome-logic
 
-LTL and Boolean formulas manipulation
+LTL and Boolean formulas manipulation.
+
+Documentation available [here](https://pierg.github.io/crome-logic).
 
 ## Installation
 

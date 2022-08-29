@@ -14,6 +14,8 @@ pdm.lock
 .pdm.toml
 __pypackages__/
 .venv/
+.vscode/
+
 
 *.DS_Store
 .AppleDouble
