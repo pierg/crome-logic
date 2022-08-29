@@ -1,6 +1,6 @@
 FROM continuumio/miniconda3 AS build
 
-COPY environment-logic.yml .
+COPY conda-dependencies.yml .
 RUN conda env create -f environment-logic.yml
 
 # Use conda-pack to create a standalone enviornment in /venv:
