@@ -217,18 +217,6 @@
   
 
 
-  <li class="md-tabs__item">
-    <a href="reference/SUMMARY/" class="md-tabs__link">
-      Code Reference
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
   
   
   
@@ -368,20 +356,6 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#conda-for-mac-with-apple-silicon" class="md-nav__link">
-    Conda for Mac with Apple Silicon
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#environment-setup" class="md-nav__link">
-    Environment setup
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#activate-conda-enviornmnet" class="md-nav__link">
     Activate conda enviornmnet
   </a>
@@ -449,34 +423,6 @@
   
   
     <li class="md-nav__item">
-      <a href="changelog/" class="md-nav__link">
-        Changelog
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="credits/" class="md-nav__link">
-        Credits
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="license/" class="md-nav__link">
         License
       </a>
@@ -498,37 +444,22 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="reference/SUMMARY/" class="md-nav__link">
-        Code Reference
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
     
     <li class="md-nav__item md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       
       
       
-        <label class="md-nav__link" for="__nav_3">
+        <label class="md-nav__link" for="__nav_2">
           Development
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <nav class="md-nav" aria-label="Development" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
+        <label class="md-nav__title" for="__nav_2">
           <span class="md-nav__icon md-icon"></span>
           Development
         </label>
@@ -542,34 +473,6 @@
     <li class="md-nav__item">
       <a href="contributing/" class="md-nav__link">
         Contributing
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="code_of_conduct/" class="md-nav__link">
-        Code of Conduct
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="coverage/" class="md-nav__link">
-        Coverage report
       </a>
     </li>
   
@@ -615,20 +518,6 @@
   
     <nav class="md-nav" aria-label="Installation">
       <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#conda-for-mac-with-apple-silicon" class="md-nav__link">
-    Conda for Mac with Apple Silicon
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#environment-setup" class="md-nav__link">
-    Environment setup
-  </a>
-  
-</li>
         
           <li class="md-nav__item">
   <a href="#activate-conda-enviornmnet" class="md-nav__link">
@@ -702,33 +591,65 @@
 
 
 <h1 id="crome-logic">crome-logic<a class="headerlink" href="#crome-logic" title="Permanent link">&para;</a></h1>
-<p>LTL and Boolean formulas manipulation</p>
+<p>LTL and Boolean formulas manipulation.</p>
+<p>Documentation available <a href="https://pierg.github.io/crome-logic">here</a>.</p>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <p>We use <a href="https://github.com/pdm-project/pdm">pdm</a> to most of the dependencies, and
 <a href="https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html">conda</a>.</p>
-<h3 id="conda-for-mac-with-apple-silicon">Conda for Mac with Apple Silicon<a class="headerlink" href="#conda-for-mac-with-apple-silicon" title="Permanent link">&para;</a></h3>
+<p>To setup the environment, simply run:</p>
+<div class="highlight"><pre><span></span><code>make setup
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>
+If it fails for some reason,
+you'll need to install
+<a href="https://github.com/pdm-project/pdm">PDM</a>
+manually.</p>
+<p>You can install it with:</p>
+<div class="highlight"><pre><span></span><code>python3 -m pip install --user pipx
+pipx install pdm
+</code></pre></div>
+<p>Now you can try running <code>make setup</code> again,
+or simply <code>pdm install</code>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Conda for Mac with Apple Silicon</p>
 <p>Some of the packages in conda do not support arm64 architecture. To install all the dependencies correctly on a Mac with Apple Silicon, make sure that you are running conda for x86_64 architecture. </p>
 <p>You can install miniconda for MacOSX x86_64 by running the following commands</p>
 <div class="highlight"><pre><span></span><code>curl -L https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh &gt; Miniconda3-latest-MacOSX-x86_64.sh
-
-sh Miniforge3-MacOSX-arm64.sh
 </code></pre></div>
-<h3 id="environment-setup">Environment setup<a class="headerlink" href="#environment-setup" title="Permanent link">&para;</a></h3>
-<p>Simply run</p>
-<div class="highlight"><pre><span></span><code>make setup
+<div class="highlight"><pre><span></span><code>sh Miniforge3-MacOSX-arm64.sh
 </code></pre></div>
+</div>
 <h3 id="activate-conda-enviornmnet">Activate conda enviornmnet<a class="headerlink" href="#activate-conda-enviornmnet" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>conda activate ./.venv
+<p><div class="highlight"><pre><span></span><code>conda activate ./.venv
 </code></pre></div>
+You can launch the python scripts with <code>pdm run python ...</code></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Working with PEP 582
+With PEP 582, dependencies will be installed into <strong>pypackages</strong> directory under the project root. With PEP 582 enabled globally, you can also use the project interpreter to run scripts directly.
+Check <a href="https://pdm.fming.dev/latest/usage/pep582/">pdm documentation</a> on PEP 582.
+To configure VSCode to support PEP 582, open <code>.vscode/settings.json</code> (create one if it does not exist) and add the following entries:
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;python.autoComplete.extraPaths&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;__pypackages__/3.10/lib&quot;</span><span class="p">],</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;python.analysis.extraPaths&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;__pypackages__/3.10/lib&quot;</span><span class="p">]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></p>
+</div>
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<p>Check the <code>examples.py</code></p>
+<p>Check the <code>examples</code> folder</p>
 <p>Run <code>make help</code> to see all the available commands</p>
 <h2 id="docker">Docker<a class="headerlink" href="#docker" title="Permanent link">&para;</a></h2>
 <p>You can directly run the project by running the docker image on any platform</p>
-<p><code>docker run -it --platform linux/x86_64 pmallozzi/crome-logic:latest</code></p>
+<div class="highlight"><pre><span></span><code>docker run -it --platform linux/x86_64 pmallozzi/crome-logic:latest
+</code></pre></div>
 <h3 id="building-the-image">Building the image<a class="headerlink" href="#building-the-image" title="Permanent link">&para;</a></h3>
 <p>To build the image you can run the following command</p>
-<p><code>docker buildx build --platform linux/x86_64 -t [DOCKERUSERNAME]/[PROJECT]:[TAG] --push .</code></p>
+<div class="highlight"><pre><span></span><code>docker buildx build --platform linux/x86_64 -t <span class="o">[</span>DOCKERUSERNAME<span class="o">]</span>/<span class="o">[</span>PROJECT<span class="o">]</span>:<span class="o">[</span>TAG<span class="o">]</span> --push .
+</code></pre></div>
 <h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
 <p><a href="https://github.com/piergiuseppe/crome-logic/blob/master/LICENSE">MIT</a></p>
 <h2 id="features-and-credits">Features and Credits<a class="headerlink" href="#features-and-credits" title="Permanent link">&para;</a></h2>
@@ -760,13 +681,13 @@ sh Miniforge3-MacOSX-arm64.sh
       
       
         
-        <a href="changelog/" class="md-footer__link md-footer__link--next" aria-label="Next: Changelog" rel="next">
+        <a href="license/" class="md-footer__link md-footer__link--next" aria-label="Next: License" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Changelog
+              License
             </div>
           </div>
           <div class="md-footer__button md-icon">

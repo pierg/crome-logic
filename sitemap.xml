@@ -6,22 +6,7 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://pierg.github.io/crome-logic/changelog/</loc>
-         <lastmod>2022-08-29</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pierg.github.io/crome-logic/code_of_conduct/</loc>
-         <lastmod>2022-08-29</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
          <loc>https://pierg.github.io/crome-logic/contributing/</loc>
-         <lastmod>2022-08-29</lastmod>
-         <changefreq>daily</changefreq>
-    </url>
-    <url>
-         <loc>https://pierg.github.io/crome-logic/credits/</loc>
          <lastmod>2022-08-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
