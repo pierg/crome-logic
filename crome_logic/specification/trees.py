@@ -2,8 +2,9 @@ import hashlib
 from typing import Any
 
 import spot
-from specification.string_logic import general_logic
 from treelib import Tree
+
+from crome_logic.specification.string_logic import general_logic
 
 
 def gen_ltl_tree(spot_f, tree: Tree | None = None, parent=None) -> Tree:

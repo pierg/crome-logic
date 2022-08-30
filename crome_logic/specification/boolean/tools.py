@@ -3,8 +3,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import pygraphviz as pgv
-from specification.string_logic import and_, implies_, not_, or_
-from tools.string_manipulation import spot_syntax_fix
+
+from crome_logic.specification.string_logic import and_, implies_, not_, or_
+from crome_logic.tools.string_manipulation import spot_syntax_fix
 
 if TYPE_CHECKING:
     from pygraphviz.agraph import Node

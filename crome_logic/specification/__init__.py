@@ -4,12 +4,13 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 from aenum import Enum, auto, skip
-from specification.string_logic import and_, or_
-from typeset import Typeset
+
+from crome_logic.specification.string_logic import and_, or_
+from crome_logic.typeset import Typeset
 
 
 class Specification(ABC):
-    """Base class representing a specification
+    """Base class representing a specification.
 
     Attributes:
         formula (str): A string representation of the specification in a syntax compatible with spot

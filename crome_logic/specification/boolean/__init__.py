@@ -5,15 +5,16 @@ from dataclasses import dataclass, fields
 
 from pyeda.boolalg.expr import AndOp, Expression, OrOp, expr
 from pyeda.boolalg.minimization import espresso_exprs
-from specification import Cnf, Dnf, Specification
-from specification.boolean.tools import dot_to_spot_string
-from specification.tools import is_true_string
-from specification.trees import extract_atoms_dictionary, gen_atoms_tree
-from tools.atomic_propositions import extract_ap
-from tools.string_manipulation import pyeda_syntax_fix, spot_syntax_fix
 from treelib import Tree
-from typelement.basic import Boolean
-from typeset import Typeset
+
+from crome_logic.specification import Cnf, Dnf, Specification
+from crome_logic.specification.boolean.tools import dot_to_spot_string
+from crome_logic.specification.tools import is_true_string
+from crome_logic.specification.trees import extract_atoms_dictionary, gen_atoms_tree
+from crome_logic.tools.atomic_propositions import extract_ap
+from crome_logic.tools.string_manipulation import pyeda_syntax_fix, spot_syntax_fix
+from crome_logic.typelement.basic import Boolean
+from crome_logic.typeset import Typeset
 
 
 @dataclass(frozen=True)

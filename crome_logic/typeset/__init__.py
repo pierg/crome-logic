@@ -3,9 +3,9 @@ from __future__ import annotations
 from copy import copy, deepcopy
 from typing import Iterable
 
-from tools.atomic_propositions import extract_ap
-from typelement import AnyCromeType, CromeType, TypeKind
-from typelement.basic import (
+from crome_logic.tools.atomic_propositions import extract_ap
+from crome_logic.typelement import AnyCromeType, CromeType, TypeKind
+from crome_logic.typelement.basic import (
     Boolean,
     BooleanControllable,
     BooleanUncontrollable,
@@ -100,6 +100,7 @@ class Typeset(dict[str, AnyCromeType]):
 
     def __add__(self, element: Typeset | Boolean) -> Typeset:
         """Returns self + element.
+
         If refinements are found, it concretize all the abstract variables
         WARNING: violates Liskov Substitution Principle
         """
@@ -233,7 +234,7 @@ class Typeset(dict[str, AnyCromeType]):
         return len(set(self.keys()).intersection(other.keys()))
 
     def similar_types(self, other: Typeset) -> set[CromeType]:
-        """Returns the types that are 'similar' to the types in typeset"""
+        """Returns the types that are 'similar' to the types in typeset."""
         similar_to: set[CromeType] = set()
         similar_types: set[CromeType] = set()
         for st in self.values():
@@ -244,7 +245,7 @@ class Typeset(dict[str, AnyCromeType]):
         return similar_types
 
     def similarity_score(self, other: Typeset) -> float:
-        """Returns the percentage of types similar to 'other'"""
+        """Returns the percentage of types similar to 'other'."""
         return len(self.similar_types(other)) / other.size * 100
 
     @property

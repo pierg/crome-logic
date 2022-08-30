@@ -4,23 +4,28 @@ from copy import deepcopy
 from dataclasses import dataclass, fields
 
 import spot
-from patterns import Pattern
-from specification import Cnf, Dnf, Specification
-from specification.boolean import Bool
-from specification.temporal.tools import transform_spot_tree
-from specification.tools import is_true_string
-from specification.trees import (
+from treelib import Tree
+
+from crome_logic.patterns import Pattern
+from crome_logic.specification import Cnf, Dnf, Specification
+from crome_logic.specification.boolean import Bool
+from crome_logic.specification.temporal.tools import transform_spot_tree
+from crome_logic.specification.tools import is_true_string
+from crome_logic.specification.trees import (
     boolean_tree_to_formula,
     extract_atoms_dictionary,
     gen_atoms_tree,
     gen_ltl_tree,
 )
-from tools.atomic_propositions import extract_ap
-from tools.nuxmv import check_satisfiability, check_validity
-from treelib import Tree
-from typelement.basic import Boolean, BooleanControllable, BooleanUncontrollable
-from typelement.robotic import BooleanLocation, BooleanSensor
-from typeset import Typeset
+from crome_logic.tools.atomic_propositions import extract_ap
+from crome_logic.tools.nuxmv import check_satisfiability, check_validity
+from crome_logic.typelement.basic import (
+    Boolean,
+    BooleanControllable,
+    BooleanUncontrollable,
+)
+from crome_logic.typelement.robotic import BooleanLocation, BooleanSensor
+from crome_logic.typeset import Typeset
 
 
 @dataclass(frozen=True)
@@ -331,19 +336,19 @@ class LTL(Specification):
 
     @property
     def adjacency_rules(self) -> LTL:
-        from specification.rules_extractors import extract_adjacency_rules
+        from crome_logic.specification.rules_extractors import extract_adjacency_rules
 
         return extract_adjacency_rules(self.typeset)
 
     @property
     def mutex_rules(self) -> LTL:
-        from specification.rules_extractors import extract_mutex_rules
+        from crome_logic.specification.rules_extractors import extract_mutex_rules
 
         return extract_mutex_rules(self.typeset)
 
     @property
     def refinement_rules(self) -> LTL:
-        from specification.rules_extractors import extract_refinement_rules
+        from crome_logic.specification.rules_extractors import extract_refinement_rules
 
         return extract_refinement_rules(self.typeset)
 
@@ -410,9 +415,9 @@ class LTL(Specification):
         s_a = self.adjacency_rules
         s_m = self.mutex_rules
         o = other
-        o_r = other.refinement_rules
-        o_a = other.adjacency_rules
-        o_m = other.mutex_rules
+        other.refinement_rules
+        other.adjacency_rules
+        other.mutex_rules
         #
         # print(f"sPHI:\n{s}")
         # print(f"sEXT:\n{s_r}")

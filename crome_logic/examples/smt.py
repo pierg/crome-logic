@@ -1,6 +1,4 @@
-from copy import deepcopy
 from crome_logic.specification.temporal import LTL
-
 
 
 def satisfiability_example() -> None:
@@ -34,7 +32,9 @@ def simiplificaiton_example() -> None:
     print(phi2)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+
     satisfiability_example()
+
     validity_example()
     simiplificaiton_example()

@@ -7,9 +7,10 @@ from typing import List
 
 import docker
 from bloom_filter import BloomFilter
-from specification.string_logic import not_
-from specification.tools import is_false_string, is_true_string
-from tools.string_manipulation import add_spaces_spot_ltl
+
+from crome_logic.specification.string_logic import not_
+from crome_logic.specification.tools import is_false_string, is_true_string
+from crome_logic.tools.string_manipulation import add_spaces_spot_ltl
 
 bloom_sat_yes: BloomFilter = BloomFilter(max_elements=10000, error_rate=0.1)
 bloom_val_yes: BloomFilter = BloomFilter(max_elements=10000, error_rate=0.1)
@@ -143,13 +144,13 @@ def _parse_output(output: List[str], check_type: CheckType) -> bool:
 def _launch_nuxmv() -> List[str]:
     # print("Launching nuXmv....")
     try:
-        """ "Trying nuXmv locally."""
+        """"Trying nuXmv locally."""
         output = subprocess.check_output(
             ["nuXmv", file_path], encoding="UTF-8", stderr=subprocess.DEVNULL
         ).splitlines()
 
     except Exception:
-        """ "Trying nuXmv with docker."""
+        """"Trying nuXmv with docker."""
         docker_image = "pmallozzi/ltltools"
         client = docker.from_env()
         output = str(

@@ -21,27 +21,27 @@ make setup
 > you'll need to install
 > [PDM](https://github.com/pdm-project/pdm)
 > manually.
-> 
+>
 > You can install it with:
-> 
+>
 > ```bash
 > python3 -m pip install --user pipx
 > pipx install pdm
 > ```
-> 
+>
 > Now you can try running `make setup` again,
 > or simply `pdm install`.
 
 > NOTE: Conda for Mac with Apple Silicon
-> 
-> Some of the packages in conda do not support arm64 architecture. To install all the dependencies correctly on a Mac with Apple Silicon, make sure that you are running conda for x86_64 architecture. 
-> 
+>
+> Some of the packages in conda do not support arm64 architecture. To install all the dependencies correctly on a Mac with Apple Silicon, make sure that you are running conda for x86_64 architecture.
+>
 > You can install miniconda for MacOSX x86_64 by running the following commands
-> 
+>
 > ```bash
 > curl -L https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh > Miniconda3-latest-MacOSX-x86_64.sh
 > ```
-> 
+>
 > ```bash
 > sh Miniforge3-MacOSX-arm64.sh
 > ```
@@ -52,7 +52,6 @@ make setup
 ```bash
 conda activate ./.venv
 ```
-You can launch the python scripts with `pdm run python ...`
 
 
 > NOTE: Working with PEP 582

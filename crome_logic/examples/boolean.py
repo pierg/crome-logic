@@ -1,5 +1,4 @@
 from crome_logic.specification.boolean import Bool
-from copy import deepcopy
 
 
 def boolean_example() -> None:
@@ -10,5 +9,5 @@ def boolean_example() -> None:
     print(boolean.dnf.to_str)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     boolean_example()

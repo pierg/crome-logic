@@ -1,4 +1,5 @@
 from copy import deepcopy
+
 from crome_logic.specification.temporal import LTL
 
 
@@ -12,6 +13,5 @@ def temporal_example() -> None:
     print(ltl.summary)
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     temporal_example()

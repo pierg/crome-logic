@@ -5,7 +5,7 @@ Contributions are welcome, and they are greatly appreciated!
 ## Tasks
 
 This project uses [duty](https://github.com/pawamoy/duty) to run tasks.
-A Makefile is also provided. 
+A Makefile is also provided.
 
 ## Development
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from patterns import Pattern, PatternKind
+from crome_logic.patterns import Pattern, PatternKind
 
 
 @dataclass
