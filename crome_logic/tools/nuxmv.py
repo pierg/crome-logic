@@ -144,13 +144,13 @@ def _parse_output(output: List[str], check_type: CheckType) -> bool:
 def _launch_nuxmv() -> List[str]:
     # print("Launching nuXmv....")
     try:
-        """"Trying nuXmv locally."""
+        """ "Trying nuXmv locally."""
         output = subprocess.check_output(
             ["nuXmv", file_path], encoding="UTF-8", stderr=subprocess.DEVNULL
         ).splitlines()
 
     except Exception:
-        """"Trying nuXmv with docker."""
+        """ "Trying nuXmv with docker."""
         docker_image = "pmallozzi/ltltools"
         client = docker.from_env()
         output = str(
