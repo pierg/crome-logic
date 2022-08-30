@@ -187,13 +187,8 @@ def check_docs(ctx):
     ctx.run("mkdocs build -s", title="Building documentation", pty=PTY)
 
 
-@duty  # noqa: WPS231
-def check_types(ctx):  # noqa: WPS231
-    """Check that the code is correctly typed.
-
-    Arguments:
-        ctx: The context instance (passed automatically).
-    """
+@duty
+def check_types(ctx):
     # NOTE: the following code works around this issue:
     # https://github.com/python/mypy/issues/10633
 
@@ -204,18 +199,13 @@ def check_types(ctx):  # noqa: WPS231
     # build the list of available packages
     packages = {}
     for package in pkgs_dir.glob("*"):
-        if (
-            package.suffix not in {".dist-info", ".pth"}
-            and package.name != "__pycache__"
-        ):
+        if package.suffix not in {".dist-info", ".pth"} and package.name != "__pycache__":
             packages[package.name] = package
 
     # handle .pth files
     for pth in pkgs_dir.glob("*.pth"):
         with suppress(OSError):
-            for package in Path(pth.read_text().splitlines()[0]).glob(
-                "*"
-            ):  # noqa: WPS440
+            for package in Path(pth.read_text().splitlines()[0]).glob("*"):
                 if package.suffix != ".dist-info":
                     packages[package.name] = package
 
@@ -224,33 +214,25 @@ def check_types(ctx):  # noqa: WPS231
 
         # symlink the stubs
         ignore = set()
-        for stubs in (
-            path for name, path in packages.items() if name.endswith("-stubs")
-        ):  # noqa: WPS335
+        for stubs in (path for name, path in packages.items() if name.endswith("-stubs")):
             Path(tmpdir, stubs.name).symlink_to(stubs, target_is_directory=True)
             # try to symlink the corresponding package
             # see https://www.python.org/dev/peps/pep-0561/#stub-only-packages
             pkg_name = stubs.name.replace("-stubs", "")
             if pkg_name in packages:
                 ignore.add(pkg_name)
-                Path(tmpdir, pkg_name).symlink_to(
-                    packages[pkg_name], target_is_directory=True
-                )
+                Path(tmpdir, pkg_name).symlink_to(packages[pkg_name], target_is_directory=True)
 
         # create temporary mypy config to ignore stubbed packages
         newconfig = Path("config", "mypy.ini").read_text()
-        newconfig += "\n" + "\n\n".join(
-            f"[mypy-{pkg}.*]\nignore_errors=true" for pkg in ignore
-        )
+        newconfig += "\n" + "\n\n".join(f"[mypy-{pkg}.*]\nignore_errors=true" for pkg in ignore)
         tmpconfig = Path(tmpdir, "mypy.ini")
         tmpconfig.write_text(newconfig)
 
         # set MYPYPATH and run mypy
         os.environ["MYPYPATH"] = tmpdir
-        ctx.run(
-            f"mypy --config-file {tmpconfig} {PY_SRC}", title="Type-checking", pty=PTY
-        )
-
+        ctx.run(f"mypy --config-file {tmpconfig} {PY_SRC}", title="Type-checking", pty=PTY)
+        
 
 @duty(silent=True)
 def clean(ctx):
