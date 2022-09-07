@@ -16,9 +16,9 @@ install_with_pipx() {
 
 setup() {
     pdm install
-    echo "pdm dependecies installed"
+    echo "pdm dependencies installed"
     echo "creating conda environment..."
-    pdm venv create --with conda
+    conda create --prefix ./.venv python=3.10 -y
     echo "activating conda environment..."
     source "$(conda info --base)/etc/profile.d/conda.sh"
     conda activate ./.venv

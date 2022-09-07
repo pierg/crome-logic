@@ -79,3 +79,6 @@ version = {use_scm = true}
 
 [tool.pdm.build]
 editable-backend = "editables"
+
+[pdm]
+package-dir = "crome_logic"
