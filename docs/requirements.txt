@@ -3,7 +3,7 @@
 
 sphinx==4.4.0
 sphinx-autodoc-typehints==1.16.0
-m2r2==0.3.2
+m2r2==0.3.3
 tomlkit==0.8.0
 
 # Dependencies of our project:
